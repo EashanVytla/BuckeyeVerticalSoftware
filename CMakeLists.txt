@@ -52,11 +52,15 @@ list(APPEND ALL_LIBS
      ${TensorRT_LIBRARIES}
 )
 
-#add_executable(main
-#               src/main.cpp
-#               src/agent.cpp
-#               src/detect.cpp
-#)
+add_executable(main
+               src/main_test.cpp
+               src/agent.cpp
+               src/detect.cpp
+)
+
+add_executable(servoTest
+	src/ServoTester.cpp
+)
 
 add_executable(detectTest
                src/detectTest.cpp
@@ -64,14 +68,19 @@ add_executable(detectTest
 )
 
 # Specify your app's executable name and a list of linked libraries
-#target_link_libraries(main
-#                      MAVSDK::mavsdk
-#                      nvinfer
-#                      nvinfer_plugin
-#                      ${CUDA_LIBRARIES}
-#                      ${OpenCV_LIBS}
-#                      ${ALL_LIBS}
-#)
+target_link_libraries(main
+                      MAVSDK::mavsdk
+                      nvinfer
+                      nvinfer_plugin
+                      ${CUDA_LIBRARIES}
+                      ${OpenCV_LIBS}
+                      ${ALL_LIBS}
+)
+
+
+target_link_libraries(servoTest
+                      MAVSDK::mavsdk
+)
 
 # Specify your app's executable name and a list of linked libraries
 target_link_libraries(detectTest

@@ -83,7 +83,7 @@ void Detect::capture_frames_path(string path){
         // Unlock the buffer after accessing it
         buffer_lock.unlock();
 
-        cv::imshow("result", image);
+        //cv::imshow("result", image);
 
         if (cv::waitKey(10) == 'q') {
             break;

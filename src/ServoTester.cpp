@@ -5,15 +5,14 @@
 
 
 
-//int index = 1;
-float value = 0;
-#define PORT_PATH "serial:///dev/ttyTHS1"
+#define PORT_PATH "serial:///dev/ttyTHS0"
 
 using namespace mavsdk;
 
 int main(){
-
-    Mavsdk mavsdk;
+    int index = 3;
+    float value = -1.0;
+    Mavsdk mavsdk{Mavsdk::Configuration{Mavsdk::ComponentType::CompanionComputer}};
 
     ConnectionResult conn_result = mavsdk.add_any_connection(PORT_PATH);
     // Wait for the system to connect via heartbeat
@@ -36,16 +35,19 @@ int main(){
     auto action = Action{system};
 	
 	std::cout << "Action Found";
-        
-	for(int index = 0; i < 6; i++){
+       
+        //for(int i = 1; i < 8; i++){
     	Action::Result servo_result = action.set_actuator(index,  value);
-	}
+       
 	
     if(servo_result !=  Action::Result::Success){
 	std::cout << "Action Failed";
 	
 	}
 
-    std::cout << "Result: " << servo_result;
+    //std::cout << i << "'th Result: " << servo_result;
+       //}
 
 }
+
+

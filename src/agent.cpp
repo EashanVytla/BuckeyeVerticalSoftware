@@ -100,7 +100,7 @@ void Agent::updateState()
     case State::TAKEOFF:
     {
         state = State::SCAN;
-        // myfile << "Changed state to SCAN" << endl;
+        myfile << "Changed state to SCAN" << endl;
 
         // heartbeat
         Agent::sendHeartbeat();
@@ -115,6 +115,7 @@ void Agent::updateState()
     {
 
         cout << "MADE IT TO SCAN, target:" << endl;
+	
 
         // coordinate of current scan waypoint
         Coordinate target = scanCtx.positions[scanCtx.idx];
@@ -122,8 +123,16 @@ void Agent::updateState()
         cout << target.latitude << ", " << target.longitude << endl;
         cout << endl;
 
+	myfile << "TARGET: " << endl;
+        myfile << target.latitude << ", " << target.longitude << endl;
+        myfile << endl;
+	
         double distance = Agent::distance(telemetry.position().latitude_deg, telemetry.position().longitude_deg, target.latitude, target.longitude);
         float yaw = Agent::yaw(telemetry.position().latitude_deg, telemetry.position().longitude_deg, target.latitude, target.longitude);
+
+	myfile << "Yaw: " << yaw << endl << endl;
+	myfile << "Distance: " << distance << endl << endl;
+	myfile << "Current: " << telemetry.position().latitude_deg << ", " << telemetry.position().longitude_deg << endl << endl;
 
         const Offboard::PositionGlobalYaw pgy{
             target.latitude,
@@ -136,21 +145,23 @@ void Agent::updateState()
 
         // TODO: perform scan() here and update deliveryCtx from it
 
-        // candidateIdx = detect.getDetectedClassIdx();
+        candidateIdx = detect.getDetectedClassIdx();
 
-        // if (candidateIdx > -1) {
-        //     // if hasn't already been scanned
-        //     if (targetSet.count(candidateIdx) > detectedSet.count(candidateIdx)) {
+        if (candidateIdx > -1) {
+		myfile << "Candidate IDX: " << candidateIdx << endl << endl;
+            // if hasn't already been scanned
+            if (targetSet.count(candidateIdx) > detectedSet.count(candidateIdx)) {
                 
-        //         state = State::DROP;
-        //         cout << "Changed state to DROP" << endl;
+                state = State::DROP;
+                cout << "Changed state to DROP" << endl;
+                myfile << "Changed state to DROP" << endl;
 
-        //         sleep_for(400ms);
+                sleep_for(400ms);
                 
-        //         // don't allow state to get overwritten
-        //         break;
-        //     }
-        // }
+                // don't allow state to get overwritten
+                break;
+            }
+        }
 
         cout << "distance: " << distance << endl;
         cout << "current idx " << scanCtx.idx << endl;
@@ -165,10 +176,12 @@ void Agent::updateState()
 
 
         cout << "MADE IT PAST THE DISTANCE STUFF..." << endl;
+        myfile << "MADE IT PAST THE DISTANCE STUFF..." << endl;
 
         // REACHED THE RIGHT SCANPOINT
         // now consider the next scanned dropzone
         int nextScanIdx = (scanCtx.idx + 1) % scanCtx.positions.size();
+        myfile << "Next Scan IDX: " << nextScanIdx << endl;
 
         // completed all the scan waypoints, next cyclical scan waypoint is the first
         if (nextScanIdx < scanCtx.idx)
@@ -204,26 +217,30 @@ void Agent::updateState()
     case State::DROP:
     {
 
-        // string detectedClassName = detect.getClassNames().at(candidateIdx);
+        string detectedClassName = detect.getClassNames().at(candidateIdx);
 
-        // for (int i = 0; i < servos.size(); i++)
-        // {
-        //     if (detectedClassName == servos.at(i).className)
-        //     {
-        //         action.set_actuator(servos.at(i).index, servos.at(i).position);
-        //         break;
-        //     }
-        // }
+	std::cout << "detected: " << detectedClassName << std::endl;
 
-        // detectedSet.insert(candidateIdx);
-        // // detect.setDetectedState(false);
+        for (int i = 0; i < servos.size(); i++)
+        {
+            if (detectedClassName == servos.at(i).className)
+            {
+		    std::cout << "Setting actuator " << detectedClassName << " : " << i << std::endl;
+		    myfile << "Setting actuator " << detectedClassName << " : " << i << std::endl;
+                action.set_actuator(servos.at(i).index, servos.at(i).openPosition);
+                break;
+            }
+        }
 
-        // Agent::sendHeartbeat();
+        detectedSet.insert(candidateIdx);
+        // detect.setDetectedState(false);
 
-        // state = State::SCAN;
+        Agent::sendHeartbeat();
+
+        state = State::SCAN;
         // myfile << "Changed state to SCAN" << endl;
 
-        // sleep_for(400ms);
+        sleep_for(400ms);
     }
     break;
 
@@ -287,8 +304,8 @@ void Agent::initTargets(string configPath)
     }
 
     // adding to targetSet
-    // for (int i = 0; i < servos.size(); i++)
-    //     targetSet.insert(servos.at(i).className);
+    for (int i = 0; i < servos.size(); i++)
+        targetSet.insert(detect.getClassIdx(servos.at(i).className));
 
 }
 
@@ -310,7 +327,7 @@ void Agent::start()
     if (shouldRun) 
         return;
 
-    // detect.model_on();
+    detect.model_on();
 
     shouldRun = true;
 
@@ -334,7 +351,7 @@ void Agent::stop() {
 
     }
 
-    // detect.model_off();
+    detect.model_off();
 
 }
 

@@ -7,9 +7,9 @@
 #include <fstream>
 
 #include "agent.h"
-// #include "detect.h"
+#include "detect.h"
 
-#define PHYSICAL_PORT_PATH "serial:///dev/ttyTHS1"
+#define PHYSICAL_PORT_PATH "serial:///dev/ttyTHS0"
 #define SIM_PORT_PATH  "udp://:14540"
 
 
@@ -31,7 +31,7 @@ int main()
 
 
     Mavsdk mavsdk{Mavsdk::Configuration{Mavsdk::ComponentType::CompanionComputer}};
-    ConnectionResult connection_result = mavsdk.add_any_connection(SIM_PORT_PATH);
+    ConnectionResult connection_result = mavsdk.add_any_connection(PHYSICAL_PORT_PATH);
 
     if (connection_result != ConnectionResult::Success) {
         std::cerr << "Connection failed: " << connection_result << '\n';
@@ -62,7 +62,7 @@ int main()
 
 
 
-    const auto arm_result = action.arm();
+    /**const auto arm_result = action.arm();
     if (arm_result != Action::Result::Success) {
         std::cerr << "Arming failed: " << arm_result << '\n';
         return 1;
@@ -86,12 +86,11 @@ int main()
             }
         });
 
-
     in_air_future.wait_for(seconds(10));
     if (in_air_future.wait_for(seconds(3)) == std::future_status::timeout) {
         std::cerr << "Takeoff timed out.\n";
         return 1;
-    }
+    }**/
 
 
 
@@ -104,17 +103,17 @@ int main()
 
 
     
-    // while(telemetry.flight_mode() != Telemetry::FlightMode::Offboard) {
-    //     std::cout << "Waiting for Offboard\n";
-    //     myfile << "Waiting for Offboard\n";
-    //     const Offboard::PositionGlobalYaw currLocation{
-    //             telemetry.position().latitude_deg,
-    //             telemetry.position().longitude_deg,
-    //             7.0f,
-    //             0.0f};
-    //     offboard.set_position_global(currLocation);
-    //     sleep_for(400ms);
-    // }
+    while(telemetry.flight_mode() != Telemetry::FlightMode::Offboard) {
+        std::cout << "Waiting for Offboard\n";
+        myfile << "Waiting for Offboard" << endl;
+        const Offboard::PositionGlobalYaw currLocation{
+                telemetry.position().latitude_deg,
+                telemetry.position().longitude_deg,
+                7.0f,
+                0.0f};
+        offboard.set_position_global(currLocation);
+        sleep_for(400ms);
+    }
 
 
     Agent agent(
@@ -125,30 +124,32 @@ int main()
         myfile);
 
 
-    // agent.getScanContext().positions = {
-    //     {40.0979633, -83.1982978, 24.384},
-    //     {40.0979265, -83.1985653, 24.384},
-    //     {40.0978664, -83.1987608, 24.384},
-    //     {40.0978334, -83.1989082, 24.384},
-    //     {40.0978456, -83.1990924, 24.384},
-    //     {40.0978456, -83.1990924, 24.384},
-    // }; 
-
-
     agent.getScanContext().positions = {
-        {telemetry.position().latitude_deg, telemetry.position().longitude_deg, 24.384},
-        {telemetry.position().latitude_deg + TEN_METERS_APPROX, telemetry.position().longitude_deg, 24.384},
-        {telemetry.position().latitude_deg + TEN_METERS_APPROX, telemetry.position().longitude_deg + TEN_METERS_APPROX, 24.384},
-        {telemetry.position().latitude_deg, telemetry.position().longitude_deg + TEN_METERS_APPROX, 24.384},
-        {telemetry.position().latitude_deg, telemetry.position().longitude_deg, 24.384}
-    };
+        {40.0979633, -83.1982978, 24.384},
+        {40.0979265, -83.1985653, 24.384},
+        {40.0978664, -83.1987608, 24.384},
+        {40.0978334, -83.1989082, 24.384},
+        {40.0978456, -83.1990924, 24.384},
+        {40.0978456, -83.1990924, 24.384},
+    }; 
+
+
+    // agent.getScanContext().positions = {
+    //     {telemetry.position().latitude_deg, telemetry.position().longitude_deg, 24.384},
+    //     {telemetry.position().latitude_deg + TEN_METERS_APPROX, telemetry.position().longitude_deg, 24.384},
+    //     {telemetry.position().latitude_deg + TEN_METERS_APPROX, telemetry.position().longitude_deg + TEN_METERS_APPROX, 24.384},
+    //     {telemetry.position().latitude_deg, telemetry.position().longitude_deg + TEN_METERS_APPROX, 24.384},
+    //     {telemetry.position().latitude_deg, telemetry.position().longitude_deg, 24.384}
+    // };
 
 
     cout << "in main for agent" << endl;
+    myfile << "in main for agent" << endl;
 
     for (int i = 0; i < agent.getScanContext().positions.size(); i++) {
         Coordinate c = agent.getScanContext().positions.at(i);
         cout << c.latitude  << ", " << c.longitude  << endl;
+        myfile << c.latitude  << ", " << c.longitude  << endl;
     }
     // cout << agent.getScanContext().positions << endl; 
 
@@ -156,11 +157,12 @@ int main()
 
 
     cout << "actually starting the agent" << endl;
+    myfile << "actually starting the agent" << endl;
 
     agent.start();
 
 
-    auto offboard_result = offboard.start();
+    // auto offboard_result = offboard.start();
     
     while (agent.isRunning())
         sleep_for(1000ms);

@@ -10,7 +10,7 @@
 #include <math.h>
 #include <fstream>
 #include <set>
-// #include "opencv2/opencv.hpp"
+#include "opencv2/opencv.hpp"
 
 #include <mavsdk/mavsdk.h>
 #include <mavsdk/plugins/offboard/offboard.h>
@@ -18,7 +18,7 @@
 #include <mavsdk/plugins/telemetry/telemetry.h>
 #include <mavsdk/plugins/param/param.h>
 
-// #include "detect.h"
+#include "detect.h"
 
 
 using namespace mavsdk;
@@ -130,7 +130,7 @@ public:
 
     vector<thread> threads;
 
-    // Detect detect;
+    Detect detect;
 
     const double GEO_THRESHOLD = 0.00002;
     const int MAX_LAPS = 5;
