@@ -20,6 +20,7 @@
 #include <mavsdk/plugins/mission/mission.h>
 
 #include "detect.h"
+#include "localization.h"
 
 
 using namespace mavsdk;
@@ -39,6 +40,7 @@ enum class State
     WAYPOINT,
     INITIAL_LOOP,
     TARGET_LOOP,
+    TRAVELING_TO_SCAN,
     SCAN, // the actual one-time scanning phase
     // DELIVERY, // traveling to the payload drop zone
     INITIAL_DELIVERY,
@@ -106,6 +108,7 @@ public:
     const float SCAN_SPEED = 5.0;
 
     int candidateIdx = 0;
+    cv::Rect currentDropTargetPos = cv::Rect{0, 0, 0, 0};
 
     set<int> detectedSet;
     set<int> targetSet;
@@ -116,6 +119,18 @@ public:
 
     std::stack<std::shared_ptr<Mission::MissionItem>> detectedPositions;
     std::stack<int> detectedClassNumbers;
+
+
+    // camera parameters
+    cv::Mat cameraMatrix;
+    cv::Mat distortionCoeffs;
+    cv::Mat rotationMatrix;
+    cv::Mat translationVector;
+    cv::Mat inverseCameraMatrix;
+    cv::Mat inverseRotationMatrix;
+
+    void loadIntrinsics(string file);
+    void loadExtrinsics(string file);
 
 };
 

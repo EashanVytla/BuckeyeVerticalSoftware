@@ -42,8 +42,8 @@ int main(){
     targetSet.insert(getIdx(detector, "Red_Circle"));
 
     cout << "Starting model" << endl;
-    detector.model_on("/home/buckeyevertical/Downloads/4xZoomCrop.mp4");
-    //detector.model_on();
+    // detector.model_on("/home/buckeyevertical/Downloads/4xZoomCrop.mp4");
+    detector.model_on();
 
     int counter = 0;
 
@@ -95,6 +95,7 @@ int main(){
                 cout << "DROPPING FOR..." << currentDropTarget << endl;
                 cout << "DROPPING FOR..." << detector.getClassNames().at(currentDropTarget) << endl;
                 cout << "DROPPING Position:" << currentDropTargetPos << endl;
+                cout << "DROPPING PIXEL POS: (" << currentDropTargetPos.x + currentDropTargetPos.width / 2 << ", " << currentDropTargetPos.y + currentDropTargetPos.height / 2 << ")" << std::endl; 
                 cout << endl << endl;
 
                 detectedSet.insert(currentDropTarget);

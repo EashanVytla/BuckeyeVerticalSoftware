@@ -102,9 +102,9 @@ void Detect::capture_frames_path(string path){
 
         // cv::imshow("result", image);
 
-        if (cv::waitKey(10) == 'q') {
+        /**if (cv::waitKey(10) == 'q') {
             break;
-        }
+        }**/
 
         // sleep_for(10ms);
     }
@@ -244,7 +244,7 @@ void Detect::inference(){
     const int VIDEO_FRAME_RATE = 10;
 
     // Define the codec and create VideoWriter object
-    cv::VideoWriter video("output.mp4", cv::VideoWriter::fourcc('M','J','P','G'), VIDEO_FRAME_RATE, cv::Size{1280, 720}, true);
+    cv::VideoWriter video("output.avi", cv::VideoWriter::fourcc('X','V','I','D'), VIDEO_FRAME_RATE, cv::Size{1280, 720}, true);
 
     // Check if VideoWriter opened successfully=
     if (!video.isOpened()) {
@@ -322,7 +322,7 @@ void Detect::inference(){
 
     
             if (objs.size() > 0){
-                detectedClassIdx = objs.at(0).label;
+                detectedClassIdx = objs.at(0).label - 1;
                 detectedBBox = objs.at(0).rect;
                 cout << "Detected " << detectedClassIdx << " Object at " << elapsed_seconds.count() << endl;
                 infLog << "Detected " << detectedClassIdx << " Object at " << elapsed_seconds.count() << endl;
@@ -338,9 +338,11 @@ void Detect::inference(){
             video.write(image);
         
 
-            if (cv::waitKey(1) == 'q') {
+           // cout << image.size() << std::endl;
+
+            /**if (cv::waitKey(1) == 'q') {
                 break;
-            }
+            }**/
         } else {
             buffer_lock.unlock();
             std::cout << "Frame buffer is empty!" << std::endl;
@@ -352,7 +354,7 @@ void Detect::inference(){
 
     infLog.close();
     video.release();
-    cv::destroyAllWindows();
+    //cv::destroyAllWindows();
     delete yolov8;
 }
 

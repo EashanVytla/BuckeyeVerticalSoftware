@@ -143,24 +143,42 @@ int main()
         myfile
     );
 
-    const int LOOP_ALTITUDE = 12.25;
-    const int SCAN_ALTITUDE = 12.25;
+    const int LOOP_ALTITUDE = 24.5;
+    const int SCAN_ALTITUDE = 23.5;
 
-    agent.setLoopPoints({
+    /**agent.setLoopPoints({
         {telemetry.position().latitude_deg, telemetry.position().longitude_deg, LOOP_ALTITUDE},
         {telemetry.position().latitude_deg + TEN_METERS_APPROX, telemetry.position().longitude_deg, LOOP_ALTITUDE},
         {telemetry.position().latitude_deg + TEN_METERS_APPROX, telemetry.position().longitude_deg + TEN_METERS_APPROX, LOOP_ALTITUDE},
         {telemetry.position().latitude_deg, telemetry.position().longitude_deg + TEN_METERS_APPROX, LOOP_ALTITUDE},
         {telemetry.position().latitude_deg, telemetry.position().longitude_deg, LOOP_ALTITUDE}
+    });**/
+
+    
+    agent.setLoopPoints({
+        {40.0930821, -83.1963847, LOOP_ALTITUDE},
+        {40.0927715, -83.1963421, LOOP_ALTITUDE},
     });
     
-    agent.setScanPoints({
+    /**agent.setScanPoints({
         {telemetry.position().latitude_deg, telemetry.position().longitude_deg, SCAN_ALTITUDE},
         {telemetry.position().latitude_deg + TEN_METERS_APPROX, telemetry.position().longitude_deg, SCAN_ALTITUDE},
         {telemetry.position().latitude_deg + TEN_METERS_APPROX, telemetry.position().longitude_deg + TEN_METERS_APPROX, SCAN_ALTITUDE},
         {telemetry.position().latitude_deg, telemetry.position().longitude_deg + TEN_METERS_APPROX, SCAN_ALTITUDE},
         {telemetry.position().latitude_deg, telemetry.position().longitude_deg, SCAN_ALTITUDE}
+    });**/
+
+    agent.setScanPoints({
+        {40.0926800, -83.1966677, SCAN_ALTITUDE},
+        {40.0931109, -83.1967287, SCAN_ALTITUDE},
     });
+
+    // load camera parameters
+    agent.loadIntrinsics("t_intrinsics.xml");
+    myfile << "Loaded intrinsics" << endl; 
+    agent.loadExtrinsics("t_extrinsics.xml");
+    myfile << "Load extrinsics" << endl;
+    
 
     for (auto item : agent.lap_traj) {
         cout << "(" << item->latitude_deg << ", " << item->longitude_deg << ")" << std::endl;

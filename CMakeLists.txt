@@ -56,6 +56,7 @@ add_executable(main
                src/main_test.cpp
                src/agent.cpp
                src/detect.cpp
+               src/localization.cpp
 )
 
 add_executable(servoTest
@@ -69,6 +70,11 @@ add_executable(detectTest
 
 add_executable(latLonTest
                src/latLonTest.cpp
+               src/localization.cpp
+)
+
+add_executable(camera_localization_test
+               src/localization_test.cpp
                src/localization.cpp
 )
 
@@ -99,6 +105,12 @@ target_link_libraries(detectTest
 
 # Specify your app's executable name and a list of linked libraries
 target_link_libraries(latLonTest
+                      ${CUDA_LIBRARIES}
+                      ${OpenCV_LIBS}
+                      ${ALL_LIBS}
+)
+
+target_link_libraries(camera_localization_test
                       ${CUDA_LIBRARIES}
                       ${OpenCV_LIBS}
                       ${ALL_LIBS}

@@ -97,6 +97,56 @@ void Agent::updateState()
 
         Mission::MissionPlan mission_plan{};
 
+        std::shared_ptr<Mission::MissionItem> currentPosition(new Mission::MissionItem());
+
+        currentPosition->latitude_deg = telemetry.position().latitude_deg;
+        currentPosition->longitude_deg = telemetry.position().longitude_deg;
+        currentPosition->loiter_time_s = 1.0f; // loiter for 15 seconds
+        currentPosition->is_fly_through = false;
+        currentPosition->relative_altitude_m = scan_traj.at(0)->relative_altitude_m;
+        currentPosition->speed_m_s = LAP_SPEED; // 10 meters per second for the speed
+
+        mission_plan.mission_items.push_back(*currentPosition);
+        mission_plan.mission_items.push_back(*scan_traj.at(0));
+
+        mission.upload_mission(mission_plan);
+
+        auto result = mission.start_mission();
+    
+        while (result != Mission::Result::Success) {
+            std::cout << "TRAVELING_TO_SCAN Mission start failed (" << result << "), exiting." << '\n';
+            myfile << "TRAVELING_TO_SCAN Mission start failed (" << result << "), exiting." << '\n';
+            result = mission.start_mission();
+            sleep_for(400ms);
+        }
+
+        state = State::TRAVELING_TO_SCAN;
+
+    }
+    break;
+
+    // TRAVELING_TO_SCAN
+    case State::TRAVELING_TO_SCAN:
+    {
+
+        auto completionCheckPair = mission.is_mission_finished();
+        if (completionCheckPair.first != Mission::Result::Success) {
+            myfile << "Failed to get mission status: " << std::endl;
+            cout << "Failed to get mission status: " << std::endl;
+            sleep_for(400ms);
+            break;
+        }
+
+        if (!completionCheckPair.second) {
+            myfile << "TRAVELING_TO_SCAN Mission is not complete yet: " << std::endl;
+            cout << "TRAVELING_TO_SCAN Mission is not complete yet: " << std::endl;
+            sleep_for(400ms);
+            break;
+        }
+
+
+        Mission::MissionPlan mission_plan{};
+
         for (const auto& item : scan_traj) {
             mission_plan.mission_items.push_back(*item);
         }
@@ -112,6 +162,7 @@ void Agent::updateState()
         }
 
         state = State::SCAN;
+
     }
     break;
 
@@ -178,7 +229,10 @@ void Agent::updateState()
         myfile << "Mission is not complete yet: " << std::endl;
         cout << "SCAN Mission is not complete yet: " << std::endl;
         
+        // get only candidate idx to perform initial checks
+
         candidateIdx = detect.getDetectedClassIdx();
+
 
         if (candidateIdx <= -1) {
             sleep_for(400ms);
@@ -208,18 +262,69 @@ void Agent::updateState()
         // becoming still before looking at bounding box
         sleep_for(1000ms);
 
+        // double check to make sure we still see the target
 
-        // add the new target
+        detect.lockInference();
 
-        std::shared_ptr<Mission::MissionItem> targetPosition(new Mission::MissionItem());
+        int doubleCheckCandidateIdx = detect.getDetectedClassIdxUnsafe();
+        currentDropTargetPos = detect.getDetectedBBoxUnsafe();
 
-        targetPosition->latitude_deg = telemetry.position().latitude_deg;
-        targetPosition->longitude_deg = telemetry.position().longitude_deg;
-        targetPosition->loiter_time_s = 15.0f; // loiter for 15 seconds
-        targetPosition->is_fly_through = false;
-        
-        detectedPositions.push(targetPosition);
-        detectedClassNumbers.push(candidateIdx);
+        detect.unlockInference();
+
+
+        // only add the new target if double check has same candidate idx
+        if (doubleCheckCandidateIdx == candidateIdx) {
+
+
+            // perform localization
+            double u = currentDropTargetPos.x + currentDropTargetPos.width / 2;
+            double v = currentDropTargetPos.y + currentDropTargetPos.height / 2;
+
+            double originX = 640;
+            double originY = 360;
+
+            const double INCHES_PER_METER = 39.3701;
+            const double METERS_PER_INCH = 1 / INCHES_PER_METER;
+            const double INCHES_PER_CHECKER = 0.875;
+            const double METERS_PER_CHECKER = INCHES_PER_CHECKER * METERS_PER_INCH;
+            const double CHECKERS_PER_INCH = 1 / INCHES_PER_CHECKER;
+            const double INCHES_OFFSET = 58.125;
+
+            const double zConst = (scan_traj.at(0)->relative_altitude_m * INCHES_PER_METER - INCHES_OFFSET) * CHECKERS_PER_INCH;
+
+            Mat alignedPoint = alignedProject(zConst, u, v, originX, originY, inverseCameraMatrix, inverseRotationMatrix, translationVector);
+
+            // cout << alignedPoint << endl;
+
+            double offset_x = alignedPoint.at<double>(0) * METERS_PER_CHECKER;
+            double offset_y = alignedPoint.at<double>(1) * METERS_PER_CHECKER;
+
+            double lat = telemetry.position().latitude_deg;
+            double lon = telemetry.position().longitude_deg;
+
+            double heading = telemetry.heading().heading_deg;
+
+            std::pair<double,double> latLongCalc = offset_to_latlon(lat, lon, heading, offset_x, offset_y);
+
+            double targetLatitude = latLongCalc.first;
+            double targetLongitude = latLongCalc.second;
+
+
+            // create mission item for target
+            std::shared_ptr<Mission::MissionItem> targetPosition(new Mission::MissionItem());
+
+            targetPosition->latitude_deg = targetLatitude;
+            targetPosition->longitude_deg = targetLongitude;
+            targetPosition->loiter_time_s = 3.0f; // loiter for 3 seconds
+            targetPosition->is_fly_through = false;
+            
+            detectedPositions.push(targetPosition);
+            detectedClassNumbers.push(candidateIdx);
+
+            // make sure target doesn't get detected again
+            detectedSet.insert(candidateIdx);
+
+        }
 
         // restart the mission
 
@@ -275,7 +380,7 @@ void Agent::updateState()
         string detectedClassName = detect.getClassNames().at(detectedClassNumbers.top());
 
 	    // std::cout << "detected: " << detectedClassName << std::endl;
-        myfile << "detected: " << detectedClassName << std::endl;
+        myfile << "DROPPING FOR: " << detectedClassName << std::endl;
 
 
         for (int i = 0; i < servos.size(); i++)
@@ -289,8 +394,6 @@ void Agent::updateState()
                 break;
             }
         }
-
-        detectedSet.insert(candidateIdx);
 
         // pop stacks
         detectedPositions.pop();
@@ -531,3 +634,31 @@ void Agent::setScanPoints(std::vector<Coordinate> coords) {
 bool Agent::isRunning() {
     return shouldRun;
 }
+
+
+void Agent::loadIntrinsics(string file) {
+
+    cv::FileStorage fi(file, cv::FileStorage::READ);
+
+    fi["cameraMatrix"] >> cameraMatrix;
+    fi["distortion"] >> distortionCoeffs;
+
+    inverseCameraMatrix = cameraMatrix.inv();
+
+    fi.release();
+
+}
+
+void Agent::loadExtrinsics(string file) {
+
+    cv::FileStorage fe(file, cv::FileStorage::READ);
+
+    fe["rotationMatrix"] >> rotationMatrix;
+    fe["translationVector"] >> translationVector;
+
+    inverseRotationMatrix = rotationMatrix.inv();
+
+    fe.release();
+
+}
+
