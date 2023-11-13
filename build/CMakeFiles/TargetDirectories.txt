@@ -1,0 +1,4 @@
+/home/eashan/BuckeyeVerticalSoftware/build/CMakeFiles/MavLinkTest.dir
+/home/eashan/BuckeyeVerticalSoftware/build/CMakeFiles/PWMPeriodFinder.dir
+/home/eashan/BuckeyeVerticalSoftware/build/CMakeFiles/edit_cache.dir
+/home/eashan/BuckeyeVerticalSoftware/build/CMakeFiles/rebuild_cache.dir
