@@ -185,8 +185,19 @@ CMakeFiles/PWMPeriodFinder.dir/src/PWMPeriodFinder.cpp.o: ../src/PWMPeriodFinder
   /usr/include/c++/11/bits/codecvt.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/basic_file.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/c++io.h \
-  /usr/include/c++/11/bits/fstream.tcc
+  /usr/include/c++/11/bits/fstream.tcc \
+  /usr/include/c++/11/chrono \
+  /usr/include/c++/11/ratio \
+  /usr/include/c++/11/limits \
+  /usr/include/c++/11/ctime \
+  /usr/include/c++/11/bits/parse_numbers.h
 
+
+/usr/include/c++/11/bits/parse_numbers.h:
+
+/usr/include/c++/11/limits:
+
+/usr/include/c++/11/ratio:
 
 /usr/include/c++/11/bits/fstream.tcc:
 
@@ -241,6 +252,8 @@ CMakeFiles/PWMPeriodFinder.dir/src/PWMPeriodFinder.cpp.o: ../src/PWMPeriodFinder
 /usr/include/c++/11/cerrno:
 
 /usr/include/stdio.h:
+
+/usr/include/c++/11/chrono:
 
 /usr/include/c++/11/cstdio:
 
@@ -375,6 +388,8 @@ CMakeFiles/PWMPeriodFinder.dir/src/PWMPeriodFinder.cpp.o: ../src/PWMPeriodFinder
 /usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h:
 
 /usr/include/c++/11/iosfwd:
+
+/usr/include/c++/11/ctime:
 
 /usr/include/c++/11/bits/codecvt.h:
 

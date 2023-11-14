@@ -64,6 +64,7 @@ CMAKE_BINARY_DIR = /home/eashan/BuckeyeVerticalSoftware/build
 
 # The main recursive "all" target.
 all: CMakeFiles/MavLinkTest.dir/all
+all: CMakeFiles/MavLinkTestSim.dir/all
 all: CMakeFiles/PWMPeriodFinder.dir/all
 .PHONY : all
 
@@ -73,6 +74,7 @@ preinstall:
 
 # The main recursive "clean" target.
 clean: CMakeFiles/MavLinkTest.dir/clean
+clean: CMakeFiles/MavLinkTestSim.dir/clean
 clean: CMakeFiles/PWMPeriodFinder.dir/clean
 .PHONY : clean
 
@@ -83,12 +85,12 @@ clean: CMakeFiles/PWMPeriodFinder.dir/clean
 CMakeFiles/MavLinkTest.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/MavLinkTest.dir/build.make CMakeFiles/MavLinkTest.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/MavLinkTest.dir/build.make CMakeFiles/MavLinkTest.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eashan/BuckeyeVerticalSoftware/build/CMakeFiles --progress-num=1,2 "Built target MavLinkTest"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eashan/BuckeyeVerticalSoftware/build/CMakeFiles --progress-num=1,2,3 "Built target MavLinkTest"
 .PHONY : CMakeFiles/MavLinkTest.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/MavLinkTest.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/eashan/BuckeyeVerticalSoftware/build/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eashan/BuckeyeVerticalSoftware/build/CMakeFiles 3
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/MavLinkTest.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/eashan/BuckeyeVerticalSoftware/build/CMakeFiles 0
 .PHONY : CMakeFiles/MavLinkTest.dir/rule
@@ -103,13 +105,39 @@ CMakeFiles/MavLinkTest.dir/clean:
 .PHONY : CMakeFiles/MavLinkTest.dir/clean
 
 #=============================================================================
+# Target rules for target CMakeFiles/MavLinkTestSim.dir
+
+# All Build rule for target.
+CMakeFiles/MavLinkTestSim.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MavLinkTestSim.dir/build.make CMakeFiles/MavLinkTestSim.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MavLinkTestSim.dir/build.make CMakeFiles/MavLinkTestSim.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eashan/BuckeyeVerticalSoftware/build/CMakeFiles --progress-num=4,5 "Built target MavLinkTestSim"
+.PHONY : CMakeFiles/MavLinkTestSim.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/MavLinkTestSim.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eashan/BuckeyeVerticalSoftware/build/CMakeFiles 2
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/MavLinkTestSim.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eashan/BuckeyeVerticalSoftware/build/CMakeFiles 0
+.PHONY : CMakeFiles/MavLinkTestSim.dir/rule
+
+# Convenience name for target.
+MavLinkTestSim: CMakeFiles/MavLinkTestSim.dir/rule
+.PHONY : MavLinkTestSim
+
+# clean rule for target.
+CMakeFiles/MavLinkTestSim.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MavLinkTestSim.dir/build.make CMakeFiles/MavLinkTestSim.dir/clean
+.PHONY : CMakeFiles/MavLinkTestSim.dir/clean
+
+#=============================================================================
 # Target rules for target CMakeFiles/PWMPeriodFinder.dir
 
 # All Build rule for target.
 CMakeFiles/PWMPeriodFinder.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/PWMPeriodFinder.dir/build.make CMakeFiles/PWMPeriodFinder.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/PWMPeriodFinder.dir/build.make CMakeFiles/PWMPeriodFinder.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eashan/BuckeyeVerticalSoftware/build/CMakeFiles --progress-num=3,4 "Built target PWMPeriodFinder"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eashan/BuckeyeVerticalSoftware/build/CMakeFiles --progress-num=6,7 "Built target PWMPeriodFinder"
 .PHONY : CMakeFiles/PWMPeriodFinder.dir/all
 
 # Build rule for subdir invocation for target.

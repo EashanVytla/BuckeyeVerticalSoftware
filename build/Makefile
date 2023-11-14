@@ -130,6 +130,19 @@ MavLinkTest/fast:
 .PHONY : MavLinkTest/fast
 
 #=============================================================================
+# Target rules for targets named MavLinkTestSim
+
+# Build rule for target.
+MavLinkTestSim: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 MavLinkTestSim
+.PHONY : MavLinkTestSim
+
+# fast build rule for target.
+MavLinkTestSim/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MavLinkTestSim.dir/build.make CMakeFiles/MavLinkTestSim.dir/build
+.PHONY : MavLinkTestSim/fast
+
+#=============================================================================
 # Target rules for targets named PWMPeriodFinder
 
 # Build rule for target.
@@ -166,6 +179,30 @@ src/MavLinkTest.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/MavLinkTest.dir/build.make CMakeFiles/MavLinkTest.dir/src/MavLinkTest.cpp.s
 .PHONY : src/MavLinkTest.cpp.s
 
+src/MavLinkTestSim.o: src/MavLinkTestSim.cpp.o
+.PHONY : src/MavLinkTestSim.o
+
+# target to build an object file
+src/MavLinkTestSim.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MavLinkTestSim.dir/build.make CMakeFiles/MavLinkTestSim.dir/src/MavLinkTestSim.cpp.o
+.PHONY : src/MavLinkTestSim.cpp.o
+
+src/MavLinkTestSim.i: src/MavLinkTestSim.cpp.i
+.PHONY : src/MavLinkTestSim.i
+
+# target to preprocess a source file
+src/MavLinkTestSim.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MavLinkTestSim.dir/build.make CMakeFiles/MavLinkTestSim.dir/src/MavLinkTestSim.cpp.i
+.PHONY : src/MavLinkTestSim.cpp.i
+
+src/MavLinkTestSim.s: src/MavLinkTestSim.cpp.s
+.PHONY : src/MavLinkTestSim.s
+
+# target to generate assembly for a file
+src/MavLinkTestSim.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MavLinkTestSim.dir/build.make CMakeFiles/MavLinkTestSim.dir/src/MavLinkTestSim.cpp.s
+.PHONY : src/MavLinkTestSim.cpp.s
+
 src/PWMPeriodFinder.o: src/PWMPeriodFinder.cpp.o
 .PHONY : src/PWMPeriodFinder.o
 
@@ -190,6 +227,30 @@ src/PWMPeriodFinder.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/PWMPeriodFinder.dir/build.make CMakeFiles/PWMPeriodFinder.dir/src/PWMPeriodFinder.cpp.s
 .PHONY : src/PWMPeriodFinder.cpp.s
 
+src/PWMUtils.o: src/PWMUtils.cpp.o
+.PHONY : src/PWMUtils.o
+
+# target to build an object file
+src/PWMUtils.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MavLinkTest.dir/build.make CMakeFiles/MavLinkTest.dir/src/PWMUtils.cpp.o
+.PHONY : src/PWMUtils.cpp.o
+
+src/PWMUtils.i: src/PWMUtils.cpp.i
+.PHONY : src/PWMUtils.i
+
+# target to preprocess a source file
+src/PWMUtils.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MavLinkTest.dir/build.make CMakeFiles/MavLinkTest.dir/src/PWMUtils.cpp.i
+.PHONY : src/PWMUtils.cpp.i
+
+src/PWMUtils.s: src/PWMUtils.cpp.s
+.PHONY : src/PWMUtils.s
+
+# target to generate assembly for a file
+src/PWMUtils.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MavLinkTest.dir/build.make CMakeFiles/MavLinkTest.dir/src/PWMUtils.cpp.s
+.PHONY : src/PWMUtils.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -199,13 +260,20 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... MavLinkTest"
+	@echo "... MavLinkTestSim"
 	@echo "... PWMPeriodFinder"
 	@echo "... src/MavLinkTest.o"
 	@echo "... src/MavLinkTest.i"
 	@echo "... src/MavLinkTest.s"
+	@echo "... src/MavLinkTestSim.o"
+	@echo "... src/MavLinkTestSim.i"
+	@echo "... src/MavLinkTestSim.s"
 	@echo "... src/PWMPeriodFinder.o"
 	@echo "... src/PWMPeriodFinder.i"
 	@echo "... src/PWMPeriodFinder.s"
+	@echo "... src/PWMUtils.o"
+	@echo "... src/PWMUtils.i"
+	@echo "... src/PWMUtils.s"
 .PHONY : help
 
 

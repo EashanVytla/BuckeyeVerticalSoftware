@@ -1,6 +1,8 @@
 file(REMOVE_RECURSE
   "CMakeFiles/MavLinkTest.dir/src/MavLinkTest.cpp.o"
   "CMakeFiles/MavLinkTest.dir/src/MavLinkTest.cpp.o.d"
+  "CMakeFiles/MavLinkTest.dir/src/PWMUtils.cpp.o"
+  "CMakeFiles/MavLinkTest.dir/src/PWMUtils.cpp.o.d"
   "MavLinkTest"
   "MavLinkTest.pdb"
 )

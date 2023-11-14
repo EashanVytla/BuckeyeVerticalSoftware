@@ -1,5 +1,5 @@
-CMakeFiles/MavLinkTest.dir/src/MavLinkTest.cpp.o: \
- /home/eashan/BuckeyeVerticalSoftware/src/MavLinkTest.cpp \
+CMakeFiles/MavLinkTestSim.dir/src/MavLinkTestSim.cpp.o: \
+ /home/eashan/BuckeyeVerticalSoftware/src/MavLinkTestSim.cpp \
  /usr/include/stdc-predef.h /usr/include/mavsdk/mavsdk.h \
  /usr/include/c++/11/string \
  /usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h \
@@ -216,8 +216,4 @@ CMakeFiles/MavLinkTest.dir/src/MavLinkTest.cpp.o: \
  /usr/include/c++/11/bits/this_thread_sleep.h /usr/include/c++/11/chrono \
  /usr/include/c++/11/ratio /usr/include/c++/11/ctime \
  /usr/include/c++/11/bits/parse_numbers.h \
- /home/eashan/BuckeyeVerticalSoftware/src/PWMUtils.h \
- /usr/include/c++/11/fstream /usr/include/c++/11/bits/codecvt.h \
- /usr/include/x86_64-linux-gnu/c++/11/bits/basic_file.h \
- /usr/include/x86_64-linux-gnu/c++/11/bits/c++io.h \
- /usr/include/c++/11/bits/fstream.tcc
+ /usr/include/mavsdk/plugins/action/action.h

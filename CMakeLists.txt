@@ -20,11 +20,20 @@ add_executable(MavLinkTest
     # ... any other source files
 )
 
+add_executable(MavLinkTestSim
+    src/MavLinkTestSim
+)
+
 add_executable(PWMPeriodFinder
     src/PWMPeriodFinder.cpp
 )
 
 # Specify your app's executable name and a list of linked libraries
 target_link_libraries(MavLinkTest
+    MAVSDK::mavsdk             #All apps link against mavsdk library
+)
+
+# Specify your app's executable name and a list of linked libraries
+target_link_libraries(MavLinkTestSim
     MAVSDK::mavsdk             #All apps link against mavsdk library
 )
