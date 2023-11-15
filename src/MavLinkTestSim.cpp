@@ -5,6 +5,7 @@
 #include <mavsdk/plugins/telemetry/telemetry.h>
 #include <thread>
 #include <mavsdk/plugins/action/action.h>
+#include <fstream>
 
 //Fix these
 #define PORT_PATH "udp://localhost:14540"
@@ -14,6 +15,17 @@
 using namespace mavsdk;
 
 int main(){
+    std::ofstream myfile;
+    myfile.open ("Logs.txt");
+
+    if(!myfile.is_open()){
+        std::cout << "File open failed! Ending program." << std::endl;
+        return 0;
+    }
+
+    std::cout << "File success!" << std::endl;
+    myfile << "File successfully opened!" << '\n';
+
     //Create mavsdk object on stack
     Mavsdk mavsdk;
     
@@ -154,4 +166,6 @@ int main(){
     mission.subscribe_mission_progress([](Mission::MissionProgress mission_progress){
         std::cout << "Mission status update: " << mission_progress.current << " / " << mission_progress.total << '\n';
     });
+
+    myfile.close();
 }
