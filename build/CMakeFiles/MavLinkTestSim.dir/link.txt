@@ -1,1 +1,0 @@
-/usr/bin/c++ CMakeFiles/MavLinkTestSim.dir/src/MavLinkTestSim.cpp.o -o MavLinkTestSim  /usr/lib/libmavsdk.so.1.4.17 
