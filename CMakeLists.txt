@@ -14,5 +14,5 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 add_executable(test
     src/livefeed/test.cpp
-    src/livefeed/Bytes.cpp
+    src/livefeed/hex.cpp
 )
