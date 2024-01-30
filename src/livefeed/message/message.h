@@ -1,3 +1,5 @@
+#pragma once
+
 
 #include <iostream>
 #include <stdint.h>
@@ -5,40 +7,40 @@
 #include <vector>
 #include <string>
 #include <map>
-#include "command.h"
 
 struct Data {
     string data;
-    string id;
+    string commandId;
 };
 
 class Message {
     public:
 
-        Data firmareVersion();               
-        Data hardwareId();               
-        Data gimbalInfo();               
-        Data funcFeedback();               
+        static Data firmareVersion();               
+        static Data hardwareId();               
+        static Data gimbalInfo();               
+        static Data funcFeedback();               
         
-        Data takePhoto();               
-        Data record();               
+        static Data takePhoto();               
+        static Data record();               
 
-        Data autoFocus();               
-        Data centerGimbal();               
-        Data lock();               
-        Data follow();               
-        Data fpv();               
-        Data gimbalAttitude();               
+        static Data autoFocus();               
+        static Data centerGimbal();               
+        static Data lock();               
+        static Data follow();               
+        static Data fpv();               
+        static Data gimbalAttitude();               
         
-        Data zoomIn();               
-        Data zoomOut();               
-        Data stopZoom();               
+        static Data zoomIn();               
+        static Data zoomOut();               
+        static Data stopZoom();               
 
-        Data longFocus();               
-        Data closeFocus();               
-        Data stopFocus();               
+        static Data longFocus();               
+        static Data closeFocus();               
+        static Data stopFocus();               
 
-        Data gimbalSpeed();               
+        static Data gimbalSpeed(int yawSpeed, int pitchSpeed);               
 
+        static string encode(Data message);
 
 };

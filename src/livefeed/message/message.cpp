@@ -1,30 +1,59 @@
 
-
-
 #include <iostream>
 #include <stdint.h>
 #include "hex.h"
 #include <vector>
 #include <string>
-#include <map>
-#include "command.h"
 #include "message.h"
+#include "crc.h"
+#include "commandType.h"
 
 
+string Message::encode(Data message) {
 
+    const string HEADER = "5566";
+    const string TWO_BYTES_ZERO = "0000";
+    const string ONE  = "01";
 
+    string hex = "";
+
+    // Number of bytes
+    string dataLength = toHex(message.data.length() / 2, 2);
+
+    // reorder bits
+    dataLength = dataLength.substr(2, 2) + dataLength.substr(0, 2);
+
+    hex += HEADER; 
+    hex += ONE; 
+    hex += dataLength; 
+    hex += TWO_BYTES_ZERO; 
+    hex += message.commandId; 
+    hex += message.data; 
+
+    uint16_t check = crc16(fromHex(hex));
+
+    string crcString = toHex(check, 2);
+
+    // reverse low and high byte
+    crcString = crcString.substr(2, 2) + crcString.substr(0, 2);
+
+    hex += crcString;
+
+    return hex;
+
+}
 
 // Message functions
 
-Data firmareVersion() {
+Data Message::firmareVersion() {
     return { "", Command::GET_FIRMWARE_VERSION};
 }
 
-Data hardwareId() {
+Data Message::hardwareId() {
     return { "", Command::GET_HARDWARE_ID};
 }
 
-Data gimbalInfo() {
+Data Message::gimbalInfo() {
     return { "", Command::GET_GIMBAL_INFO};
 }
 
@@ -32,63 +61,63 @@ Data funcFeedback() {
     return { "", Command::FUNC_FEEDBACK_INFO};
 }
 
-Data takePhoto() {
+Data Message::takePhoto() {
     return { "00", Command::PHOTO_VIDEO_HDR};
 }
 
-Data record() {
+Data Message::record() {
     return { "02", Command::PHOTO_VIDEO_HDR};
 }
 
-Data autoFocus() {
+Data Message::autoFocus() {
     return { "01", Command::AUTO_FOCUS};
 }
 
-Data centerGimbal() {
+Data Message::centerGimbal() {
     return { "01", Command::CENTER};
 }
 
-Data lock() {
+Data Message::lock() {
     return { "03", Command::PHOTO_VIDEO_HDR};
 }
 
-Data follow() {
+Data Message::follow() {
     return { "04", Command::PHOTO_VIDEO_HDR};
 }
 
-Data fpv() {
+Data Message::fpv() {
     return { "05", Command::PHOTO_VIDEO_HDR};
 }
 
-Data gimbalAttitude() {
+Data Message::gimbalAttitude() {
     return { "", Command::GET_GIMBAL_ATT};
 }
 
-Data zoomIn() {
+Data Message::zoomIn() {
     return { "01", Command::MANUAL_ZOOM};
 }
 
-Data zoomOut() {
+Data Message::zoomOut() {
     return { "ff", Command::MANUAL_ZOOM};
 }
 
-Data stopZoom() {
+Data Message::stopZoom() {
     return { "00", Command::MANUAL_ZOOM};
 }
 
-Data longFocus() {
+Data Message::longFocus() {
     return { "01", Command::MANUAL_FOCUS};
 }
 
-Data closeFocus() {
+Data Message::closeFocus() {
     return { "ff", Command::MANUAL_FOCUS};
 }
 
-Data stopFocus() {
+Data Message::stopFocus() {
     return { "00", Command::MANUAL_FOCUS};
 }
 
-Data gimbalSpeed(int yawSpeed, int pitchSpeed) {
+Data Message::gimbalSpeed(int yawSpeed, int pitchSpeed) {
 
     // Ensure speed within bounds
     if (yawSpeed > 100)
@@ -105,7 +134,7 @@ Data gimbalSpeed(int yawSpeed, int pitchSpeed) {
         pitchSpeed = -100;
 
     return {
-        toHex(yawSpeed) + toHex(pitchSpeed),
+        toHex(yawSpeed, 1) + toHex(pitchSpeed, 1),
         Command::GIMBAL_ROT
     };
 
