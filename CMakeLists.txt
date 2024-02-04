@@ -12,11 +12,13 @@ set(cmd "command")
 add_definitions("-Wall -Wextra")
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
+include_directories(include_directories(/Library/Developer/CommandLineTools/usr/include))
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/livefeed/hex)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/livefeed/crc)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/livefeed/commandType)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/livefeed/message)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/livefeed/sdk)
 
 
 add_executable(test
@@ -32,6 +34,9 @@ add_executable(test
 
     src/livefeed/message/message.cpp
     # src/livefeed/message/message.h
+
+    src/livefeed/sdk/SIYI.cpp
+    # src/livefeed/sdk/SIYI.h
 
     src/livefeed/test.cpp
 

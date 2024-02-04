@@ -4,6 +4,7 @@
 #include <message.h>
 #include <string>
 #include <commandType.h>
+#include <SIYI.h>
 
 using namespace std;
 
