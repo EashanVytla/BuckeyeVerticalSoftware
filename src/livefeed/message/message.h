@@ -10,7 +10,9 @@
 
 struct Data {
     string data;
-    string commandId;
+    string commandId = "";
+    uint16_t seq = 0;
+    bool success = true; // if data was extracted successfully
 };
 
 class Message {
@@ -41,6 +43,8 @@ class Message {
 
         static Data gimbalSpeed(int yawSpeed, int pitchSpeed);               
 
-        static string encode(Data message);
+        static Data encode(Data message);
+
+        static Data decode(string encoded);
 
 };

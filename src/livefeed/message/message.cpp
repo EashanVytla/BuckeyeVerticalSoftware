@@ -9,7 +9,7 @@
 #include "commandType.h"
 
 
-string Message::encode(Data message) {
+Data Message::encode(Data message) {
 
     const string HEADER = "5566";
     const string TWO_BYTES_ZERO = "0000";
@@ -18,7 +18,7 @@ string Message::encode(Data message) {
     string hex = "";
 
     // Number of bytes
-    string dataLength = toHex(message.data.length() / 2, 2);
+    string dataLength = Hex::toHex(message.data.length() / 2, 2);
 
     // reorder bits
     dataLength = dataLength.substr(2, 2) + dataLength.substr(0, 2);
@@ -30,18 +30,57 @@ string Message::encode(Data message) {
     hex += message.commandId; 
     hex += message.data; 
 
-    uint16_t check = crc16(fromHex(hex));
+    uint16_t check = crc16(Hex::asVector(hex));
 
-    string crcString = toHex(check, 2);
+    string crcString = Hex::toHex(check, 2);
 
     // reverse low and high byte
     crcString = crcString.substr(2, 2) + crcString.substr(0, 2);
 
     hex += crcString;
 
-    return hex;
+    return {hex};
 
 }
+
+Data Message::decode(string encoded) {
+
+    Data result = {""};
+
+    // reverse bytes
+    string dataLength = encoded.substr(8, 2)  + encoded.substr(6, 2);
+
+    int nbytes = Hex::asInt(dataLength);
+    int charLength = nbytes * 2;
+
+    string payload = encoded.substr(0, encoded.length() - 4);
+
+    string expectedCheck  = encoded.substr(encoded.length() - 4, 4);
+    string trueCheck = Hex::toHex(crc16(Hex::asVector(payload)), 2);
+
+    // reorder bytes
+    trueCheck = trueCheck.substr(2, 2) + trueCheck.substr(0, 2); 
+
+    // if failed crc check, return with unsuccessful flag
+    if (expectedCheck != trueCheck) {
+        result.success = false;
+        return result;
+    }
+
+    string commandId = encoded.substr(14, 2);
+
+    if (charLength > 0)
+        result.data = encoded.substr(16, charLength);
+
+    // get seq 
+    string seqHex = encoded.substr(12, 2) + encoded.substr(10, 2);
+    result.seq = static_cast<uint16_t>(Hex::asInt(seqHex));
+
+
+    return result;
+
+}
+
 
 // Message functions
 
@@ -134,8 +173,10 @@ Data Message::gimbalSpeed(int yawSpeed, int pitchSpeed) {
         pitchSpeed = -100;
 
     return {
-        toHex(yawSpeed, 1) + toHex(pitchSpeed, 1),
+        Hex::toHex(yawSpeed, 1) + Hex::toHex(pitchSpeed, 1),
         Command::GIMBAL_ROT
     };
 
 }
+
+

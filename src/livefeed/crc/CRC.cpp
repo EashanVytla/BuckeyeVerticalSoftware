@@ -1,6 +1,6 @@
 #include <iostream>
 #include <stdint.h>
-#include "hex.h"
+// #include "hex.h"
 #include "crc.h"
 #include <vector>
 

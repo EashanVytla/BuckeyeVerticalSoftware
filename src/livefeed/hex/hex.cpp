@@ -6,7 +6,7 @@
 
 using namespace std;
 
-string toHex(int val, int nbytes) {
+string Hex::toHex(int val, int nbytes) {
 
     int bitmask = (1 << (nbytes * 8)) - 1;
     int result = (val + (1 << (nbytes * 8))) & bitmask;
@@ -24,7 +24,7 @@ string toHex(int val, int nbytes) {
 }
 
 
-vector<char> fromHex(string& str) {
+vector<char> Hex::asVector(string str) {
     vector<char> bytes;
 
     for (size_t i = 0; i < str.length(); i += 2) {
@@ -38,4 +38,8 @@ vector<char> fromHex(string& str) {
 
 
   return bytes;
+}
+
+int Hex::asInt(string str) {
+    return stoi(str, 0, 16);
 }

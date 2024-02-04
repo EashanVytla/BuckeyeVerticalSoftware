@@ -7,5 +7,10 @@
 
 using namespace std;
 
-string toHex(int val, int nbytes);
-vector<char> fromHex(string& hex); 
+class Hex {
+    public:
+        static string toHex(int val, int nbytes);
+        static vector<char> asVector(string hex); 
+        static int asInt(string hex); 
+};
+
