@@ -4,10 +4,9 @@
 #include "hex.h"
 #include <vector>
 #include <string>
-#include "message.h"
+#include "messages.h"
 #include "crc.h"
-#include "commandType.h"
-
+#include "commands.h"
 
 Data Message::encode(Data message) {
 

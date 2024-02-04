@@ -1,9 +1,9 @@
 #include "hex.h"
 #include <iostream>
 #include <stdint.h>
-#include <message.h>
+#include <messages.h>
 #include <string>
-#include <commandType.h>
+#include <commands.h>
 #include <SIYI.h>
 
 using namespace std;

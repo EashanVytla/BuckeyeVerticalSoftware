@@ -14,30 +14,13 @@ add_definitions("-Wall -Wextra")
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 include_directories(include_directories(/Library/Developer/CommandLineTools/usr/include))
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/livefeed/hex)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/livefeed/crc)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/livefeed/commandType)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/livefeed/message)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/livefeed/sdk)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/livefeed/sdk/headers)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/livefeed/sdk/sources)
 
+
+file(GLOB SRC_FILES "src/livefeed/sdk/sources/*.cpp")
 
 add_executable(test
-
-    src/livefeed/commandType/commandType.cpp
-    # src/livefeed/${cmd}/${cmd}.h
-
-    src/livefeed/crc/crc.cpp
-    # src/livefeed/crc/crc.h
-
-    src/livefeed/hex/hex.cpp
-    # src/livefeed/hex/hex.h
-
-    src/livefeed/message/message.cpp
-    # src/livefeed/message/message.h
-
-    src/livefeed/sdk/SIYI.cpp
-    # src/livefeed/sdk/SIYI.h
-
     src/livefeed/test.cpp
-
+    ${SRC_FILES} 
 )
