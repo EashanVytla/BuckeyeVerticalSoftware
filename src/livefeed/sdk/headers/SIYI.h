@@ -30,6 +30,8 @@
 #define GIMBAL_INFO_INTERVAL 1000 // ms
 #define GIMBAL_ATTITUDE_INTERVAL 100 // ms
 
+#define MIN_RECV_BYTES 10
+
 using namespace std;
 
 struct SequenceState {

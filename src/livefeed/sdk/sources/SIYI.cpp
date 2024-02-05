@@ -163,12 +163,18 @@ void SIYI::connectionLoop() {
 void SIYI::recvLoop() {
 
     while (active) {
+        try {
 
-        cout << "inside recvLoop" << endl;
+            cout << "inside recvLoop" << endl;
+        
+            SIYI::bufferCallback();
 
-        SIYI::bufferCallback();
+            this_thread::sleep_for(chrono::milliseconds(1000));
 
-        this_thread::sleep_for(chrono::milliseconds(1000));
+        } catch (exception &e) {
+
+            cout << e.what() << endl;
+        }
 
     }
 
@@ -193,8 +199,47 @@ void SIYI::gimbalAttitudeLoop() {
 void SIYI::bufferCallback() {
     cout << "bufferCallback" << endl;
 
-    // threads.data()
+    socklen_t addrlen = sizeof(servaddr);
+    ssize_t nbytes = recvfrom(socketfd, buffer.data(), BUFFER_SIZE, 0, (sockaddr*)&servaddr, &addrlen);
 
+    if (nbytes < 0) {
+        cout << "error reading bytes" << endl;
+        return;
+    }
+
+    if (nbytes < MIN_RECV_BYTES) {
+        cout << "error: too little bytes" << endl;
+        return;
+    }
+
+    string encodedMessage = Hex::toHex(buffer, nbytes);
+
+
+    while (static_cast<int>(encodedMessage.length()) >= MIN_RECV_BYTES * 2) {
+
+        if (encodedMessage.substr(0, 4) != string(HEADER)) {
+            encodedMessage = encodedMessage.substr(1, encodedMessage.length() - 1);
+            continue;
+        }
+
+
+        int charLength = 2 * Hex::asInt(encodedMessage.substr(8, 2) + encodedMessage.substr(6, 2));
+
+        if (static_cast<int>(encodedMessage.length()) < MIN_RECV_BYTES * 2 + charLength) {
+            cout << "nothing useful" << endl;
+            break;
+        }
+
+        Data decoded = Message::decode(encodedMessage);
+
+        if (!decoded.success) {
+            continue;
+        }
+
+        
+
+        // if 
+    }
 
 }
 

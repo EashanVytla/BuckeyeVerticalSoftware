@@ -8,6 +8,10 @@
 #include <string>
 #include <map>
 
+#define HEADER "5566"
+#define TWO_BYTES_ZERO "0000"
+#define ONE  "01"
+
 struct Data {
     string data;
     string commandId = "";
