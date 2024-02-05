@@ -23,6 +23,18 @@ string Hex::toHex(int val, int nbytes) {
     return str;
 }
 
+string Hex::toHex(vector<char> bytes, int nbytes) {
+
+    string result = "";
+
+    for (int i = 0; i < nbytes; i++) {
+        result += Hex::toHex(static_cast<int>(bytes.at(i)), 1);
+    }
+
+    return result;
+
+}
+
 
 vector<char> Hex::asVector(string str) {
     vector<char> bytes;
