@@ -5,7 +5,7 @@
 #include <sys/types.h> 
 #include <sys/socket.h> 
 #include <arpa/inet.h> 
-#include <netinet/in.h> 
+// #include <netinet/in.h> 
 #include <netinet/in.h> 
 #include <mutex> 
 #include <thread>
@@ -14,7 +14,7 @@
 #include <SIYI.h>
 #include <hex.h>
 #include <messages.h>
-
+#include <commands.h>
 
 using namespace std;
 
@@ -44,8 +44,15 @@ bool SIYI::connect() {
 
     // Filling server information 
     servaddr.sin_family = AF_INET; 
-    servaddr.sin_port = htons(port); 
-    servaddr.sin_addr.s_addr = inet_addr(ip.c_str()); 
+
+
+    // servaddr.sin_port = htons(port); 
+    // servaddr.sin_addr.s_addr = inet_addr(ip.c_str()); 
+
+    servaddr.sin_port = htons(8080); 
+    servaddr.sin_addr.s_addr = inet_addr("127.0.0.1"); 
+
+
 
      // Set timeout for recvfrom using setsockopt
     timeval timeout;
@@ -72,11 +79,11 @@ bool SIYI::connect() {
         
         if (connected) {
 
-            thread t_recv(&SIYI::recvLoop, this);
-            thread t_connection(&SIYI::connectionLoop, this);
+            thread t_attitude(&SIYI::gimbalAttitudeLoop, this);
+            thread t_info(&SIYI::gimbalInfoLoop, this);
 
-            threads.push_back(std::move(t_recv));
-            threads.push_back(std::move(t_connection));
+            threads.push_back(std::move(t_attitude));
+            threads.push_back(std::move(t_info));
 
             return true;
 
@@ -173,7 +180,7 @@ void SIYI::recvLoop() {
 
         } catch (exception &e) {
 
-            cout << e.what() << endl;
+            cout << "Exception: " << e.what() << endl;
         }
 
     }
@@ -214,7 +221,7 @@ void SIYI::bufferCallback() {
 
     string encodedMessage = Hex::toHex(buffer, nbytes);
 
-
+    // TODO: restructure later
     while (static_cast<int>(encodedMessage.length()) >= MIN_RECV_BYTES * 2) {
 
         if (encodedMessage.substr(0, 4) != string(HEADER)) {
@@ -230,15 +237,39 @@ void SIYI::bufferCallback() {
             break;
         }
 
+        cout << "final encoded message \"" << encodedMessage << "\"" << endl;
+
         Data decoded = Message::decode(encodedMessage);
 
         if (!decoded.success) {
             continue;
         }
 
-        
+        cout << endl << endl << "Found message" << endl << endl; 
 
-        // if 
+        cout << "\"" << decoded.commandId << "\"" << endl;
+
+        if (decoded.commandId == Command::GET_FIRMWARE_VERSION) {
+            SIYI::parseFirmwareVersion(decoded.data, decoded.seq);
+            return;
+        }
+
+        if (decoded.commandId == Command::GET_GIMBAL_ATT) {
+            SIYI::parseGimbalAttitude(decoded.data, decoded.seq);
+            return;
+        }
+
+        if (decoded.commandId == Command::GET_GIMBAL_INFO) {
+            SIYI::parseGimbalInfo(decoded.data, decoded.seq);
+            return;
+        }
+
+        if (decoded.commandId == Command::MANUAL_ZOOM) {
+            SIYI::parseZoom(decoded.data, decoded.seq);
+            return;
+        }
+
+        return;
     }
 
 }
@@ -251,6 +282,9 @@ void SIYI::checkConnectionCallback() {
 void SIYI::emit(string message) {
 
     try {
+
+        cout << "about to emit: " << message << endl;
+
         vector<char> v = Hex::asVector(message);
 
         if (sendto(socketfd,  (const void*)v.data(), v.size(), 0, (sockaddr*)&servaddr, sizeof(servaddr)) < 0) {
@@ -275,6 +309,9 @@ void SIYI::requestEmit(Data encodedMessage) {
         return;
     }
 
+    cout << "encodedMessage.success" << encodedMessage.success << endl;
+    cout << "encodedmessage : " << encodedMessage.data << endl;
+
     socketQueue.enqueue(encodedMessage.data);
     emitAll();
 
@@ -285,6 +322,9 @@ void SIYI::requestEmit(Data encodedMessage) {
 // Request functions
 
 void SIYI::requestFirmwareVersion() {
+
+
+
     requestEmit(Message::encode(
         Message::firmareVersion()
     ));
@@ -378,10 +418,23 @@ void SIYI::parseFirmwareVersion(string message, uint16_t seq) {
 
     unique_lock<mutex> lock(stateMut);  
 
+    cout << "parsing firmware" << endl;
+
+    cout << "message length: " << message.length() << endl;
+
     FirmwareState &firmware = state.firmware;
 
-    firmware.version = message.substr(8, 8);
-    firmware.seq = seq;
+    cout << "seq: " << seq << endl;
+
+    // int x= message.substr(8, 8).length();
+
+    // cout << "this is: " << x << endl;
+
+    // firmware.version = message.substr(8, 8);
+
+    // Try to guarantee that connection will stay alive if made it this far
+    firmware.seq = (firmware.seq + 1) % sizeof(uint16_t);
+
 }
 
 void SIYI::parseGimbalAttitude(string message, uint16_t seq) {

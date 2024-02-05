@@ -24,3 +24,16 @@ add_executable(test
     src/livefeed/test.cpp
     ${SRC_FILES} 
 )
+
+
+add_executable(test_udpclient
+    src/livefeed/test_udpclient.cpp
+    ${SRC_FILES} 
+)
+
+add_executable(test_udpserver
+    src/livefeed/test_udpserver.cpp
+    ${SRC_FILES} 
+)
+
+

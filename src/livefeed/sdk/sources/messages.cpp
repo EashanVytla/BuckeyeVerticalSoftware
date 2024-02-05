@@ -36,6 +36,7 @@ Data Message::encode(Data message) {
 
         hex += crcString; 
 
+        result.data = hex;
         result.success = true;
 
     } catch (exception &e) {
@@ -80,8 +81,9 @@ Data Message::decode(string encoded) {
 
         // get seq 
         string seqHex = encoded.substr(12, 2) + encoded.substr(10, 2);
-        result.seq = static_cast<uint16_t>(Hex::asInt(seqHex));
 
+        result.seq = static_cast<uint16_t>(Hex::asInt(seqHex));
+        result.commandId = commandId;
 
         // return result;
         result.success = true;
