@@ -2,10 +2,14 @@
 #include <chrono>
 #include <thread>
 #include <future>
+#include <cmath>
 
 #include <mavsdk/mavsdk.h>
 #include <mavsdk/plugins/offboard/offboard.h>
+#include <mavsdk/plugins/action/action.h>
 #include <mavsdk/plugins/telemetry/telemetry.h>
+
+#define PORT_PATH "udp://localhost:4560"
 
 using namespace mavsdk;
 using std::chrono::seconds;
@@ -20,10 +24,15 @@ enum class State {
     FINISHED
 };
 
+double distance(double latitude, double longitude) {
+   double distance = abs(sqrt(pow(latitude,2) + pow(longitude,2)));
+   return distance; 
+}
+
 void move_to_next_waypoint(Offboard& offboard, Telemetry& telemetry, State& current_state)
 {
     switch (current_state) {
-        case State::INITIAL:
+        case State::INITIAL: {
             std::cout << "Moving to initial position\n";
             // Set the first waypoint (North)
             const Offboard::PositionGlobalYaw waypoint1{
@@ -32,10 +41,12 @@ void move_to_next_waypoint(Offboard& offboard, Telemetry& telemetry, State& curr
                 20.0f,
                 0.0f};
             offboard.set_position_global(waypoint1);
-            current_state = State::WAYPOINT1;
-            break;
+            if (distance(telemetry.position().latitude_deg,telemetry.position().longitude_deg <= 0.00002)) {
+                current_state = State::WAYPOINT1;
+            } 
+        } break;
 
-        case State::WAYPOINT1:
+        case State::WAYPOINT1: {
             std::cout << "Going North at 20m relative altitude\n";
             sleep_for(seconds(10));
             // Set the second waypoint (East)
@@ -46,10 +57,12 @@ void move_to_next_waypoint(Offboard& offboard, Telemetry& telemetry, State& curr
                 90.0f,
                 Offboard::PositionGlobalYaw::AltitudeType::RelHome};
             offboard.set_position_global(waypoint2);
-            current_state = State::WAYPOINT2;
-            break;
+            if (distance(telemetry.position().latitude_deg,telemetry.position().longitude_deg <= 0.00002)) {
+                current_state = State::WAYPOINT2;
+            }
+        } break;
 
-        case State::WAYPOINT2:
+        case State::WAYPOINT2: {
             std::cout << "Going East at 15m relative altitude\n";
             sleep_for(seconds(10));
             // Set the third waypoint (Home)
@@ -60,49 +73,60 @@ void move_to_next_waypoint(Offboard& offboard, Telemetry& telemetry, State& curr
                 180.0f,
                 Offboard::PositionGlobalYaw::AltitudeType::Amsl};
             offboard.set_position_global(home);
-            current_state = State::HOME;
-            break;
+            if (distance(telemetry.position().latitude_deg,telemetry.position().longitude_deg <= 0.00002)) {
+                current_state = State::HOME;
+            }
+        } break;
 
-        case State::HOME:
+        case State::HOME: {
             std::cout << "Going Home facing south at " << (telemetry.position().absolute_altitude_m + 10.0f)
                       << "m AMSL altitude\n";
             sleep_for(seconds(10));
             // Stop offboard mode
             offboard.stop();
             current_state = State::STOP;
-            break;
+        } break;
 
-        case State::STOP:
+        case State::STOP: {
             std::cout << "Offboard stopped\n";
             current_state = State::FINISHED;
-            break;
+        } break;
 
-        case State::FINISHED:
+        case State::FINISHED: {
             std::cout << "Finished\n";
-            break;
+        } break;
     }
 }
 
-int main(int argc, char** argv)
+int main()
 {
-    if (argc != 2) {
-        std::cerr << "Usage : " << argv[0] << " <connection_url>\n";
-        return 1;
-    }
-
-    Mavsdk mavsdk{Mavsdk::Configuration{Mavsdk::ComponentType::GroundStation}};
-    ConnectionResult connection_result = mavsdk.add_any_connection(argv[1]);
-
+    //Create mavsdk object on stack
+    Mavsdk mavsdk{Mavsdk::Configuration{Mavsdk::ComponentType::CompanionComputer}};
+    
+    //Connect to the Pixhawk
+    ConnectionResult connection_result = mavsdk.add_any_connection(PORT_PATH);
+    
+    //Log connection failure
     if (connection_result != ConnectionResult::Success) {
-        std::cerr << "Connection failed: " << connection_result << '\n';
-        return 1;
+        std::cout << "Adding connection failed: " << connection_result << '\n';
+        return 0;
     }
 
     while (mavsdk.systems().size() == 0) {
         std::this_thread::sleep_for(std::chrono::seconds(1));
     }
 
-    std::vector<std::shared_ptr<mavsdk::System>> systems = mavsdk.systems();
+    std::cout << "Connected!" << '\n';
+
+    // Get the list of systems
+    auto systems = mavsdk.systems();
+
+    // Check if there is at least one system
+    if (systems.empty()) {
+        std::cout << "No MAVLink system found!";
+        return 0;
+    }
+        
     std::shared_ptr<mavsdk::System> system = systems[0];
 
     Offboard offboard{system};
@@ -114,14 +138,16 @@ int main(int argc, char** argv)
     }
     std::cout << "System is ready\n";
 
-    const auto arm_result = system->action().arm();
+    Action action{system};
+
+    const auto arm_result = action.arm();
     if (arm_result != Action::Result::Success) {
         std::cerr << "Arming failed: " << arm_result << '\n';
         return 1;
     }
     std::cout << "Armed\n";
 
-    const auto takeoff_result = system->action().takeoff();
+    const auto takeoff_result = action.takeoff();
     if (takeoff_result != Action::Result::Success) {
         std::cerr << "Takeoff failed: " << takeoff_result << '\n';
         return 1;
@@ -149,7 +175,7 @@ int main(int argc, char** argv)
         move_to_next_waypoint(offboard, telemetry, current_state);
     }
 
-    const auto land_result = system->action().land();
+    const auto land_result = action.land();
     if (land_result != Action::Result::Success) {
         std::cerr << "Landing failed: " << land_result << '\n';
         return 1;
