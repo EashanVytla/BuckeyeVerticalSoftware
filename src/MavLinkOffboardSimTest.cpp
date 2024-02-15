@@ -9,7 +9,7 @@
 #include <mavsdk/plugins/action/action.h>
 #include <mavsdk/plugins/telemetry/telemetry.h>
 
-#define PORT_PATH "udp://localhost:4560"
+#define PORT_PATH "udp://localhost:14540"
 
 using namespace mavsdk;
 using std::chrono::seconds;
@@ -100,45 +100,29 @@ void move_to_next_waypoint(Offboard& offboard, Telemetry& telemetry, State& curr
 
 int main()
 {
-    //Create mavsdk object on stack
     Mavsdk mavsdk{Mavsdk::Configuration{Mavsdk::ComponentType::CompanionComputer}};
-    
-    //Connect to the Pixhawk
     ConnectionResult connection_result = mavsdk.add_any_connection(PORT_PATH);
-    
-    //Log connection failure
+
     if (connection_result != ConnectionResult::Success) {
-        std::cout << "Adding connection failed: " << connection_result << '\n';
-        return 0;
+        std::cerr << "Connection failed: " << connection_result << '\n';
+        return 1;
     }
 
-    while (mavsdk.systems().size() == 0) {
-        std::this_thread::sleep_for(std::chrono::seconds(1));
+    auto system = mavsdk.first_autopilot(3.0);
+    if (!system) {
+        std::cerr << "Timed out waiting for system\n";
+        return 1;
     }
 
-    std::cout << "Connected!" << '\n';
-
-    // Get the list of systems
-    auto systems = mavsdk.systems();
-
-    // Check if there is at least one system
-    if (systems.empty()) {
-        std::cout << "No MAVLink system found!";
-        return 0;
-    }
-        
-    std::shared_ptr<mavsdk::System> system = systems[0];
-
-    Offboard offboard{system};
-    Telemetry telemetry{system};
+    auto action = Action{system.value()};
+    auto offboard = Offboard{system.value()};
+    auto telemetry = Telemetry{system.value()};
 
     while (!telemetry.health_all_ok()) {
         std::cout << "Waiting for system to be ready\n";
         sleep_for(seconds(1));
     }
     std::cout << "System is ready\n";
-
-    Action action{system};
 
     const auto arm_result = action.arm();
     if (arm_result != Action::Result::Success) {
