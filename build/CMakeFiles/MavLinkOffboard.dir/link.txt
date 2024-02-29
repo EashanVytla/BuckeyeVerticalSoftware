@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/MavLinkOffboard.dir/src/MavLinkTestOffboard.cpp.o -o MavLinkOffboard  /usr/lib/libmavsdk.so.2.1.0 

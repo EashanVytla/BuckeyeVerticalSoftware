@@ -8,7 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/anthonydfox/BuckeyeVerticalSoftware/src/MavLinkOffboardSimTest.cpp" "CMakeFiles/MavLinkOffboardSimTest.dir/src/MavLinkOffboardSimTest.cpp.o" "gcc" "CMakeFiles/MavLinkOffboardSimTest.dir/src/MavLinkOffboardSimTest.cpp.o.d"
+  "/home/anthonydfox/BuckeyeVerticalSoftware/src/MavLinkTestOffboard.cpp" "CMakeFiles/MavLinkOffboard.dir/src/MavLinkTestOffboard.cpp.o" "gcc" "CMakeFiles/MavLinkOffboard.dir/src/MavLinkTestOffboard.cpp.o.d"
   )
 
 # Targets to which this target links.

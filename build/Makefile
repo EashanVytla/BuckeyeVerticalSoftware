@@ -117,17 +117,17 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named MavLinkOffboardSimTest
+# Target rules for targets named MavLinkOffboard
 
 # Build rule for target.
-MavLinkOffboardSimTest: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 MavLinkOffboardSimTest
-.PHONY : MavLinkOffboardSimTest
+MavLinkOffboard: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 MavLinkOffboard
+.PHONY : MavLinkOffboard
 
 # fast build rule for target.
-MavLinkOffboardSimTest/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MavLinkOffboardSimTest.dir/build.make CMakeFiles/MavLinkOffboardSimTest.dir/build
-.PHONY : MavLinkOffboardSimTest/fast
+MavLinkOffboard/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MavLinkOffboard.dir/build.make CMakeFiles/MavLinkOffboard.dir/build
+.PHONY : MavLinkOffboard/fast
 
 #=============================================================================
 # Target rules for targets named PWMPeriodFinder
@@ -142,29 +142,29 @@ PWMPeriodFinder/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/PWMPeriodFinder.dir/build.make CMakeFiles/PWMPeriodFinder.dir/build
 .PHONY : PWMPeriodFinder/fast
 
-src/MavLinkOffboardSimTest.o: src/MavLinkOffboardSimTest.cpp.o
-.PHONY : src/MavLinkOffboardSimTest.o
+src/MavLinkTestOffboard.o: src/MavLinkTestOffboard.cpp.o
+.PHONY : src/MavLinkTestOffboard.o
 
 # target to build an object file
-src/MavLinkOffboardSimTest.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MavLinkOffboardSimTest.dir/build.make CMakeFiles/MavLinkOffboardSimTest.dir/src/MavLinkOffboardSimTest.cpp.o
-.PHONY : src/MavLinkOffboardSimTest.cpp.o
+src/MavLinkTestOffboard.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MavLinkOffboard.dir/build.make CMakeFiles/MavLinkOffboard.dir/src/MavLinkTestOffboard.cpp.o
+.PHONY : src/MavLinkTestOffboard.cpp.o
 
-src/MavLinkOffboardSimTest.i: src/MavLinkOffboardSimTest.cpp.i
-.PHONY : src/MavLinkOffboardSimTest.i
+src/MavLinkTestOffboard.i: src/MavLinkTestOffboard.cpp.i
+.PHONY : src/MavLinkTestOffboard.i
 
 # target to preprocess a source file
-src/MavLinkOffboardSimTest.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MavLinkOffboardSimTest.dir/build.make CMakeFiles/MavLinkOffboardSimTest.dir/src/MavLinkOffboardSimTest.cpp.i
-.PHONY : src/MavLinkOffboardSimTest.cpp.i
+src/MavLinkTestOffboard.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MavLinkOffboard.dir/build.make CMakeFiles/MavLinkOffboard.dir/src/MavLinkTestOffboard.cpp.i
+.PHONY : src/MavLinkTestOffboard.cpp.i
 
-src/MavLinkOffboardSimTest.s: src/MavLinkOffboardSimTest.cpp.s
-.PHONY : src/MavLinkOffboardSimTest.s
+src/MavLinkTestOffboard.s: src/MavLinkTestOffboard.cpp.s
+.PHONY : src/MavLinkTestOffboard.s
 
 # target to generate assembly for a file
-src/MavLinkOffboardSimTest.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MavLinkOffboardSimTest.dir/build.make CMakeFiles/MavLinkOffboardSimTest.dir/src/MavLinkOffboardSimTest.cpp.s
-.PHONY : src/MavLinkOffboardSimTest.cpp.s
+src/MavLinkTestOffboard.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MavLinkOffboard.dir/build.make CMakeFiles/MavLinkOffboard.dir/src/MavLinkTestOffboard.cpp.s
+.PHONY : src/MavLinkTestOffboard.cpp.s
 
 src/PWMPeriodFinder.o: src/PWMPeriodFinder.cpp.o
 .PHONY : src/PWMPeriodFinder.o
@@ -198,11 +198,11 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... MavLinkOffboardSimTest"
+	@echo "... MavLinkOffboard"
 	@echo "... PWMPeriodFinder"
-	@echo "... src/MavLinkOffboardSimTest.o"
-	@echo "... src/MavLinkOffboardSimTest.i"
-	@echo "... src/MavLinkOffboardSimTest.s"
+	@echo "... src/MavLinkTestOffboard.o"
+	@echo "... src/MavLinkTestOffboard.i"
+	@echo "... src/MavLinkTestOffboard.s"
 	@echo "... src/PWMPeriodFinder.o"
 	@echo "... src/PWMPeriodFinder.i"
 	@echo "... src/PWMPeriodFinder.s"

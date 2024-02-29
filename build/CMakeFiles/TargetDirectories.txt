@@ -1,4 +1,4 @@
-/home/anthonydfox/BuckeyeVerticalSoftware/build/CMakeFiles/MavLinkOffboardSimTest.dir
+/home/anthonydfox/BuckeyeVerticalSoftware/build/CMakeFiles/MavLinkOffboard.dir
 /home/anthonydfox/BuckeyeVerticalSoftware/build/CMakeFiles/PWMPeriodFinder.dir
 /home/anthonydfox/BuckeyeVerticalSoftware/build/CMakeFiles/edit_cache.dir
 /home/anthonydfox/BuckeyeVerticalSoftware/build/CMakeFiles/rebuild_cache.dir

@@ -1,5 +1,5 @@
-CMakeFiles/MavLinkOffboardSimTest.dir/src/MavLinkOffboardSimTest.cpp.o: \
- /home/anthonydfox/BuckeyeVerticalSoftware/src/MavLinkOffboardSimTest.cpp \
+CMakeFiles/MavLinkOffboard.dir/src/MavLinkTestOffboard.cpp.o: \
+ /home/anthonydfox/BuckeyeVerticalSoftware/src/MavLinkTestOffboard.cpp \
  /usr/include/stdc-predef.h /usr/include/c++/11/iostream \
  /usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h \

@@ -63,7 +63,7 @@ CMAKE_BINARY_DIR = /home/anthonydfox/BuckeyeVerticalSoftware/build
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-all: CMakeFiles/MavLinkOffboardSimTest.dir/all
+all: CMakeFiles/MavLinkOffboard.dir/all
 all: CMakeFiles/PWMPeriodFinder.dir/all
 .PHONY : all
 
@@ -72,35 +72,35 @@ preinstall:
 .PHONY : preinstall
 
 # The main recursive "clean" target.
-clean: CMakeFiles/MavLinkOffboardSimTest.dir/clean
+clean: CMakeFiles/MavLinkOffboard.dir/clean
 clean: CMakeFiles/PWMPeriodFinder.dir/clean
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/MavLinkOffboardSimTest.dir
+# Target rules for target CMakeFiles/MavLinkOffboard.dir
 
 # All Build rule for target.
-CMakeFiles/MavLinkOffboardSimTest.dir/all:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MavLinkOffboardSimTest.dir/build.make CMakeFiles/MavLinkOffboardSimTest.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MavLinkOffboardSimTest.dir/build.make CMakeFiles/MavLinkOffboardSimTest.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anthonydfox/BuckeyeVerticalSoftware/build/CMakeFiles --progress-num=1,2 "Built target MavLinkOffboardSimTest"
-.PHONY : CMakeFiles/MavLinkOffboardSimTest.dir/all
+CMakeFiles/MavLinkOffboard.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MavLinkOffboard.dir/build.make CMakeFiles/MavLinkOffboard.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MavLinkOffboard.dir/build.make CMakeFiles/MavLinkOffboard.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anthonydfox/BuckeyeVerticalSoftware/build/CMakeFiles --progress-num=1,2 "Built target MavLinkOffboard"
+.PHONY : CMakeFiles/MavLinkOffboard.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/MavLinkOffboardSimTest.dir/rule: cmake_check_build_system
+CMakeFiles/MavLinkOffboard.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/anthonydfox/BuckeyeVerticalSoftware/build/CMakeFiles 2
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/MavLinkOffboardSimTest.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/MavLinkOffboard.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/anthonydfox/BuckeyeVerticalSoftware/build/CMakeFiles 0
-.PHONY : CMakeFiles/MavLinkOffboardSimTest.dir/rule
+.PHONY : CMakeFiles/MavLinkOffboard.dir/rule
 
 # Convenience name for target.
-MavLinkOffboardSimTest: CMakeFiles/MavLinkOffboardSimTest.dir/rule
-.PHONY : MavLinkOffboardSimTest
+MavLinkOffboard: CMakeFiles/MavLinkOffboard.dir/rule
+.PHONY : MavLinkOffboard
 
 # clean rule for target.
-CMakeFiles/MavLinkOffboardSimTest.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MavLinkOffboardSimTest.dir/build.make CMakeFiles/MavLinkOffboardSimTest.dir/clean
-.PHONY : CMakeFiles/MavLinkOffboardSimTest.dir/clean
+CMakeFiles/MavLinkOffboard.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MavLinkOffboard.dir/build.make CMakeFiles/MavLinkOffboard.dir/clean
+.PHONY : CMakeFiles/MavLinkOffboard.dir/clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/PWMPeriodFinder.dir
