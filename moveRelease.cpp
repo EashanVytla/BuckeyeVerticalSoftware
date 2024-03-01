@@ -14,6 +14,7 @@ double calcTargetCoordinates(double dist){
 
 }
 
+//uses the move servo code
 //this method should take in the object class and move the specific servo relating to the target. 
 void dropPackage(int targetClass){
 
