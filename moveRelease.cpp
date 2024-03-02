@@ -1,42 +1,41 @@
-//This code should have the drone process a frame passed into it and find targets coordinates. Then move to target and drop package
+#include <opencv2/opencv.hpp>
 
-//Includes:
-#include "opencv2/opencv.hpp"
-
-//maken object localization script into a method.
+//object localization function
 //should take in target frame and output distance from camera to target
-double[] objectLocalization(cv::Mat& targetFrame){
-
+std::vector<double> objectLocalization(cv::Mat& targetFrame) {
+    std::vector<double> dist = {0.0, 0.0, 0.0}; //placeholder for distance calculation
+    //object localization code goes here
+    return dist;
 }
 
-//this method should take the returned distance from objectLocalization method and calculate GPS coordinates of target
-double[] calcTargetCoordinates(double[] dist){
-
+//function to calculate target GPS coordinates
+std::vector<double> calcTargetCoordinates(std::vector<double> dist) {
+    std::vector<double> targetCoordinates = {0.0, 0.0}; //placeholder for GPS coordinate calculation
+    //GPS coordinate calculation code goes here
+    return targetCoordinates;
 }
 
-//uses the move servo code
-//this method should take in the object class and move the specific servo relating to the target. 
-void dropPackage(int targetClass){
-
+//function to drop package at target
+void dropPackage(int targetClass) {
+    //code to move the specific servo related to the target class
 }
 
+int main() {
+    int objClass = 0; //object class
+    int height = 80; //height to drop package from
+    cv::Mat frame; //placeholder for camera frame
 
-int main(){
-    int objClass = 0;
-    int height = 80;
-    cv::Mat frame;
+    //object localization
+    std::vector<double> distance = objectLocalization(frame);
 
-    //In main we should do the following tasks:
+    //calculate target coordinates
+    std::vector<double> targetCoordinates = calcTargetCoordinates(distance);
 
-    //FYI might be array instead of double for distance
-    double[] distance = objectLocalization(frame);
-    double[] targetCoordinates = calcTargetCoordinates(distance)
+    //move drone to target coordinates and descend to specified height
+    //code for drone movement goes here
 
-    //Move drone to these coordinates
-    //Once above target dropn to "height"
-
+    //drop package
     dropPackage(objClass);
 
     return 0;
 }
-
