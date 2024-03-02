@@ -5,12 +5,12 @@
 
 //maken object localization script into a method.
 //should take in target frame and output distance from camera to target
-double objectLocalization(cv::Mat& targetFrame){
+double[] objectLocalization(cv::Mat& targetFrame){
 
 }
 
 //this method should take the returned distance from objectLocalization method and calculate GPS coordinates of target
-double calcTargetCoordinates(double dist){
+double[] calcTargetCoordinates(double[] dist){
 
 }
 
@@ -29,8 +29,8 @@ int main(){
     //In main we should do the following tasks:
 
     //FYI might be array instead of double for distance
-    double distance = objectLocalization(frame);
-    double targetCoordinates = calcTargetCoordinates(distance)
+    double[] distance = objectLocalization(frame);
+    double[] targetCoordinates = calcTargetCoordinates(distance)
 
     //Move drone to these coordinates
     //Once above target dropn to "height"
