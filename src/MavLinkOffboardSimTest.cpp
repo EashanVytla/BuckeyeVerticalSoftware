@@ -9,6 +9,7 @@
 #include <mavsdk/plugins/offboard/offboard.h>
 #include <mavsdk/plugins/action/action.h>
 #include <mavsdk/plugins/telemetry/telemetry.h>
+#include <mavsdk/plugins/param/param.h>
 
 #define PORT_PATH "udp://:14540"
 
@@ -21,14 +22,11 @@ double targetLongitude = 0;
 double currentLatitude = 0;
 double currentLongitude = 0;
 
-double coordinates[] = {40.0084244,-83.0175219,40.0085887,-83.0175251,40.0085853,-83.0173310, 40.0084330, -83.0173369};
-
 enum class State {
     INITIAL,
     WAYPOINT1,
     WAYPOINT2,
-    WAYPOINT3,
-    WAYPOINT4
+    WAYPOINT3
 };
 
 enum class ReverseState {
@@ -69,7 +67,6 @@ double targetLatitude, double targetLongitude, double coordinates[])
             std::cerr << "Telemetry failed: " << res_and_gps_origin.first << '\n';
             }
             sleep_for(seconds(5));
-            std::cout << "Moving to initial position\n";
             //Waypoint1
             targetLatitude = coordinates[0];
             targetLongitude = coordinates[1];
@@ -147,9 +144,9 @@ double targetLatitude, double targetLongitude, double coordinates[])
             offboard.set_position_global(waypoint4);
             std::cout << "Going to waypoint4 at 15m relative altitude\n";
             sleep_for(seconds(5));
-            if (distance(telemetry.position().latitude_deg,telemetry.position().longitude_deg,targetLatitude,targetLongitude) <= 0.00002) {
-                current_state = State::WAYPOINT4;
-            }
+            //if (distance(telemetry.position().latitude_deg,telemetry.position().longitude_deg,targetLatitude,targetLongitude) <= 0.00002) {
+                //current_state = State::WAYPOINT4;
+            //}
         } break;
 }
 }
@@ -283,6 +280,7 @@ int main()
     auto action = Action{system.value()};
     auto offboard = Offboard{system.value()};
     auto telemetry = Telemetry{system.value()};
+    auto param = Param{system.value()};
 
     while (!telemetry.health_all_ok()) {
         std::cout << "Waiting for system to be ready\n";
@@ -296,6 +294,12 @@ int main()
         return 1;
     }
     std::cout << "Armed\n";
+
+    const auto set_velocity = param.set_param_float("MPC_XY_VEL_MAX", 5.0);
+    if (set_velocity != Param::Result::Success) {
+        std::cerr << "Velocity not set: " << set_velocity << '\n';
+        return 1;
+    }
 
     const auto takeoff_result = action.takeoff();
     if (takeoff_result != Action::Result::Success) {
@@ -320,9 +324,13 @@ int main()
     }
 
     State current_state = State::INITIAL;
+    //State previous_state = State::INITIAL;
     Offboard::Result offboard_result;
     double originLatitude = telemetry.position().latitude_deg;
     double originLongitude = telemetry.position().longitude_deg;
+    double coordinates[] = {telemetry.position().latitude_deg + 0.0001, telemetry.position().longitude_deg, telemetry.position().latitude_deg, 
+    telemetry.position().longitude_deg + 0.0001,telemetry.position().latitude_deg + 0.0002, telemetry.position().longitude_deg + 0.0001,
+    telemetry.position().latitude_deg + 0.0003, telemetry.position().longitude_deg + 0.0002};
 
     while (current_state != State::WAYPOINT4) {
         move_to_next_waypoint(offboard, telemetry, current_state, offboard_result, targetLatitude, targetLongitude, coordinates);

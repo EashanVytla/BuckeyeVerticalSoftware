@@ -16,8 +16,8 @@ find_package(MAVSDK REQUIRED)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 # Specify your app's executable name, and list of source files used to create it.
-add_executable(MavLinkOffboardSimTest
-    src/MavLinkOffboardSimTest
+add_executable(MavLinkOffboard
+    src/MavLinkTestOffboard.cpp
     # ... any other source files
 )
 
@@ -26,6 +26,6 @@ add_executable(PWMPeriodFinder
 )
 
 # Specify your app's executable name and a list of linked libraries
-target_link_libraries(MavLinkOffboardSimTest
+target_link_libraries(MavLinkOffboard
     MAVSDK::mavsdk             #All apps link against mavsdk library
 )
