@@ -29,6 +29,7 @@ enum class State
     DELIVERY, // traveling to the payload drop zone
     DROP, // actually dropping the payload
     OBJAVOID,
+    LOITER,
     HOME,
     STOP,
     LAND,
@@ -39,6 +40,7 @@ struct Coordinate
 {
     double longitute;
     double latitude;
+    double altitude;
 };
 
 struct Context
@@ -76,8 +78,10 @@ public:
 
         ofstream &myfile);
     double distance(double currLatitude, double currLongitude, double targetLatitude, double targetLongitude);
+    int findClosestPositionIdx(Coordinate test, vector<Coordinate> positions);
     float yaw(double currLatitude, double currLongitude, double targetLatitude, double targetLongitude);
     void updateState();
+    void sendHeartbeat(Offboard offboard, Telemetry telemetry);
 
     // class vars
 
@@ -90,6 +94,7 @@ public:
     State state;
     int lapCounter;
 
+    int closestWaypointIdx; // closest waypoint to current delivery point
 
     // mavlink stuff
     Action &action;

@@ -49,87 +49,66 @@ float Agent::yaw(double currLatitude, double currLongitude, double targetLatitud
     return (float)atan(position) * (180 / M_PI);
 }
 
+// NOTE: positions must be filled with atleast one element
+int Agent::findClosestPositionIdx(Coordinate target, vector<Coordinate> positions)
+{
+
+    double minDistance = 10000.0;
+
+    // Coordinate closest;
+
+    int result;
+
+    for (int i = 0; i < positions.size(); i++)
+    {
+
+        Coordinate current = positions.at(i);
+        double currentDistance = Agent::distance(current.latitude, current.longitute, target.latitude, target.longitute);
+
+        if (currentDistance > minDistance)
+            continue;
+
+        result = i;
+        minDistance = currentDistance;
+    }
+
+    return result;
+}
+
+void Agent::sendHeartbeat(Offboard offboard, Telemetry telemetry)
+{
+    float currentLat = telemetry.position().latitude_deg;
+    float currentLong = telemetry.position().longitude_deg;
+    float currentAlt = telemetry.position().relative_altitude_m;
+
+    float yaw = Agent::yaw(telemetry.position().latitude_deg, telemetry.position().longitude_deg, currentLat, currentLong);
+
+    const Offboard::PositionGlobalYaw pgy{
+        currentLat,
+        currentLong,
+        currentAlt,
+        yaw,
+        Offboard::PositionGlobalYaw::AltitudeType::RelHome};
+
+    offboard.set_position_global(pgy);
+}
+
 void Agent::updateState()
 {
 
     switch (state)
     {
-    
+
     // TAKEOFF
     // TODO: fix this later
     case State::TAKEOFF:
     {
-        state = State::WAYPOINT;
+        state = State::SCAN;
 
         // heartbeat
-
-        const Offboard::PositionGlobalYaw currentLocation{
-            telemetry.position().latitude_deg,
-            telemetry.position().longitude_deg,
-            7.0f,
-            0.0f};
-
-        offboard.set_position_global(currentLocation);
+        Agent::sendHeartbeat(offboard, telemetry);
 
         sleep_for(400ms);
-
-    }
-    break;
-
-    // WAYPOINT
-    case State::WAYPOINT:
-    {
-
-        // coordinate of current waypoint
-        Coordinate target = waypointCtx.positions[waypointCtx.idx];
-
-        double distance = Agent::distance(telemetry.position().latitude_deg, telemetry.position().longitude_deg, target.latitude, target.longitute);
-        float yaw = Agent::yaw(telemetry.position().latitude_deg, telemetry.position().longitude_deg, target.latitude, target.longitute);
-
-        const Offboard::PositionGlobalYaw pgy{
-            target.latitude,
-            target.longitute,
-            7.0f,
-            yaw,
-            Offboard::PositionGlobalYaw::AltitudeType::RelHome};
-
-        offboard.set_position_global(pgy);
-
-        // still too far
-        if (distance > GEO_THRESHOLD) {
-            sleep_for(400ms);
-            break;
-        }
-
-        // TODO: IF TARGET OR SCAN IS CLOSED TO THIS POSITION, START THOSE MODES
-        // if () {
-        //     state = State::SCAN;
-        // }
-
-        // if () {
-        //     state = State::DELIVERY;
-        // }
-
-        // Set next needed waypoint
-        int nextWaypointIdx = (waypointCtx.idx + 1) % waypointCtx.positions.size(); 
-
-        // completed a lap and back on the duplicated first waypoint
-        if (nextWaypointIdx < waypointCtx.idx) {
-            lapCounter++;
-            deliveryCtx.requiresDrop = true; 
-
-            // send the drone home after completing all laps
-            if (lapCounter >= MAX_LAPS) {
-                state = State::HOME;
-            }
-        }
-
-        // this will not matter if the drone is set to HOME
-        waypointCtx.idx = nextWaypointIdx;
-
-
-        sleep_for(400ms);
-
     }
     break;
 
@@ -147,28 +126,31 @@ void Agent::updateState()
         const Offboard::PositionGlobalYaw pgy{
             target.latitude,
             target.longitute,
-            7.0f,
+            target.altitude,
             yaw,
             Offboard::PositionGlobalYaw::AltitudeType::RelHome};
 
-        offboard.set_position_global(pgy);  
-
+        offboard.set_position_global(pgy);
 
         // TODO: perform scan() here and update deliveryCtx from it
 
         // still too far
-        if (distance > GEO_THRESHOLD) {
+        if (distance > GEO_THRESHOLD)
+        {
             sleep_for(400ms);
             break;
         }
 
         // now consider the next scanned dropzone
-        int nextScanIdx = (scanCtx.idx + 1) % scanCtx.positions.size(); 
+        int nextScanIdx = (scanCtx.idx + 1) % scanCtx.positions.size();
 
-        // completed all the scan waypoints, next cyclical scan waypoint is the first 
-        if (nextScanIdx < scanCtx.idx) {
+        // completed all the scan waypoints, next cyclical scan waypoint is the first
+        if (nextScanIdx < scanCtx.idx)
+        {
             scanCtx.completedScanning = true;
-            state = State::DELIVERY;
+
+            // state = State::DELIVERY;
+            state = State::LOITER;
         }
 
         scanCtx.idx = nextScanIdx;
@@ -180,48 +162,42 @@ void Agent::updateState()
     // DELIVERY
     case State::DELIVERY:
     {
-        
+
+        // send heartbeat message
+        Agent::sendHeartbeat(offboard, telemetry);
+
+        // For testing
+        state = State::DROP;
+
+        sleep_for(400ms);
     }
     break;
 
     // DROP
     case State::DROP:
     {
+
+
+        Agent::sendHeartbeat(offboard, telemetry);
+
+        state = State::SCAN;
+
+        sleep_for(400ms);
+
     }
     break;
 
-    // OBJAVOID
-    case State::OBJAVOID:
+    // DROP
+    case State::LOITER:
     {
+        Agent::sendHeartbeat(offboard, telemetry);
+
+        sleep_for(400ms);
     }
     break;
-
-    // HOME
-    case State::HOME:
-    {
-    }
-    break;
-
-    // STOP
-    case State::STOP:
-    {
-    }
-    break;
-
-    // LAND
-    case State::LAND:
-    {
-    }
-    break;
-
-    // DONE
-    case State::DONE:
-    {
-    }
-    break;
-
     }
 }
 
 void start()
-{}
+{
+}
