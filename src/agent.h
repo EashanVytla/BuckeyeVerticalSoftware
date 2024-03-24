@@ -82,7 +82,8 @@ public:
     float yaw(double currLatitude, double currLongitude, double targetLatitude, double targetLongitude);
     void updateState();
     void sendHeartbeat(Offboard offboard, Telemetry telemetry);
-
+    void start();
+    void stop();
     // class vars
 
     // State data

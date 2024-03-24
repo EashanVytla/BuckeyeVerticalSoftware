@@ -5,6 +5,10 @@
 #include <cmath>
 #include <math.h>
 #include <fstream>
+#include <detect.cpp>
+#include <set>
+
+#include <thread>
 
 #include "agent.h"
 
@@ -18,6 +22,19 @@ using namespace mavsdk;
 using namespace std;
 using std::chrono::seconds;
 using std::this_thread::sleep_for;
+
+struct ServoEntry
+{
+    int index;
+    string className;
+    double position;
+};
+
+double servoPosition = 0.0;
+int detectedClassIdx = 0;
+set<int> detectedSet;
+
+vector<ServoEntry> servos;
 
 Agent::Agent(
     Action &newAction,
@@ -134,6 +151,22 @@ void Agent::updateState()
 
         // TODO: perform scan() here and update deliveryCtx from it
 
+        if (detectedObject)
+        {
+
+            if (detectedSet.count(detectedClassIdx) == 0)
+            {
+                // only for testing
+                state = State::DROP;
+                // reset flag for detecting object
+
+                sleep_for(400ms);
+                break;
+            }
+        }
+
+        // detectedSet
+
         // still too far
         if (distance > GEO_THRESHOLD)
         {
@@ -177,13 +210,25 @@ void Agent::updateState()
     case State::DROP:
     {
 
+        string detectedClassName = CLASS_NAMES.at(detectedClassIdx);
+
+        for (int i = 0; i < servos.size(); i++)
+        {
+            if (detectedClassName = servos.at(i).className)
+            {
+                action.set_actuator(servos.at(i).index, servos.at(i).position);
+                break;
+            }
+        }
+
+        set.insert(detectedClassIdx);
+        detectedObject = false;
 
         Agent::sendHeartbeat(offboard, telemetry);
 
         state = State::SCAN;
 
         sleep_for(400ms);
-
     }
     break;
 
@@ -200,4 +245,52 @@ void Agent::updateState()
 
 void start()
 {
+
+    // config setup
+
+    std::ifstream file("config.txt");
+
+    if (!file.is_open())
+    {
+        std::cerr << "Failed to open file." << std::endl;
+        return;
+    }
+
+    std::vector<ServoEntry> configEntries;
+    std::string line;
+
+    while (std::getline(file, line))
+    {
+        std::istringstream iss(line);
+        ServoEntry servo;
+        if (iss >> servo.index >> servo.className >> servo.position)
+        {
+            servos.push_back(servo);
+        }
+        else
+        {
+            std::cerr << "Invalid format: " << line << std::endl;
+        }
+    }
+
+    file.close();
+
+    // Printing the config entries
+    std::cout << "Config entries extracted from the file:" << std::endl;
+    for (const auto &servo : servos)
+    {
+        std::cout << "servoIndex: " << servo.index << ", Class name: " << servo.className << ", Position: " << servo.position << std::endl;
+    }
+
+    model_on();
+
+    while (true) {
+        Agent::updateState();
+    }
+    
+
+    model_off();
+
+
+    return;
 }
