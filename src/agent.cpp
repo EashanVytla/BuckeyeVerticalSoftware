@@ -31,7 +31,7 @@ struct ServoEntry
 };
 
 double servoPosition = 0.0;
-int detectedClassIdx = 0;
+// int detectedClassIdx = 0;
 set<int> detectedSet;
 
 vector<ServoEntry> servos;
@@ -287,10 +287,6 @@ void start()
     while (true) {
         Agent::updateState();
     }
-    
-
-    model_off();
-
 
     return;
 }
