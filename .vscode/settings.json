@@ -66,6 +66,13 @@
         "future": "cpp",
         "locale": "cpp",
         "variant": "cpp",
-        "__threading_support": "cpp"
+        "__threading_support": "cpp",
+        "csignal": "cpp",
+        "strstream": "cpp",
+        "bitset": "cpp",
+        "condition_variable": "cpp",
+        "list": "cpp",
+        "iomanip": "cpp",
+        "mutex": "cpp"
     }
 }

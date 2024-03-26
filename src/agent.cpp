@@ -1,27 +1,14 @@
-#include <iostream>
-#include <chrono>
-#include <thread>
-#include <future>
-#include <cmath>
-#include <math.h>
-#include <fstream>
-#include <detect.cpp>
-#include <set>
-
-#include <thread>
-
 #include "agent.h"
-
-#include <mavsdk/mavsdk.h>
-#include <mavsdk/plugins/offboard/offboard.h>
-#include <mavsdk/plugins/action/action.h>
-#include <mavsdk/plugins/telemetry/telemetry.h>
-#include <mavsdk/plugins/param/param.h>
 
 using namespace mavsdk;
 using namespace std;
+
 using std::chrono::seconds;
 using std::this_thread::sleep_for;
+
+
+std::atomic<bool> shouldRun(false);
+
 
 struct ServoEntry
 {
@@ -40,8 +27,7 @@ Agent::Agent(
     Action &newAction,
     Offboard &newOffboard,
     Telemetry &newTelemetry,
-    Param &newParam,
-
+    mavsdk::Param &newParam,
     ofstream &logFile) : action(newAction), offboard(newOffboard), telemetry(newTelemetry), param(newParam), myfile(logFile)
 {
     // First state is TAKEOFF
@@ -92,7 +78,7 @@ int Agent::findClosestPositionIdx(Coordinate target, vector<Coordinate> position
     return result;
 }
 
-void Agent::sendHeartbeat(Offboard offboard, Telemetry telemetry)
+void Agent::sendHeartbeat()
 {
     float currentLat = telemetry.position().latitude_deg;
     float currentLong = telemetry.position().longitude_deg;
@@ -121,9 +107,10 @@ void Agent::updateState()
     case State::TAKEOFF:
     {
         state = State::SCAN;
+        myfile << "Changed state to SCAN" << endl;
 
         // heartbeat
-        Agent::sendHeartbeat(offboard, telemetry);
+        Agent::sendHeartbeat();
 
         sleep_for(400ms);
     }
@@ -151,13 +138,15 @@ void Agent::updateState()
 
         // TODO: perform scan() here and update deliveryCtx from it
 
-        if (detectedObject)
+        if (detect.getDetectedState())
         {
 
-            if (detectedSet.count(detectedClassIdx) == 0)
+            if (detectedSet.count(detect.getDetectedClassIdx()) == 0)
             {
                 // only for testing
                 state = State::DROP;
+                myfile << "Changed state to DROP" << endl;
+
                 // reset flag for detecting object
 
                 sleep_for(400ms);
@@ -174,6 +163,7 @@ void Agent::updateState()
             break;
         }
 
+        // REACHED THE RIGHT SCANPOINT
         // now consider the next scanned dropzone
         int nextScanIdx = (scanCtx.idx + 1) % scanCtx.positions.size();
 
@@ -184,6 +174,7 @@ void Agent::updateState()
 
             // state = State::DELIVERY;
             state = State::LOITER;
+            myfile << "Changed state to LOITER" << endl;
         }
 
         scanCtx.idx = nextScanIdx;
@@ -192,41 +183,43 @@ void Agent::updateState()
     }
     break;
 
-    // DELIVERY
-    case State::DELIVERY:
-    {
+    // // DELIVERY
+    // case State::DELIVERY:
+    // {
 
-        // send heartbeat message
-        Agent::sendHeartbeat(offboard, telemetry);
+    //     // send heartbeat message
+    //     Agent::sendHeartbeat(offboard, telemetry);
 
-        // For testing
-        state = State::DROP;
+    //     // For testing
+    //     state = State::DROP;
 
-        sleep_for(400ms);
-    }
-    break;
+    //     sleep_for(400ms);
+    // }
+    // break;
 
     // DROP
     case State::DROP:
     {
 
-        string detectedClassName = CLASS_NAMES.at(detectedClassIdx);
+        string detectedClassName = detect.getClassNames().at(detect.getDetectedClassIdx());
 
         for (int i = 0; i < servos.size(); i++)
         {
-            if (detectedClassName = servos.at(i).className)
+            if (detectedClassName == servos.at(i).className)
             {
                 action.set_actuator(servos.at(i).index, servos.at(i).position);
                 break;
             }
         }
 
-        set.insert(detectedClassIdx);
-        detectedObject = false;
+        // update set
+        detectedSet.insert(detect.getDetectedClassIdx());
+        detect.setDetectedState(false);
 
-        Agent::sendHeartbeat(offboard, telemetry);
+        Agent::sendHeartbeat();
 
         state = State::SCAN;
+        myfile << "Changed state to SCAN" << endl;
 
         sleep_for(400ms);
     }
@@ -235,7 +228,7 @@ void Agent::updateState()
     // DROP
     case State::LOITER:
     {
-        Agent::sendHeartbeat(offboard, telemetry);
+        Agent::sendHeartbeat();
 
         sleep_for(400ms);
     }
@@ -243,12 +236,10 @@ void Agent::updateState()
     }
 }
 
-void start()
+void Agent::initServos(string configFile)
 {
 
-    // config setup
-
-    std::ifstream file("config.txt");
+    std::ifstream file(configFile);
 
     if (!file.is_open())
     {
@@ -256,18 +247,19 @@ void start()
         return;
     }
 
-    std::vector<ServoEntry> configEntries;
+    // clear servos vector before repopulating it
+    servos.clear();
+
+
+    // std::vector<ServoEntry> configEntries;
     std::string line;
 
     while (std::getline(file, line))
     {
         std::istringstream iss(line);
         ServoEntry servo;
-        if (iss >> servo.index >> servo.className >> servo.position)
-        {
-            servos.push_back(servo);
-        }
-        else
+
+        if (!(iss >> servo.index >> servo.className >> servo.position))
         {
             std::cerr << "Invalid format: " << line << std::endl;
         }
@@ -281,12 +273,46 @@ void start()
     {
         std::cout << "servoIndex: " << servo.index << ", Class name: " << servo.className << ", Position: " << servo.position << std::endl;
     }
+}
 
-    model_on();
+void Agent::loop() {
 
-    while (true) {
+    while (shouldRun)
+    {
         Agent::updateState();
     }
 
+}
+
+
+void Agent::start()
+{
+
+    if (shouldRun) 
+        return;
+
+    detect.model_on();
+
+    shouldRun = true;
+
+    // add the loop thread
+    thread t_loop(&Agent::loop, this);
+    threads.push_back(std::move(t_loop));
+
     return;
+}
+
+void Agent::stop() {
+
+    shouldRun = false;
+
+    for (auto&& t : threads) {
+        if (t.joinable()) {
+            t.join();
+        }
+
+    }
+
+    detect.model_off();
+
 }

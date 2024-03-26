@@ -1,4 +1,6 @@
 #pragma once
+#ifndef AGENT_H
+#define AGENT_H
 
 #include <iostream>
 #include <chrono>
@@ -7,14 +9,16 @@
 #include <cmath>
 #include <math.h>
 #include <fstream>
-#include <string>
-#include <vector>
+#include <set>
+#include "opencv2/opencv.hpp"
 
 #include <mavsdk/mavsdk.h>
 #include <mavsdk/plugins/offboard/offboard.h>
 #include <mavsdk/plugins/action/action.h>
 #include <mavsdk/plugins/telemetry/telemetry.h>
 #include <mavsdk/plugins/param/param.h>
+
+#include "detect.h"
 
 #define PORT_PATH "serial:///dev/ttyTHS1"
 
@@ -74,16 +78,21 @@ public:
         Action &action,
         Offboard &offboard,
         Telemetry &telemetry,
-        Param &param,
+        mavsdk::Param &param,
 
         ofstream &myfile);
+
     double distance(double currLatitude, double currLongitude, double targetLatitude, double targetLongitude);
     int findClosestPositionIdx(Coordinate test, vector<Coordinate> positions);
     float yaw(double currLatitude, double currLongitude, double targetLatitude, double targetLongitude);
     void updateState();
-    void sendHeartbeat(Offboard offboard, Telemetry telemetry);
+    void sendHeartbeat();
+
     void start();
     void stop();
+    
+    void loop();
+    void initServos(string configFile);
     // class vars
 
     // State data
@@ -93,19 +102,25 @@ public:
 
     // Current state
     State state;
-    int lapCounter;
+    // int lapCounter;
 
-    int closestWaypointIdx; // closest waypoint to current delivery point
+    // int closestWaypointIdx; // closest waypoint to current delivery point
 
     // mavlink stuff
     Action &action;
     Offboard &offboard;
     Telemetry &telemetry;
-    Param &param;
+    mavsdk::Param &param;
 
     ofstream &myfile;
+
+    vector<thread> threads;
+
+    Detect detect;
 
     const double GEO_THRESHOLD = 0.00002;
     const int MAX_LAPS = 5;
 
 };
+
+#endif
