@@ -47,6 +47,32 @@ void Detect::capture_frames(){
     }
 }
 
+void Detect::capture_frames(string path){
+    cv::Mat             res, image;
+
+    cv::VideoCapture cap(path);
+
+    if (!cap.isOpened()) {
+        printf("can not open %s\n", path.c_str());
+        return;
+    }
+    
+    while (cap.read(image) && is_running) {
+        // Lock the buffer before accessing it
+        buffer_lock.lock();
+
+        frame_buffer.push_back(image);
+
+        // Remove elements from the front until buffer size is within limit
+        while (frame_buffer.size() > max_buffer_size) {
+            frame_buffer.pop_front();
+        }
+
+        // Unlock the buffer after accessing it
+        buffer_lock.unlock();
+    }
+}
+
 void Detect::model_off(){
     is_running = false;
 
@@ -75,7 +101,20 @@ void Detect::model_on(){
 
     threads.push_back(std::move(capture_thread));
     threads.push_back(std::move(inference_thread));
+}
 
+void Detect::model_on(string path){
+
+    if (is_running) 
+        return;
+
+    is_running = true;
+
+    std::thread capture_thread(&Detect::capture_frames, this, path);
+    std::thread inference_thread(&Detect::inference, this);
+
+    threads.push_back(std::move(capture_thread));
+    threads.push_back(std::move(inference_thread));
 }
 
 void Detect::setDetectedState(bool val) {
@@ -136,8 +175,6 @@ void Detect::inference(){
                 detectedClassIdx = objs.at(0).label;
                 detectedObject = true;
             }
-
-
 
             cv::imshow("result", image);
 

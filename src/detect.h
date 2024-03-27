@@ -123,17 +123,16 @@ public:
 
     void capture_frames();
     void model_on();
+    void Detect::model_on(string path);
     void model_off();
     void inference();
 
     std::vector<std::string> getClassNames();
 
-
     void setDetectedState(bool val);
     bool getDetectedState();
     void setDetectedClassIdx(int val);
     int getDetectedClassIdx();
-
 };
 
 #endif

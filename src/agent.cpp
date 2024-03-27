@@ -140,7 +140,6 @@ void Agent::updateState()
 
         if (detect.getDetectedState())
         {
-
             if (detectedSet.count(detect.getDetectedClassIdx()) == 0)
             {
                 // only for testing

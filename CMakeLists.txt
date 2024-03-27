@@ -58,9 +58,23 @@ add_executable(main
                src/detect.cpp
 )
 
+add_executable(detectTest
+               tests/detectTest.cpp
+               src/detect.cpp
+)
+
 # Specify your app's executable name and a list of linked libraries
 target_link_libraries(main
                       MAVSDK::mavsdk
+                      nvinfer
+                      nvinfer_plugin
+                      ${CUDA_LIBRARIES}
+                      ${OpenCV_LIBS}
+                      ${ALL_LIBS}
+)
+
+# Specify your app's executable name and a list of linked libraries
+target_link_libraries(detectTest
                       nvinfer
                       nvinfer_plugin
                       ${CUDA_LIBRARIES}
