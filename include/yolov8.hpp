@@ -249,7 +249,6 @@ void YOLOv8::postprocess(std::vector<Object>& objs)
         obj.rect.height = y1 - y0;
         obj.prob        = *(scores + i);
         obj.label       = *(labels + i);
-        printf("(%d)",obj.label); //CHANGE THIS
         if(obj.prob > 0.5){
         	objs.push_back(obj);
         }

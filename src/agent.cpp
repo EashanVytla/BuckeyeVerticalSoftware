@@ -10,18 +10,13 @@ using std::this_thread::sleep_for;
 std::atomic<bool> shouldRun(false);
 
 
-struct ServoEntry
-{
-    int index;
-    string className;
-    double position;
-};
 
 double servoPosition = 0.0;
 // int detectedClassIdx = 0;
 set<int> detectedSet;
+set<int> targetSet;
 
-vector<ServoEntry> servos;
+vector<Servo> servos;
 
 Agent::Agent(
     Action &newAction,
@@ -138,22 +133,23 @@ void Agent::updateState()
 
         // TODO: perform scan() here and update deliveryCtx from it
 
-        if (detect.getDetectedState())
-        {
-            if (detectedSet.count(detect.getDetectedClassIdx()) == 0)
-            {
-                // only for testing
-                state = State::DROP;
-                myfile << "Changed state to DROP" << endl;
+        candidateIdx = detect.getDetectedClassIdx();
 
-                // reset flag for detecting object
+        if (candidateIdx > -1) {
+            // if hasn't already been scanned
+            if (targetSet.count(candidateIdx) > detectedSet.count(candidateIdx)) {
+                
+                state = State::DROP;
+                cout << "Changed state to DROP" << endl;
 
                 sleep_for(400ms);
+                
+                // don't allow state to get overwritten
                 break;
             }
         }
 
-        // detectedSet
+
 
         // still too far
         if (distance > GEO_THRESHOLD)
@@ -200,7 +196,7 @@ void Agent::updateState()
     case State::DROP:
     {
 
-        string detectedClassName = detect.getClassNames().at(detect.getDetectedClassIdx());
+        string detectedClassName = detect.getClassNames().at(candidateIdx);
 
         for (int i = 0; i < servos.size(); i++)
         {
@@ -211,9 +207,8 @@ void Agent::updateState()
             }
         }
 
-        // update set
-        detectedSet.insert(detect.getDetectedClassIdx());
-        detect.setDetectedState(false);
+        detectedSet.insert(candidateIdx);
+        // detect.setDetectedState(false);
 
         Agent::sendHeartbeat();
 
@@ -235,7 +230,7 @@ void Agent::updateState()
     }
 }
 
-void Agent::initServos(string configFile)
+void Agent::initTargets(string configPath)
 {
 
     std::ifstream file(configFile);
@@ -249,19 +244,24 @@ void Agent::initServos(string configFile)
     // clear servos vector before repopulating it
     servos.clear();
 
+    detectedSet.clear();
+    targetSet.clear();
 
-    // std::vector<ServoEntry> configEntries;
+
     std::string line;
 
     while (std::getline(file, line))
     {
         std::istringstream iss(line);
-        ServoEntry servo;
+        Servo servo;
 
         if (!(iss >> servo.index >> servo.className >> servo.position))
         {
             std::cerr << "Invalid format: " << line << std::endl;
+            continue;
         }
+
+        servos.push_back(servo);
     }
 
     file.close();
@@ -272,6 +272,13 @@ void Agent::initServos(string configFile)
     {
         std::cout << "servoIndex: " << servo.index << ", Class name: " << servo.className << ", Position: " << servo.position << std::endl;
     }
+
+    // adding to targetSet
+    for (int i = 0; i < servos.size(); i++)
+        targetSet.insert(servos.at(i).className);
+
+    
+
 }
 
 void Agent::loop() {
@@ -314,4 +321,12 @@ void Agent::stop() {
 
     detect.model_off();
 
+}
+
+ScanContext& Agent::getScanContext() {
+    return scanCtx;
+}
+
+WaypointContext& Agent::getWaypointContext() {
+    return waypointCtx;
 }

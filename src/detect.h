@@ -10,6 +10,7 @@
 #include <math.h>
 #include <fstream>
 #include <set>
+#include <string>
 #include "opencv2/opencv.hpp"
 
 #include <mavsdk/mavsdk.h>
@@ -19,6 +20,7 @@
 #include <mavsdk/plugins/param/param.h>
 
 using namespace cv;
+using namespace std;
 
 class Detect
 {
@@ -26,11 +28,16 @@ public:
     Detect();
 
     std::deque<cv::Mat> frame_buffer;
-    std::mutex buffer_lock;
-    std::atomic<bool> is_running = true;
 
-    std::atomic<bool> detectedObject = false;
-    std::atomic<int> detectedClassIdx = 0;
+    std::mutex buffer_lock;
+    std::mutex inference_lock;
+    
+    std::atomic<bool> is_running = false;
+
+    // std::atomic<bool> detectedObject = false;
+    // std::atomic<int> detectedClassIdx = 0;
+
+    int detectedClassIdx = -1;
 
     std::vector<std::thread> threads;
 
@@ -122,8 +129,9 @@ public:
         {80, 183, 189},  {128, 128, 0}};
 
     void capture_frames();
+    void capture_frames_path(string path);
     void model_on();
-    void Detect::model_on(string path);
+    void model_on(string path);
     void model_off();
     void inference();
 

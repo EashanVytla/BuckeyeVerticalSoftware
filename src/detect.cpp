@@ -15,6 +15,9 @@
 // #include <thread>
 // #include <atomic>
 
+using namespace std;
+using std::this_thread::sleep_for;
+
 Detect::Detect() {
 
 }
@@ -22,6 +25,8 @@ Detect::Detect() {
 void Detect::capture_frames(){
     const std::string path = "rtsp://192.168.144.25:8554/main.264"; //PUT PATH HERE
 
+    cout << "Starting RTSP Stream" << endl;
+
     cv::Mat             res, image;
 
     cv::VideoCapture cap(path);
@@ -32,6 +37,9 @@ void Detect::capture_frames(){
     }
     
     while (cap.read(image) && is_running) {
+
+        // std::cout << "HELLO FROM CAPTUER FRAMES" << std::endl;
+
         // Lock the buffer before accessing it
         buffer_lock.lock();
 
@@ -44,10 +52,14 @@ void Detect::capture_frames(){
 
         // Unlock the buffer after accessing it
         buffer_lock.unlock();
+
+        // std::cout << "FINISHED ITER IN CAPTURE FRAMES" << std::endl;
+
     }
 }
 
-void Detect::capture_frames(string path){
+void Detect::capture_frames_path(string path){
+    cout << "Opening capture stream from " << path << endl;
     cv::Mat             res, image;
 
     cv::VideoCapture cap(path);
@@ -70,19 +82,26 @@ void Detect::capture_frames(string path){
 
         // Unlock the buffer after accessing it
         buffer_lock.unlock();
+
+        cv::imshow("result", image);
+
+        if (cv::waitKey(10) == 'q') {
+            break;
+        }
+        // sleep_for(10ms);
     }
 }
 
 void Detect::model_off(){
-    is_running = false;
+    
+   is_running = false;
 
     for (auto&& t : threads) {
         if (t.joinable()) {
             t.join();
         }
-
     }
-    
+
 }
 
 std::vector<std::string>  Detect::getClassNames() {
@@ -90,7 +109,6 @@ std::vector<std::string>  Detect::getClassNames() {
 }
 
 void Detect::model_on(){
-
     if (is_running) 
         return;
 
@@ -104,13 +122,12 @@ void Detect::model_on(){
 }
 
 void Detect::model_on(string path){
-
     if (is_running) 
         return;
 
     is_running = true;
 
-    std::thread capture_thread(&Detect::capture_frames, this, path);
+    std::thread capture_thread(&Detect::capture_frames_path, this, path);
     std::thread inference_thread(&Detect::inference, this);
 
     threads.push_back(std::move(capture_thread));
@@ -118,11 +135,13 @@ void Detect::model_on(string path){
 }
 
 void Detect::setDetectedState(bool val) {
-    detectedObject = true;
+    // detectedObject = true;
+    return;
 }
 
 bool Detect::getDetectedState() {
-    return detectedObject;
+    // return detectedObject;
+    return true;
 }
 
 void Detect::setDetectedClassIdx(int val) {
@@ -130,7 +149,17 @@ void Detect::setDetectedClassIdx(int val) {
 }
 
 int Detect::getDetectedClassIdx() {
-    return detectedClassIdx;
+
+    int idx = 0;
+
+    inference_lock.lock();
+
+    idx = detectedClassIdx;
+
+    inference_lock.unlock();
+
+    return idx;
+
 }
 
 
@@ -150,14 +179,19 @@ void Detect::inference(){
     cv::Size            size = cv::Size{1280, 1280}; //Change Here
 
     while(is_running){
+
+        // std::cout << ":::::FROM INFERENCE" << std::endl;
+
         // Lock the buffer before accessing it
         buffer_lock.lock();
 
         // Get the last frame
-        if (!frame_buffer.empty()) {
-            cv::Mat image = frame_buffer.back();
+        if (frame_buffer.size() > 0) {
 
-            frame_buffer.push_back(image);
+            // gets last element of the buffer
+            cv::Mat image = frame_buffer.at(frame_buffer.size() - 1);
+
+            // frame_buffer.push_back(image);
 
             // Unlock the buffer after accessing it
             buffer_lock.unlock();
@@ -171,10 +205,35 @@ void Detect::inference(){
             auto tc = (double)std::chrono::duration_cast<std::chrono::microseconds>(end - start).count() / 1000.;
 
             // TO MAKE SURE DETECTEDCLASSIDX DOESN'T CHANGE
-            if (!detectedObject) {
+            // std::cout << "objs size " << objs.size() << std::endl;
+
+            // if (!detectedObject) {
+
+            //     if (objs.size() > 0) {
+
+            //         inference_lock.lock();
+
+            //         detectedClassIdx = objs.at(0).label;
+            //         // detectedObject = true;
+
+            //         inference_lock.unlock();
+
+            //     }
+
+            // }
+
+
+            inference_lock.lock();
+
+            detectedClassIdx = -1;
+
+        
+            if (objs.size() > 0)
                 detectedClassIdx = objs.at(0).label;
-                detectedObject = true;
-            }
+
+            inference_lock.unlock();
+
+
 
             cv::imshow("result", image);
 
@@ -182,9 +241,12 @@ void Detect::inference(){
                 break;
             }
         } else {
-            std::cout << "Frame buffer is empty!" << std::endl;
             buffer_lock.unlock();
+            std::cout << "Frame buffer is empty!" << std::endl;
+            sleep_for(1000ms);
         }
+
+        // std::cout << ":::::FINISHED INFERENCE" << std::endl;
     }
 
     cv::destroyAllWindows();

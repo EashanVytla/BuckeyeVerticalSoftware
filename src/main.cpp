@@ -7,7 +7,10 @@
 #include <fstream>
 
 #include "agent.h"
-#include "detect.cpp"
+#include "detect.h"
+
+using std::this_thread::sleep_for;
+using std::chrono::seconds;
 
 int main()
 {
@@ -15,7 +18,7 @@ int main()
     if(!myfile.is_open()){
       cout << "File open failed! Ending program." << endl;
       return 0;
-   }
+    }
 
     Mavsdk mavsdk{Mavsdk::Configuration{Mavsdk::ComponentType::CompanionComputer}};
     ConnectionResult connection_result = mavsdk.add_any_connection(PORT_PATH);
@@ -36,7 +39,7 @@ int main()
     auto action = Action{system.value()};
     auto offboard = Offboard{system.value()};
     auto telemetry = Telemetry{system.value()};
-    auto param = Param{system.value()};
+    auto param = mavsdk::Param{system.value()};
 
     while (!telemetry.health_all_ok()) {
         std::cout << "Waiting for system to be ready\n";
@@ -47,7 +50,7 @@ int main()
     myfile << "System is ready\n";
 
     const auto set_velocity = param.set_param_float("MPC_XY_VEL_MAX", 5.0);
-    if (set_velocity != Param::Result::Success) {
+    if (set_velocity != mavsdk::Param::Result::Success) {
         std::cerr << "Velocity not set: " << set_velocity << '\n';
         myfile << "Velocity not set: " << set_velocity << '\n';
         return 1;
@@ -76,10 +79,11 @@ int main()
     //     });
     
     Agent agent(
-        &action,
-        &offboard,
-        &telemetry,
-        &param);
+        action,
+        offboard,
+        telemetry,
+        param,
+        myfile);
 
 
     agent.scanCtx.positions = {

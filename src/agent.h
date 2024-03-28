@@ -71,6 +71,14 @@ struct DeliveryContext : Context
 };
 
 
+struct Servo
+{
+    int index;
+    string className;
+    double position;
+};
+
+
 class Agent
 {
 public:
@@ -92,7 +100,11 @@ public:
     void stop();
     
     void loop();
-    void initServos(string configFile);
+    void initTargets(string configPath);
+
+    ScanContext& getScanContext();
+    WaypointContext& getWaypointContext();
+
     // class vars
 
     // State data
@@ -120,6 +132,8 @@ public:
 
     const double GEO_THRESHOLD = 0.00002;
     const int MAX_LAPS = 5;
+
+    int candidate = 0;
 
 };
 
