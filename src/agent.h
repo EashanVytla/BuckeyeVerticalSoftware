@@ -10,7 +10,7 @@
 #include <math.h>
 #include <fstream>
 #include <set>
-#include "opencv2/opencv.hpp"
+// #include "opencv2/opencv.hpp"
 
 #include <mavsdk/mavsdk.h>
 #include <mavsdk/plugins/offboard/offboard.h>
@@ -18,9 +18,8 @@
 #include <mavsdk/plugins/telemetry/telemetry.h>
 #include <mavsdk/plugins/param/param.h>
 
-#include "detect.h"
+// #include "detect.h"
 
-#define PORT_PATH "serial:///dev/ttyTHS1"
 
 using namespace mavsdk;
 using namespace std;
@@ -42,15 +41,15 @@ enum class State
 
 struct Coordinate
 {
-    double longitute;
     double latitude;
+    double longitude;
     double altitude;
 };
 
 struct Context
 {
     vector<Coordinate> positions;
-    int idx;
+    int idx = 0;
 };
 
 // holds the waypoints required in the lap
@@ -75,7 +74,8 @@ struct Servo
 {
     int index;
     string className;
-    double position;
+    double openPosition;
+    double closePosition;
 };
 
 
@@ -98,6 +98,8 @@ public:
 
     void start();
     void stop();
+
+    bool isRunning();
     
     void loop();
     void initTargets(string configPath);
@@ -128,7 +130,7 @@ public:
 
     vector<thread> threads;
 
-    Detect detect;
+    // Detect detect;
 
     const double GEO_THRESHOLD = 0.00002;
     const int MAX_LAPS = 5;

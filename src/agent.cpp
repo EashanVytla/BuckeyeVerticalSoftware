@@ -6,12 +6,14 @@ using namespace std;
 using std::chrono::seconds;
 using std::this_thread::sleep_for;
 
-
 std::atomic<bool> shouldRun(false);
-
 
 double servoPosition = 0.0;
 // int detectedClassIdx = 0;
+
+
+
+int servoCounter = 0;
 
 
 Agent::Agent(
@@ -57,7 +59,7 @@ int Agent::findClosestPositionIdx(Coordinate target, vector<Coordinate> position
     {
 
         Coordinate current = positions.at(i);
-        double currentDistance = Agent::distance(current.latitude, current.longitute, target.latitude, target.longitute);
+        double currentDistance = Agent::distance(current.latitude, current.longitude, target.latitude, target.longitude);
 
         if (currentDistance > minDistance)
             continue;
@@ -98,7 +100,7 @@ void Agent::updateState()
     case State::TAKEOFF:
     {
         state = State::SCAN;
-        myfile << "Changed state to SCAN" << endl;
+        // myfile << "Changed state to SCAN" << endl;
 
         // heartbeat
         Agent::sendHeartbeat();
@@ -112,15 +114,20 @@ void Agent::updateState()
     case State::SCAN:
     {
 
+        cout << "MADE IT TO SCAN, target:" << endl;
+
         // coordinate of current scan waypoint
         Coordinate target = scanCtx.positions[scanCtx.idx];
 
-        double distance = Agent::distance(telemetry.position().latitude_deg, telemetry.position().longitude_deg, target.latitude, target.longitute);
-        float yaw = Agent::yaw(telemetry.position().latitude_deg, telemetry.position().longitude_deg, target.latitude, target.longitute);
+        cout << target.latitude << ", " << target.longitude << endl;
+        cout << endl;
+
+        double distance = Agent::distance(telemetry.position().latitude_deg, telemetry.position().longitude_deg, target.latitude, target.longitude);
+        float yaw = Agent::yaw(telemetry.position().latitude_deg, telemetry.position().longitude_deg, target.latitude, target.longitude);
 
         const Offboard::PositionGlobalYaw pgy{
             target.latitude,
-            target.longitute,
+            target.longitude,
             target.altitude,
             yaw,
             Offboard::PositionGlobalYaw::AltitudeType::RelHome};
@@ -129,23 +136,25 @@ void Agent::updateState()
 
         // TODO: perform scan() here and update deliveryCtx from it
 
-        candidateIdx = detect.getDetectedClassIdx();
+        // candidateIdx = detect.getDetectedClassIdx();
 
-        if (candidateIdx > -1) {
-            // if hasn't already been scanned
-            if (targetSet.count(candidateIdx) > detectedSet.count(candidateIdx)) {
+        // if (candidateIdx > -1) {
+        //     // if hasn't already been scanned
+        //     if (targetSet.count(candidateIdx) > detectedSet.count(candidateIdx)) {
                 
-                state = State::DROP;
-                cout << "Changed state to DROP" << endl;
+        //         state = State::DROP;
+        //         cout << "Changed state to DROP" << endl;
 
-                sleep_for(400ms);
+        //         sleep_for(400ms);
                 
-                // don't allow state to get overwritten
-                break;
-            }
-        }
+        //         // don't allow state to get overwritten
+        //         break;
+        //     }
+        // }
 
-
+        cout << "distance: " << distance << endl;
+        cout << "current idx " << scanCtx.idx << endl;
+        cout << endl;
 
         // still too far
         if (distance > GEO_THRESHOLD)
@@ -153,6 +162,9 @@ void Agent::updateState()
             sleep_for(400ms);
             break;
         }
+
+
+        cout << "MADE IT PAST THE DISTANCE STUFF..." << endl;
 
         // REACHED THE RIGHT SCANPOINT
         // now consider the next scanned dropzone
@@ -192,26 +204,26 @@ void Agent::updateState()
     case State::DROP:
     {
 
-        string detectedClassName = detect.getClassNames().at(candidateIdx);
+        // string detectedClassName = detect.getClassNames().at(candidateIdx);
 
-        for (int i = 0; i < servos.size(); i++)
-        {
-            if (detectedClassName == servos.at(i).className)
-            {
-                action.set_actuator(servos.at(i).index, servos.at(i).position);
-                break;
-            }
-        }
+        // for (int i = 0; i < servos.size(); i++)
+        // {
+        //     if (detectedClassName == servos.at(i).className)
+        //     {
+        //         action.set_actuator(servos.at(i).index, servos.at(i).position);
+        //         break;
+        //     }
+        // }
 
-        detectedSet.insert(candidateIdx);
-        // detect.setDetectedState(false);
+        // detectedSet.insert(candidateIdx);
+        // // detect.setDetectedState(false);
 
-        Agent::sendHeartbeat();
+        // Agent::sendHeartbeat();
 
-        state = State::SCAN;
-        myfile << "Changed state to SCAN" << endl;
+        // state = State::SCAN;
+        // myfile << "Changed state to SCAN" << endl;
 
-        sleep_for(400ms);
+        // sleep_for(400ms);
     }
     break;
 
@@ -226,9 +238,12 @@ void Agent::updateState()
     }
 }
 
+
+
 void Agent::initTargets(string configPath)
 {
 
+    // std::ifstream file(configFile);
     std::ifstream file(configPath);
 
     if (!file.is_open())
@@ -237,12 +252,13 @@ void Agent::initTargets(string configPath)
         return;
     }
 
+    cout << "Made it to config file" << endl;
+
     // clear servos vector before repopulating it
     servos.clear();
 
     detectedSet.clear();
     targetSet.clear();
-
 
     std::string line;
 
@@ -251,10 +267,11 @@ void Agent::initTargets(string configPath)
         std::istringstream iss(line);
         Servo servo;
 
-        if (!(iss >> servo.index >> servo.className >> servo.position))
+        // TODO: add this to the jetson
+        if (!(iss >> servo.index >> servo.className >> servo.openPosition >> servo.closePosition))
         {
             std::cerr << "Invalid format: " << line << std::endl;
-            continue;
+            break; // changed this to be a break
         }
 
         servos.push_back(servo);
@@ -266,16 +283,16 @@ void Agent::initTargets(string configPath)
     std::cout << "Config entries extracted from the file:" << std::endl;
     for (const auto &servo : servos)
     {
-        std::cout << "servoIndex: " << servo.index << ", Class name: " << servo.className << ", Position: " << servo.position << std::endl;
+        std::cout << "servoIndex: " << servo.index << ", Class name: " << servo.className << ", Open Position: " << servo.openPosition << ", Close Position " << servo.closePosition << std::endl;
     }
 
     // adding to targetSet
-    for (int i = 0; i < servos.size(); i++)
-        targetSet.insert(detect.getClassIdx(servos.at(i).className));
-
-    
+    // for (int i = 0; i < servos.size(); i++)
+    //     targetSet.insert(servos.at(i).className);
 
 }
+
+
 
 void Agent::loop() {
 
@@ -293,13 +310,15 @@ void Agent::start()
     if (shouldRun) 
         return;
 
-    detect.model_on();
+    // detect.model_on();
 
     shouldRun = true;
 
     // add the loop thread
     thread t_loop(&Agent::loop, this);
     threads.push_back(std::move(t_loop));
+
+    std::cout << "inside AGENT:start function" << std::endl;
 
     return;
 }
@@ -315,7 +334,7 @@ void Agent::stop() {
 
     }
 
-    detect.model_off();
+    // detect.model_off();
 
 }
 
@@ -325,4 +344,8 @@ ScanContext& Agent::getScanContext() {
 
 WaypointContext& Agent::getWaypointContext() {
     return waypointCtx;
+}
+
+bool Agent::isRunning() {
+    return shouldRun;
 }
