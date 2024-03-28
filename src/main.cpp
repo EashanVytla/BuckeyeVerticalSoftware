@@ -86,7 +86,7 @@ int main()
         myfile);
 
 
-    agent.scanCtx.positions = {
+    agent.getScanContext().positions = {
         {40.0979633, -83.1982978, 24.384},
         {40.0979265, -83.1985653, 24.384},
         {40.0978664, -83.1987608, 24.384},
@@ -95,7 +95,7 @@ int main()
         {40.0978456, -83.1990924, 24.384},
     }; 
 
-
+    agent.initTargets("ADD PATH HERE");
 
     // agent.start();
 

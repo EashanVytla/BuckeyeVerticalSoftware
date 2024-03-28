@@ -10,13 +10,9 @@ using std::this_thread::sleep_for;
 std::atomic<bool> shouldRun(false);
 
 
-
 double servoPosition = 0.0;
 // int detectedClassIdx = 0;
-set<int> detectedSet;
-set<int> targetSet;
 
-vector<Servo> servos;
 
 Agent::Agent(
     Action &newAction,
@@ -233,7 +229,7 @@ void Agent::updateState()
 void Agent::initTargets(string configPath)
 {
 
-    std::ifstream file(configFile);
+    std::ifstream file(configPath);
 
     if (!file.is_open())
     {
@@ -275,7 +271,7 @@ void Agent::initTargets(string configPath)
 
     // adding to targetSet
     for (int i = 0; i < servos.size(); i++)
-        targetSet.insert(servos.at(i).className);
+        targetSet.insert(detect.getClassIdx(servos.at(i).className));
 
     
 

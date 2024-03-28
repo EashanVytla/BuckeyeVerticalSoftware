@@ -93,7 +93,7 @@ void Detect::capture_frames_path(string path){
 }
 
 void Detect::model_off(){
-    
+
    is_running = false;
 
     for (auto&& t : threads) {
@@ -251,6 +251,13 @@ void Detect::inference(){
 
     cv::destroyAllWindows();
     delete yolov8;
+}
+
+int Detect::getClassIdx(string name) {
+    for (int i = 0; i < CLASS_NAMES.size(); i++ ) {
+        if (name == CLASS_NAMES.at(i))
+            return i;
+    }
 }
 
 // int main(int argc, char** argv)

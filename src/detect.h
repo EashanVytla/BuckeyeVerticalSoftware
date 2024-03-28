@@ -135,6 +135,8 @@ public:
     void model_off();
     void inference();
 
+    int getClassIdx(string name);
+
     std::vector<std::string> getClassNames();
 
     void setDetectedState(bool val);

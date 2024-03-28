@@ -133,7 +133,12 @@ public:
     const double GEO_THRESHOLD = 0.00002;
     const int MAX_LAPS = 5;
 
-    int candidate = 0;
+    int candidateIdx = 0;
+
+    set<int> detectedSet;
+    set<int> targetSet;
+
+    vector<Servo> servos;
 
 };
 
