@@ -56,6 +56,8 @@ void Detect::capture_frames(){
         // std::cout << "FINISHED ITER IN CAPTURE FRAMES" << std::endl;
 
     }
+
+    cap.release();
 }
 
 void Detect::capture_frames_path(string path){
@@ -90,6 +92,8 @@ void Detect::capture_frames_path(string path){
         }
         // sleep_for(10ms);
     }
+
+    cap.release();
 }
 
 void Detect::model_off(){
@@ -178,6 +182,15 @@ void Detect::inference(){
     std::vector<Object> objs;
     cv::Size            size = cv::Size{1280, 1280}; //Change Here
 
+    // Define the codec and create VideoWriter object
+    cv::VideoWriter video("output.avi", cv::VideoWriter::fourcc('M','J','P','G'), 15, size);
+
+    // Check if VideoWriter opened successfully
+    if (!video.isOpened()) {
+        std::cerr << "Error: Unable to open VideoWriter" << std::endl;
+        return -1;
+    }
+
     while(is_running){
 
         // std::cout << ":::::FROM INFERENCE" << std::endl;
@@ -235,7 +248,9 @@ void Detect::inference(){
 
 
 
-            cv::imshow("result", image);
+            //cv::imshow("result", image);
+            video.write(image);
+            
 
             if (cv::waitKey(1) == 'q') {
                 break;
@@ -243,12 +258,13 @@ void Detect::inference(){
         } else {
             buffer_lock.unlock();
             std::cout << "Frame buffer is empty!" << std::endl;
-            sleep_for(1000ms);
+            sleep_for(seconds(1));
         }
 
         // std::cout << ":::::FINISHED INFERENCE" << std::endl;
     }
 
+    video.release();
     cv::destroyAllWindows();
     delete yolov8;
 }

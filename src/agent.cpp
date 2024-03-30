@@ -76,14 +76,15 @@ void Agent::sendHeartbeat()
     float currentLat = telemetry.position().latitude_deg;
     float currentLong = telemetry.position().longitude_deg;
     float currentAlt = telemetry.position().relative_altitude_m;
+    float currentYaw = telemetry.heading();
 
-    float yaw = Agent::yaw(telemetry.position().latitude_deg, telemetry.position().longitude_deg, currentLat, currentLong);
+    //float yaw = Agent::yaw(telemetry.position().latitude_deg, telemetry.position().longitude_deg, currentLat, currentLong);
 
     const Offboard::PositionGlobalYaw pgy{
         currentLat,
         currentLong,
         currentAlt,
-        yaw,
+        currentYaw,
         Offboard::PositionGlobalYaw::AltitudeType::RelHome};
 
     offboard.set_position_global(pgy);
@@ -123,16 +124,16 @@ void Agent::updateState()
         cout << target.latitude << ", " << target.longitude << endl;
         cout << endl;
 
-	myfile << "TARGET: " << endl;
+	    myfile << "TARGET: " << endl;
         myfile << target.latitude << ", " << target.longitude << endl;
         myfile << endl;
 	
         double distance = Agent::distance(telemetry.position().latitude_deg, telemetry.position().longitude_deg, target.latitude, target.longitude);
         float yaw = Agent::yaw(telemetry.position().latitude_deg, telemetry.position().longitude_deg, target.latitude, target.longitude);
 
-	myfile << "Yaw: " << yaw << endl << endl;
-	myfile << "Distance: " << distance << endl << endl;
-	myfile << "Current: " << telemetry.position().latitude_deg << ", " << telemetry.position().longitude_deg << endl << endl;
+        myfile << "Yaw: " << yaw << endl << endl;
+        myfile << "Distance: " << distance << endl << endl;
+        myfile << "Current: " << telemetry.position().latitude_deg << ", " << telemetry.position().longitude_deg << endl << endl;
 
         const Offboard::PositionGlobalYaw pgy{
             target.latitude,
@@ -148,7 +149,7 @@ void Agent::updateState()
         candidateIdx = detect.getDetectedClassIdx();
 
         if (candidateIdx > -1) {
-		myfile << "Candidate IDX: " << candidateIdx << endl << endl;
+		    myfile << "Candidate IDX: " << candidateIdx << endl << endl;
             // if hasn't already been scanned
             if (targetSet.count(candidateIdx) > detectedSet.count(candidateIdx)) {
                 
@@ -219,7 +220,7 @@ void Agent::updateState()
 
         string detectedClassName = detect.getClassNames().at(candidateIdx);
 
-	std::cout << "detected: " << detectedClassName << std::endl;
+	    std::cout << "detected: " << detectedClassName << std::endl;
 
         for (int i = 0; i < servos.size(); i++)
         {
@@ -288,6 +289,7 @@ void Agent::initTargets(string configPath)
         if (!(iss >> servo.index >> servo.className >> servo.openPosition >> servo.closePosition))
         {
             std::cerr << "Invalid format: " << line << std::endl;
+            myfile << "Invalid format: " << line << std::endl;
             break; // changed this to be a break
         }
 
@@ -312,12 +314,25 @@ void Agent::initTargets(string configPath)
 
 
 void Agent::loop() {
-
+    auto startTime = std::chrono::system_clock::now();
     while (shouldRun)
     {
-        Agent::updateState();
+        try{
+            // Get the end time
+            auto current = std::chrono::system_clock::now();
+
+            // Calculate the duration
+            std::chrono::duration<double> elapsed_seconds = current - start;
+
+            // Output the duration
+            myfile << "Time elapsed: " << elapsed_seconds.count() << " seconds" << std::endl;
+            Agent::updateState();
+        } catch(const std::exception& e){
+            myfile << "ERROR: " << e.what() << endl;
+        }
     }
 
+    myfile << "Ended shouldRun loop" << endl;
 }
 
 

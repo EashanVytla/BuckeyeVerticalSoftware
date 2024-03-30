@@ -62,8 +62,8 @@ int main()
         const Offboard::PositionGlobalYaw currLocation{
                 telemetry.position().latitude_deg,
                 telemetry.position().longitude_deg,
-                7.0f,
-                0.0f};
+                telemetry.position().relative_altitude_m,
+                telemetry.heading};
         offboard.set_position_global(currLocation);
         sleep_for(400ms);
     }

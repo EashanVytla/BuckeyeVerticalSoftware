@@ -22,12 +22,25 @@ int main()
 {
 
     std::ofstream myfile;
+    std::ofstream mavlog;
     myfile.open("logs.txt");
+    mavlog.open("mavlog.txt");
 
     if(!myfile.is_open()){
         std::cout << "File open failed! Ending program." << std::endl;
         return 0;
     }
+
+    mavsdk::log::subscribe([](mavsdk::log::Level level,   // message severity level
+                          const std::string& message, // message text
+                          const std::string& file,    // source file from which the message was sent
+                          int line) {                 // line number in the source file
+        
+        mavlog << level << endl << message << endl << file << line << endl << endl;
+
+        // returning true from the callback disables printing the message to stdout
+        return false;
+        });
 
 
     Mavsdk mavsdk{Mavsdk::Configuration{Mavsdk::ComponentType::CompanionComputer}};
@@ -35,12 +48,14 @@ int main()
 
     if (connection_result != ConnectionResult::Success) {
         std::cerr << "Connection failed: " << connection_result << '\n';
+        myfile << "Connection failed: " << connection_result << '\n';
         return 1;
     }
 
     auto system = mavsdk.first_autopilot(3.0);
     if (!system) {
         std::cerr << "Timed out waiting for system\n";
+        myfile << "Timed out waiting for system\n";
         return 1;
     }
 
@@ -56,9 +71,11 @@ int main()
 
     while (!telemetry.health_all_ok()) {
         std::cout << "Waiting for system to be ready\n";
+        myfile << "Waiting for system to be ready\n";
         sleep_for(seconds(1));
     }
     std::cout << "System is ready\n";
+    myfile << "System is ready\n";
 
 
 
@@ -101,16 +118,29 @@ int main()
         return 1;
     }
 
+    const auto set_z_velocity_down = param.set_param_float("MPC_Z_VEL_MAX_DN", 1.5);
+    if (set_z_velocity_down != mavsdk::Param::Result::Success) {
+        std::cerr << "Z Velocity not set: " << set_z_velocity_down << '\n';
+        myfile << "Z Velocity not set: " << set_z_velocity_down << '\n';
+        return 1;
+    }
 
-    
+    const auto set_z_velocity_up = param.set_param_float("MPC_Z_VEL_MAX_UP", 3.0);
+    if (set_z_velocity_up != mavsdk::Param::Result::Success) {
+        std::cerr << "Z Velocity Up not set: " << set_z_velocity_up << '\n';
+        myfile << "Z Velocity Up not set: " << set_z_velocity_up << '\n';
+        return 1;
+    }
+
     while(telemetry.flight_mode() != Telemetry::FlightMode::Offboard) {
         std::cout << "Waiting for Offboard\n";
         myfile << "Waiting for Offboard" << endl;
         const Offboard::PositionGlobalYaw currLocation{
                 telemetry.position().latitude_deg,
                 telemetry.position().longitude_deg,
-                7.0f,
-                0.0f};
+                telemetry.position().relative_altitude_m,
+                telemetry.heading,
+                Offboard::PositionGlobalYaw::AltitudeType::RelHome};
         offboard.set_position_global(currLocation);
         sleep_for(400ms);
     }
@@ -125,12 +155,8 @@ int main()
 
 
     agent.getScanContext().positions = {
-        {40.0979633, -83.1982978, 24.384},
-        {40.0979265, -83.1985653, 24.384},
-        {40.0978664, -83.1987608, 24.384},
-        {40.0978334, -83.1989082, 24.384},
-        {40.0978456, -83.1990924, 24.384},
-        {40.0978456, -83.1990924, 24.384},
+        {40.0936649, -83.1961460, 24.384},
+        {40.0935812, -83.1974774, 24.384},
     }; 
 
 
@@ -165,7 +191,7 @@ int main()
     // auto offboard_result = offboard.start();
     
     while (agent.isRunning())
-        sleep_for(1000ms);
+        sleep_for(seconds(1));
 
     return 0;
 
