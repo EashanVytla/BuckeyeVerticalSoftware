@@ -172,7 +172,7 @@ int Detect::getDetectedClassIdx() {
 // }
 
 void Detect::inference(){
-    const std::string engine_file_path = "/home/buckeyevertical/Documents/YOLOv8-TensorRT/Feb29RL.engine"; //PUT PATH HERE
+    const std::string engine_file_path = "home/buckeyevertical/Documents/YOLOv8-TensorRT/best.engine"; //PUT PATH HERE
 
     std::vector<std::string> imagePathList;
 
