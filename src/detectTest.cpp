@@ -45,7 +45,8 @@ int main(){
     targetSet.insert(getIdx(detector, "Red_Circle"));
 
     cout << "Starting model" << endl;
-    detector.model_on("/media/buckeyevertical/A870C69770C66B9E/Test-Data/Videos-20240227T195339Z-001/Videos/4xZoomCrop.mp4");
+    //detector.model_on("/media/buckeyevertical/A870C69770C66B9E/Test-Data/Videos-20240227T195339Z-001/Videos/4xZoomCrop.mp4");
+    detector.model_on();
 
     int counter = 0;
 

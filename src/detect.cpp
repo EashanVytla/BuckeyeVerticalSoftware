@@ -183,13 +183,23 @@ void Detect::inference(){
     cv::Size            size = cv::Size{1280, 1280}; //Change Here
 
     // Define the codec and create VideoWriter object
-    cv::VideoWriter video("output.avi", cv::VideoWriter::fourcc('M','J','P','G'), 15, size);
+    //cv::VideoWriter video("output.avi", cv::VideoWriter::fourcc('M','J','P','G'), 15, size);
 
     // Check if VideoWriter opened successfully
-    if (!video.isOpened()) {
+    /*if (!video.isOpened()) {
         std::cerr << "Error: Unable to open VideoWriter" << std::endl;
-        return -1;
+        return;
+    }*/
+
+    std::ofstream infLog;
+    infLog.open("infLog.txt");
+
+    if(!infLog.is_open()){
+        std::cout << "File open failed! Ending program." << std::endl;
+        return;
     }
+
+    auto startTime = std::chrono::system_clock::now();
 
     while(is_running){
 
@@ -240,16 +250,25 @@ void Detect::inference(){
 
             detectedClassIdx = -1;
 
+            // Get the end time
+            auto current = std::chrono::system_clock::now();
+
+            // Calculate the duration
+            std::chrono::duration<double> elapsed_seconds = current - startTime;
+
         
-            if (objs.size() > 0)
+            if (objs.size() > 0){
                 detectedClassIdx = objs.at(0).label;
+                cout << "Detected " << detectedClassIdx << " Object at " << elapsed_seconds.count() << endl;
+                infLog << "Detected " << detectedClassIdx << " Object at " << elapsed_seconds.count() << endl;
+            }
 
             inference_lock.unlock();
 
 
-
+    
             //cv::imshow("result", image);
-            video.write(image);
+            //video.write(image);
             
 
             if (cv::waitKey(1) == 'q') {
@@ -258,13 +277,14 @@ void Detect::inference(){
         } else {
             buffer_lock.unlock();
             std::cout << "Frame buffer is empty!" << std::endl;
-            sleep_for(seconds(1));
+            sleep_for(1000ms);
         }
 
         // std::cout << ":::::FINISHED INFERENCE" << std::endl;
     }
 
-    video.release();
+    infLog.close();
+    //video.release();
     cv::destroyAllWindows();
     delete yolov8;
 }

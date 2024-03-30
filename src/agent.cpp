@@ -76,7 +76,7 @@ void Agent::sendHeartbeat()
     float currentLat = telemetry.position().latitude_deg;
     float currentLong = telemetry.position().longitude_deg;
     float currentAlt = telemetry.position().relative_altitude_m;
-    float currentYaw = telemetry.heading();
+    float currentYaw = telemetry.heading().heading_deg;
 
     //float yaw = Agent::yaw(telemetry.position().latitude_deg, telemetry.position().longitude_deg, currentLat, currentLong);
 
@@ -322,7 +322,7 @@ void Agent::loop() {
             auto current = std::chrono::system_clock::now();
 
             // Calculate the duration
-            std::chrono::duration<double> elapsed_seconds = current - start;
+            std::chrono::duration<double> elapsed_seconds = current - startTime;
 
             // Output the duration
             myfile << "Time elapsed: " << elapsed_seconds.count() << " seconds" << std::endl;

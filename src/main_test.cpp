@@ -5,7 +5,7 @@
 #include <cmath>
 #include <math.h>
 #include <fstream>
-
+#include <mavsdk/log_callback.h>
 #include "agent.h"
 #include "detect.h"
 
@@ -31,12 +31,17 @@ int main()
         return 0;
     }
 
-    mavsdk::log::subscribe([](mavsdk::log::Level level,   // message severity level
+    if(!mavlog.is_open()){
+        std::cout << "MavLog open failed! Ending program." << std::endl;
+        return 0;
+    }
+
+    mavsdk::log::subscribe([&mavlog](mavsdk::log::Level level,   // message severity level
                           const std::string& message, // message text
                           const std::string& file,    // source file from which the message was sent
                           int line) {                 // line number in the source file
         
-        mavlog << level << endl << message << endl << file << line << endl << endl;
+        mavlog << message << endl << file << line << endl << endl;
 
         // returning true from the callback disables printing the message to stdout
         return false;
@@ -139,7 +144,7 @@ int main()
                 telemetry.position().latitude_deg,
                 telemetry.position().longitude_deg,
                 telemetry.position().relative_altitude_m,
-                telemetry.heading,
+                telemetry.heading().heading_deg,
                 Offboard::PositionGlobalYaw::AltitudeType::RelHome};
         offboard.set_position_global(currLocation);
         sleep_for(400ms);
@@ -192,6 +197,11 @@ int main()
     
     while (agent.isRunning())
         sleep_for(seconds(1));
+
+    myfile << "closing the files..." << endl;
+
+    myfile.close();
+    mavlog.close();
 
     return 0;
 
