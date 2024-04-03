@@ -25,18 +25,31 @@ Detect::Detect() {
 void Detect::capture_frames(){
     const std::string path = "rtsp://192.168.144.25:8554/main.264"; //PUT PATH HERE
 
+    
+    std::ofstream capLog;
+    capLog.open("capLog.txt");
+
+    if(!capLog.is_open()){
+        std::cout << "File open failed! Ending program." << std::endl;
+        return;
+    }
+
     cout << "Starting RTSP Stream" << endl;
+    capLog << "Starting RTSP Stream" << endl;
 
     cv::Mat             res, image;
 
     cv::VideoCapture cap(path);
 
     if (!cap.isOpened()) {
+	    
         printf("can not open %s\n", path.c_str());
+        capLog << "can not open " << path.c_str();
         return;
     }
     
     while (cap.read(image) && is_running) {
+	capLog << frame_buffer.size() << endl;
 
         // std::cout << "HELLO FROM CAPTUER FRAMES" << std::endl;
 
@@ -172,7 +185,7 @@ int Detect::getDetectedClassIdx() {
 // }
 
 void Detect::inference(){
-    const std::string engine_file_path = "home/buckeyevertical/Documents/YOLOv8-TensorRT/best.engine"; //PUT PATH HERE
+    const std::string engine_file_path = "/home/buckeyevertical/Documents/YOLOv8-TensorRT/best.engine"; //PUT PATH HERE
 
     std::vector<std::string> imagePathList;
 
@@ -199,9 +212,12 @@ void Detect::inference(){
         return;
     }
 
+    infLog << "Opened file" << endl;
+
     auto startTime = std::chrono::system_clock::now();
 
     while(is_running){
+	    infLog << "Running Inference..." << endl;
 
         // std::cout << ":::::FROM INFERENCE" << std::endl;
 
