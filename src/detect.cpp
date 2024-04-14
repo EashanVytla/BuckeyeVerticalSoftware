@@ -4,7 +4,7 @@
 // Created by ubuntu on 3/16/23.
 //
 
-#include "yolov8.hpp"
+// #include "yolov8.hpp"
 #include "detect.h"
 
 // #include "chrono"
@@ -88,6 +88,8 @@ void Detect::capture_frames_path(string path){
         // Lock the buffer before accessing it
         buffer_lock.lock();
 
+        // cout << "capturing frame" << endl;
+
         frame_buffer.push_back(image);
 
         // Remove elements from the front until buffer size is within limit
@@ -98,11 +100,12 @@ void Detect::capture_frames_path(string path){
         // Unlock the buffer after accessing it
         buffer_lock.unlock();
 
-        //cv::imshow("result", image);
+        // cv::imshow("result", image);
 
         if (cv::waitKey(10) == 'q') {
             break;
         }
+
         // sleep_for(10ms);
     }
 
@@ -139,8 +142,13 @@ void Detect::model_on(){
 }
 
 void Detect::model_on(string path){
+
+    cout << "made it to model on" << endl;
+
     if (is_running) 
         return;
+
+    cout << "made it past the fast return " << endl;
 
     is_running = true;
 
@@ -184,126 +192,137 @@ int Detect::getDetectedClassIdx() {
 //     return 
 // }
 
-void Detect::inference(){
-    const std::string engine_file_path = "/home/buckeyevertical/Documents/YOLOv8-TensorRT/best.engine"; //PUT PATH HERE
 
-    std::vector<std::string> imagePathList;
 
-    auto yolov8 = new YOLOv8(engine_file_path);
-    yolov8->make_pipe(true);
-
-    std::vector<Object> objs;
-    cv::Size            size = cv::Size{1280, 1280}; //Change Here
-
-    // Define the codec and create VideoWriter object
-    //cv::VideoWriter video("output.avi", cv::VideoWriter::fourcc('M','J','P','G'), 15, size);
-
-    // Check if VideoWriter opened successfully
-    /*if (!video.isOpened()) {
-        std::cerr << "Error: Unable to open VideoWriter" << std::endl;
-        return;
-    }*/
-
-    std::ofstream infLog;
-    infLog.open("infLog.txt");
-
-    if(!infLog.is_open()){
-        std::cout << "File open failed! Ending program." << std::endl;
-        return;
+void Detect::inference() {
+    while (is_running) {
+        // cout << "doing inference" << endl;
+        sleep_for(1000ms);
     }
-
-    infLog << "Opened file" << endl;
-
-    auto startTime = std::chrono::system_clock::now();
-
-    while(is_running){
-	    infLog << "Running Inference..." << endl;
-
-        // std::cout << ":::::FROM INFERENCE" << std::endl;
-
-        // Lock the buffer before accessing it
-        buffer_lock.lock();
-
-        // Get the last frame
-        if (frame_buffer.size() > 0) {
-
-            // gets last element of the buffer
-            cv::Mat image = frame_buffer.at(frame_buffer.size() - 1);
-
-            // frame_buffer.push_back(image);
-
-            // Unlock the buffer after accessing it
-            buffer_lock.unlock();
-
-            yolov8->copy_from_Mat(image, size);
-            auto start = std::chrono::system_clock::now();
-            yolov8->infer();
-            auto end = std::chrono::system_clock::now();
-            yolov8->postprocess(objs);
-            yolov8->draw_objects(image, image, objs, CLASS_NAMES, COLORS);
-            auto tc = (double)std::chrono::duration_cast<std::chrono::microseconds>(end - start).count() / 1000.;
-
-            // TO MAKE SURE DETECTEDCLASSIDX DOESN'T CHANGE
-            // std::cout << "objs size " << objs.size() << std::endl;
-
-            // if (!detectedObject) {
-
-            //     if (objs.size() > 0) {
-
-            //         inference_lock.lock();
-
-            //         detectedClassIdx = objs.at(0).label;
-            //         // detectedObject = true;
-
-            //         inference_lock.unlock();
-
-            //     }
-
-            // }
+    
+}
 
 
-            inference_lock.lock();
+// void Detect::inference(){
+//     const std::string engine_file_path = "/home/buckeyevertical/Documents/YOLOv8-TensorRT/best.engine"; //PUT PATH HERE
 
-            detectedClassIdx = -1;
+//     std::vector<std::string> imagePathList;
 
-            // Get the end time
-            auto current = std::chrono::system_clock::now();
+//     auto yolov8 = new YOLOv8(engine_file_path);
+//     yolov8->make_pipe(true);
 
-            // Calculate the duration
-            std::chrono::duration<double> elapsed_seconds = current - startTime;
+//     std::vector<Object> objs;
+//     cv::Size            size = cv::Size{1280, 1280}; //Change Here
+
+//     // Define the codec and create VideoWriter object
+//     //cv::VideoWriter video("output.avi", cv::VideoWriter::fourcc('M','J','P','G'), 15, size);
+
+//     // Check if VideoWriter opened successfully
+//     /*if (!video.isOpened()) {
+//         std::cerr << "Error: Unable to open VideoWriter" << std::endl;
+//         return;
+//     }*/
+
+//     std::ofstream infLog;
+//     infLog.open("infLog.txt");
+
+//     if(!infLog.is_open()){
+//         std::cout << "infLog.txt File open failed! Ending program." << std::endl;
+//         return;
+//     }
+
+//     infLog << "Opened log file" << endl;
+
+//     auto startTime = std::chrono::system_clock::now();
+
+//     while(is_running){
+// 	    infLog << "Running Inference..." << endl;
+
+//         // std::cout << ":::::FROM INFERENCE" << std::endl;
+
+//         // Lock the buffer before accessing it
+//         buffer_lock.lock();
+
+//         // Get the last frame
+//         if (frame_buffer.size() > 0) {
+
+//             // gets last element of the buffer
+//             cv::Mat image = frame_buffer.at(frame_buffer.size() - 1);
+
+//             // frame_buffer.push_back(image);
+
+//             // Unlock the buffer after accessing it
+//             buffer_lock.unlock();
+
+//             yolov8->copy_from_Mat(image, size);
+//             auto start = std::chrono::system_clock::now();
+//             yolov8->infer();
+//             auto end = std::chrono::system_clock::now();
+//             yolov8->postprocess(objs);
+//             yolov8->draw_objects(image, image, objs, CLASS_NAMES, COLORS);
+//             auto tc = (double)std::chrono::duration_cast<std::chrono::microseconds>(end - start).count() / 1000.;
+
+//             // TO MAKE SURE DETECTEDCLASSIDX DOESN'T CHANGE
+//             // std::cout << "objs size " << objs.size() << std::endl;
+
+//             // if (!detectedObject) {
+
+//             //     if (objs.size() > 0) {
+
+//             //         inference_lock.lock();
+
+//             //         detectedClassIdx = objs.at(0).label;
+//             //         // detectedObject = true;
+
+//             //         inference_lock.unlock();
+
+//             //     }
+
+//             // }
+
+
+//             inference_lock.lock();
+
+//             detectedClassIdx = -1;
+
+//             // Get the end time
+//             auto current = std::chrono::system_clock::now();
+
+//             // Calculate the duration
+//             std::chrono::duration<double> elapsed_seconds = current - startTime;
 
         
-            if (objs.size() > 0){
-                detectedClassIdx = objs.at(0).label;
-                cout << "Detected " << detectedClassIdx << " Object at " << elapsed_seconds.count() << endl;
-                infLog << "Detected " << detectedClassIdx << " Object at " << elapsed_seconds.count() << endl;
-            }
+//             if (objs.size() > 0){
+//                 detectedClassIdx = objs.at(0).label;
+//                 cout << "Detected " << detectedClassIdx << " Object at " << elapsed_seconds.count() << endl;
+//                 infLog << "Detected " << detectedClassIdx << " Object at " << elapsed_seconds.count() << endl;
+//             }
 
-            inference_lock.unlock();
+//             inference_lock.unlock();
 
 
     
-            //cv::imshow("result", image);
-            //video.write(image);
+//             //cv::imshow("result", image);
+//             //video.write(image);
             
 
-            if (cv::waitKey(1) == 'q') {
-                break;
-            }
-        } else {
-            buffer_lock.unlock();
-            std::cout << "Frame buffer is empty!" << std::endl;
-            sleep_for(1000ms);
-        }
+//             if (cv::waitKey(1) == 'q') {
+//                 break;
+//             }
+//         } else {
+//             buffer_lock.unlock();
+//             std::cout << "Frame buffer is empty!" << std::endl;
+//             sleep_for(1000ms);
+//         }
 
-        // std::cout << ":::::FINISHED INFERENCE" << std::endl;
-    }
+//         // std::cout << ":::::FINISHED INFERENCE" << std::endl;
+//     }
 
-    infLog.close();
-    //video.release();
-    cv::destroyAllWindows();
-    delete yolov8;
-}
+//     infLog.close();
+//     //video.release();
+//     cv::destroyAllWindows();
+//     delete yolov8;
+// }
 
 int Detect::getClassIdx(string name) {
     for (int i = 0; i < CLASS_NAMES.size(); i++ ) {

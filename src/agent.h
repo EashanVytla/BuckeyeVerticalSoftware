@@ -11,7 +11,7 @@
 #include <math.h>
 #include <fstream>
 #include <set>
-#include "opencv2/opencv.hpp"
+#include <opencv2/opencv.hpp>
 
 #include <mavsdk/mavsdk.h>
 #include <mavsdk/plugins/offboard/offboard.h>
@@ -104,6 +104,8 @@ public:
     
     void loop();
     void initTargets(string configPath);
+
+    void safe_sleep(int msTime);
 
     ScanContext& getScanContext();
     WaypointContext& getWaypointContext();

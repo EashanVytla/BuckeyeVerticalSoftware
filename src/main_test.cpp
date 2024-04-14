@@ -49,7 +49,7 @@ int main()
 
 
     Mavsdk mavsdk{Mavsdk::Configuration{Mavsdk::ComponentType::CompanionComputer}};
-    ConnectionResult connection_result = mavsdk.add_any_connection(PHYSICAL_PORT_PATH);
+    ConnectionResult connection_result = mavsdk.add_any_connection(SIM_PORT_PATH);
 
     if (connection_result != ConnectionResult::Success) {
         std::cerr << "Connection failed: " << connection_result << '\n';
@@ -82,9 +82,7 @@ int main()
     std::cout << "System is ready\n";
     myfile << "System is ready\n";
 
-
-
-    /**const auto arm_result = action.arm();
+    const auto arm_result = action.arm();
     if (arm_result != Action::Result::Success) {
         std::cerr << "Arming failed: " << arm_result << '\n';
         return 1;
@@ -108,15 +106,13 @@ int main()
             }
         });
 
-    in_air_future.wait_for(seconds(10));
+    in_air_future.wait_for(seconds(20));
     if (in_air_future.wait_for(seconds(3)) == std::future_status::timeout) {
         std::cerr << "Takeoff timed out.\n";
         return 1;
-    }**/
+    }
 
-
-
-    const auto set_velocity = param.set_param_float("MPC_XY_VEL_MAX", 5.0);
+    const auto set_velocity = param.set_param_float("MPC_XY_VEL_MAX", 1.0);
     if (set_velocity != mavsdk::Param::Result::Success) {
         std::cerr << "Velocity not set: " << set_velocity << '\n';
         myfile << "Velocity not set: " << set_velocity << '\n';
@@ -140,15 +136,20 @@ int main()
     while(telemetry.flight_mode() != Telemetry::FlightMode::Offboard) {
         std::cout << "Waiting for Offboard\n";
         myfile << "Waiting for Offboard" << endl;
-        const Offboard::PositionGlobalYaw currLocation{
-                telemetry.position().latitude_deg,
-                telemetry.position().longitude_deg,
-                telemetry.position().relative_altitude_m,
-                telemetry.heading().heading_deg,
-                Offboard::PositionGlobalYaw::AltitudeType::RelHome};
-        offboard.set_position_global(currLocation);
+        // const Offboard::PositionGlobalYaw currLocation{
+        //         telemetry.position().latitude_deg,
+        //         telemetry.position().longitude_deg,
+        //         telemetry.position().relative_altitude_m,
+        //         telemetry.heading().heading_deg,
+        //         Offboard::PositionGlobalYaw::AltitudeType::RelHome};
+        // offboard.set_position_global(currLocation);
+
+        offboard.set_velocity_ned({0,0,0,0});
+        offboard.start(); //ONLY SIM
         sleep_for(400ms);
     }
+
+    
 
 
     Agent agent(
@@ -159,19 +160,19 @@ int main()
         myfile);
 
 
-    agent.getScanContext().positions = {
-        {40.0936649, -83.1961460, 24.384},
-        {40.0935812, -83.1974774, 24.384},
-    }; 
-
-
     // agent.getScanContext().positions = {
-    //     {telemetry.position().latitude_deg, telemetry.position().longitude_deg, 24.384},
-    //     {telemetry.position().latitude_deg + TEN_METERS_APPROX, telemetry.position().longitude_deg, 24.384},
-    //     {telemetry.position().latitude_deg + TEN_METERS_APPROX, telemetry.position().longitude_deg + TEN_METERS_APPROX, 24.384},
-    //     {telemetry.position().latitude_deg, telemetry.position().longitude_deg + TEN_METERS_APPROX, 24.384},
-    //     {telemetry.position().latitude_deg, telemetry.position().longitude_deg, 24.384}
-    // };
+    //     {40.0936649, -83.1961460, 24.384},
+    //     {40.0935812, -83.1974774, 24.384},
+    // }; 
+
+
+    agent.getScanContext().positions = {
+        {telemetry.position().latitude_deg, telemetry.position().longitude_deg, 24.384},
+        {telemetry.position().latitude_deg + TEN_METERS_APPROX, telemetry.position().longitude_deg, 24.384},
+        {telemetry.position().latitude_deg + TEN_METERS_APPROX, telemetry.position().longitude_deg + TEN_METERS_APPROX, 24.384},
+        {telemetry.position().latitude_deg, telemetry.position().longitude_deg + TEN_METERS_APPROX, 24.384},
+        {telemetry.position().latitude_deg, telemetry.position().longitude_deg, 24.384}
+    };
 
 
     cout << "in main for agent" << endl;
