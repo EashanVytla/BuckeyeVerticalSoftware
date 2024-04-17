@@ -83,5 +83,6 @@
         "cfenv": "cpp",
         "__nullptr": "cpp",
         "valarray": "cpp"
-    }
+    },
+    "ros.distro": "humble"
 }

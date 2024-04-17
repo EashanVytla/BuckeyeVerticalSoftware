@@ -30,6 +30,7 @@ add_executable(main
                src/main_test.cpp
                src/agent.cpp
                src/detect.cpp
+               src/camera_server.cpp
 )
 
 # Specify your app's executable name and a list of linked libraries
