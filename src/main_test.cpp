@@ -89,28 +89,28 @@ int main()
     }
     std::cout << "Armed\n";
 
-    const auto takeoff_result = action.takeoff();
-    if (takeoff_result != Action::Result::Success) {
-        std::cerr << "Takeoff failed: " << takeoff_result << '\n';
-        return 1;
-    }
+    // const auto takeoff_result = action.takeoff();
+    // if (takeoff_result != Action::Result::Success) {
+    //     std::cerr << "Takeoff failed: " << takeoff_result << '\n';
+    //     return 1;
+    // }
 
-    auto in_air_promise = std::promise<void>{};
-    auto in_air_future = in_air_promise.get_future();
-    Telemetry::LandedStateHandle handle = telemetry.subscribe_landed_state(
-        [&telemetry, &in_air_promise, &handle](Telemetry::LandedState state) {
-            if (state == Telemetry::LandedState::InAir) {
-                std::cout << "Taking off has finished\n.";
-                telemetry.unsubscribe_landed_state(handle);
-                in_air_promise.set_value();
-            }
-        });
+    // auto in_air_promise = std::promise<void>{};
+    // auto in_air_future = in_air_promise.get_future();
+    // Telemetry::LandedStateHandle handle = telemetry.subscribe_landed_state(
+    //     [&telemetry, &in_air_promise, &handle](Telemetry::LandedState state) {
+    //         if (state == Telemetry::LandedState::InAir) {
+    //             std::cout << "Taking off has finished\n.";
+    //             telemetry.unsubscribe_landed_state(handle);
+    //             in_air_promise.set_value();
+    //         }
+    //     });
 
-    in_air_future.wait_for(seconds(20));
-    if (in_air_future.wait_for(seconds(3)) == std::future_status::timeout) {
-        std::cerr << "Takeoff timed out.\n";
-        return 1;
-    }
+    // in_air_future.wait_for(seconds(20));
+    // if (in_air_future.wait_for(seconds(3)) == std::future_status::timeout) {
+    //     std::cerr << "Takeoff timed out.\n";
+    //     return 1;
+    // }
 
     const auto set_velocity = param.set_param_float("MPC_XY_VEL_MAX", 1.0);
     if (set_velocity != mavsdk::Param::Result::Success) {

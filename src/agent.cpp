@@ -283,6 +283,7 @@ void Agent::updateState()
                 // std::cout << "Setting actuator " << detectedClassName << " : " << i << std::endl;
                 myfile << "Setting actuator " << detectedClassName << " : " << i << std::endl;
                 
+                
                 action.set_actuator(servos.at(i).index, servos.at(i).openPosition);
                 break;
             }
