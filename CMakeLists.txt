@@ -25,16 +25,25 @@ list(APPEND INCLUDE_DIRS
 )
 
 include_directories(${INCLUDE_DIRS})
-
+ 
 add_executable(main
                src/main_test.cpp
                src/agent.cpp
                src/detect.cpp
-               src/camera_server.cpp
+)
+
+add_executable(camera_server
+     src/camera_server.cpp
 )
 
 # Specify your app's executable name and a list of linked libraries
 target_link_libraries(main
+                      MAVSDK::mavsdk
+                      ${OpenCV_LIBS}
+)
+
+# Specify your app's executable name and a list of linked libraries
+target_link_libraries(camera_server
                       MAVSDK::mavsdk
                       ${OpenCV_LIBS}
 )
