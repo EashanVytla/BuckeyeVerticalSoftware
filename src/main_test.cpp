@@ -66,9 +66,7 @@ int main()
 
    
     auto action = Action{system.value()};
-    auto offboard = Offboard{system.value()};
     auto telemetry = Telemetry{system.value()};
-    auto param = mavsdk::Param{system.value()};
     auto mission = mavsdk::Mission{system.value()};
 
     // std::cout << "Here " << telemetry.position() << std::endl << std::endl;
