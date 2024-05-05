@@ -69,9 +69,10 @@ int main()
     auto offboard = Offboard{system.value()};
     auto telemetry = Telemetry{system.value()};
     auto param = mavsdk::Param{system.value()};
-    auto mission = mavsdk::Mission{system.value()};
 
     // std::cout << "Here " << telemetry.position() << std::endl << std::endl;
+
+
 
     while (!telemetry.health_all_ok()) {
         std::cout << "Waiting for system to be ready\n";
@@ -111,7 +112,7 @@ int main()
         return 1;
     }
 
-    const auto set_velocity = param.set_param_float("MPC_XY_VEL_MAX", 20.0);
+    const auto set_velocity = param.set_param_float("MPC_XY_VEL_MAX", 1.0);
     if (set_velocity != mavsdk::Param::Result::Success) {
         std::cerr << "Velocity not set: " << set_velocity << '\n';
         myfile << "Velocity not set: " << set_velocity << '\n';
@@ -132,19 +133,31 @@ int main()
         return 1;
     }
 
-    /**while(telemetry.flight_mode() != Telemetry::FlightMode::Mission) {
-        std::cout << "Waiting for Mission\n";
-        myfile << "Waiting for Mission" << endl;
+    while(telemetry.flight_mode() != Telemetry::FlightMode::Offboard) {
+        std::cout << "Waiting for Offboard\n";
+        myfile << "Waiting for Offboard" << endl;
+        // const Offboard::PositionGlobalYaw currLocation{
+        //         telemetry.position().latitude_deg,
+        //         telemetry.position().longitude_deg,
+        //         telemetry.position().relative_altitude_m,
+        //         telemetry.heading().heading_deg,
+        //         Offboard::PositionGlobalYaw::AltitudeType::RelHome};
+        // offboard.set_position_global(currLocation);
+
+        offboard.set_velocity_ned({0,0,0,0});
+        offboard.start(); //ONLY SIM
         sleep_for(400ms);
-    }**/
+    }
+
+    
 
 
     Agent agent(
         action,
-        mission,
+        offboard,
         telemetry,
-        myfile
-    );
+        param,
+        myfile);
 
 
     // agent.getScanContext().positions = {
@@ -153,34 +166,23 @@ int main()
     // }; 
 
 
-    agent.setLoopPoints({
-        {telemetry.position().latitude_deg, telemetry.position().longitude_deg, 24.5},
-        {telemetry.position().latitude_deg + TEN_METERS_APPROX, telemetry.position().longitude_deg, 24.5},
-        {telemetry.position().latitude_deg + TEN_METERS_APPROX, telemetry.position().longitude_deg + TEN_METERS_APPROX, 24.5},
-        {telemetry.position().latitude_deg, telemetry.position().longitude_deg + TEN_METERS_APPROX, 24.5},
-        {telemetry.position().latitude_deg, telemetry.position().longitude_deg, 24.5}
-    });
-    
-    agent.setScanPoints({
-        {telemetry.position().latitude_deg, telemetry.position().longitude_deg, 24.5},
-        {telemetry.position().latitude_deg + TEN_METERS_APPROX, telemetry.position().longitude_deg, 24.5},
-        {telemetry.position().latitude_deg + TEN_METERS_APPROX, telemetry.position().longitude_deg + TEN_METERS_APPROX, 24.5},
-        {telemetry.position().latitude_deg, telemetry.position().longitude_deg + TEN_METERS_APPROX, 24.5},
-        {telemetry.position().latitude_deg, telemetry.position().longitude_deg, 24.5}
-    });
+    agent.getScanContext().positions = {
+        {telemetry.position().latitude_deg, telemetry.position().longitude_deg, 24.384},
+        {telemetry.position().latitude_deg + TEN_METERS_APPROX, telemetry.position().longitude_deg, 24.384},
+        {telemetry.position().latitude_deg + TEN_METERS_APPROX, telemetry.position().longitude_deg + TEN_METERS_APPROX, 24.384},
+        {telemetry.position().latitude_deg, telemetry.position().longitude_deg + TEN_METERS_APPROX, 24.384},
+        {telemetry.position().latitude_deg, telemetry.position().longitude_deg, 24.384}
+    };
 
-    for (auto item : agent.lap_traj) {
-        cout << "(" << item->latitude_deg << ", " << item->longitude_deg << ")" << std::endl;
-    }
 
     cout << "in main for agent" << endl;
     myfile << "in main for agent" << endl;
 
-    // for (int i = 0; i < agent.getScanContext().positions.size(); i++) {
-    //     Coordinate c = agent.getScanContext().positions.at(i);
-    //     cout << c.latitude  << ", " << c.longitude  << endl;
-    //     myfile << c.latitude  << ", " << c.longitude  << endl;
-    // }
+    for (int i = 0; i < agent.getScanContext().positions.size(); i++) {
+        Coordinate c = agent.getScanContext().positions.at(i);
+        cout << c.latitude  << ", " << c.longitude  << endl;
+        myfile << c.latitude  << ", " << c.longitude  << endl;
+    }
     // cout << agent.getScanContext().positions << endl; 
 
     agent.initTargets("config.txt");

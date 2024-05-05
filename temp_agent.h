@@ -12,11 +12,9 @@
 #include <fstream>
 #include <set>
 #include <opencv2/opencv.hpp>
-#include <stack>
 
 #include <mavsdk/mavsdk.h>
 #include <mavsdk/plugins/action/action.h>
-#include <mavsdk/plugins/telemetry/telemetry.h>
 #include <mavsdk/plugins/mission/mission.h>
 
 #include "detect.h"
@@ -32,24 +30,27 @@ struct Coordinate
     double altitude;
 };
 
-
-enum class State
+struct Context
 {
-    TAKEOFF,
-    WAYPOINT,
-    INITIAL_LOOP,
-    TARGET_LOOP,
-    SCAN, // the actual one-time scanning phase
-    // DELIVERY, // traveling to the payload drop zone
-    INITIAL_DELIVERY,
-    ROUTING,
-    DROP, // actually dropping the payload
-    OBJAVOID,
-    LOITER,
-    HOME,
-    STOP,
-    LAND,
-    DONE
+    vector<Coordinate> positions;
+    int idx = 0;
+};
+
+// holds the waypoints required in the lap
+struct WaypointContext : Context
+{
+};
+
+// holds the 4 positions needed to scan the purple rect. 
+struct ScanContext : Context
+{
+    bool completedScanning = false; // to do the initial scan phase
+};
+
+// holds the dropzone positions
+struct DeliveryContext : Context
+{
+    bool requiresDrop = false;      // needs a drop in the current loop
 };
 
 
@@ -69,7 +70,11 @@ public:
         Action &action,
         Mission &mission,
         Telemetry &telemetry,
+        mavsdk::Param &param,
+
         ofstream &myfile);
+
+    double distance(double currLatitude, double currLongitude, double targetLatitude, double targetLongitude);
 
     void start();
     void stop();
@@ -79,18 +84,30 @@ public:
     void loop();
     void initTargets(string configPath);
 
-    void setLoopPoints(std::vector<Coordinate> coords);
-    void setScanPoints(std::vector<Coordinate> coords);
+    void safe_sleep(int msTime);
 
-    void updateState();
+    ScanContext& getScanContext();
+    WaypointContext& getWaypointContext();
+
+    // class vars
+
+    // State data
+    WaypointContext waypointCtx;
+    ScanContext scanCtx;
+    DeliveryContext deliveryCtx;
+
 
     // Current state
     State state;
     
+    // int lapCounter;
+    // int closestWaypointIdx; // closest waypoint to current delivery point
+
     // mavlink stuff
     Action &action;
-    Mission &mission;
+    Offboard &offboard;
     Telemetry &telemetry;
+    mavsdk::Param &param;
 
     ofstream &myfile;
 
@@ -101,20 +118,12 @@ public:
     const double GEO_THRESHOLD = 0.00002;
     const int MAX_LAPS = 5;
 
-    const float AGENT_ALTITUDE = 24.5;
-    const float AGENT_SPEED = 5.0;
-
     int candidateIdx = 0;
 
     set<int> detectedSet;
     set<int> targetSet;
 
     vector<Servo> servos;
-    std::vector<std::shared_ptr<Mission::MissionItem>> lap_traj;
-    std::vector<std::shared_ptr<Mission::MissionItem>> scan_traj;
-
-    std::stack<std::shared_ptr<Mission::MissionItem>> detectedPositions;
-    std::stack<int> detectedClassNumbers;
 
 };
 
