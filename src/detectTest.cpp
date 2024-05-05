@@ -22,18 +22,15 @@ set<int> targetSet;
 
 
 int getIdx(Detect& detector, string name) {
-
     for (int i = 0; i < detector.getClassNames().size(); i++)
         if (name == detector.getClassNames().at(i))
             return i;
 
     return -1;
-
 }
 
 
 int main(){
-
     Detect detector;
 
     cout << "idx for Blue_Rectangle " << getIdx(detector, "Blue_Rectangle") << endl;
