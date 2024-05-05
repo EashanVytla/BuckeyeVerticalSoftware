@@ -49,7 +49,7 @@ int main()
 
 
     Mavsdk mavsdk{Mavsdk::Configuration{Mavsdk::ComponentType::CompanionComputer}};
-    ConnectionResult connection_result = mavsdk.add_any_connection(SIM_PORT_PATH);
+    ConnectionResult connection_result = mavsdk.add_any_connection(PHYSICAL_PORT_PATH);
 
     if (connection_result != ConnectionResult::Success) {
         std::cerr << "Connection failed: " << connection_result << '\n';
@@ -82,12 +82,12 @@ int main()
     std::cout << "System is ready\n";
     myfile << "System is ready\n";
 
-    const auto arm_result = action.arm();
-    if (arm_result != Action::Result::Success) {
+    //const auto arm_result = action.arm();
+    /**if (arm_result != Action::Result::Success) {
         std::cerr << "Arming failed: " << arm_result << '\n';
         return 1;
     }
-    std::cout << "Armed\n";
+    std::cout << "Armed\n";**/
 
     // const auto takeoff_result = action.takeoff();
     // if (takeoff_result != Action::Result::Success) {
@@ -112,7 +112,7 @@ int main()
     //     return 1;
     // }
 
-    const auto set_velocity = param.set_param_float("MPC_XY_VEL_MAX", 1.0);
+    const auto set_velocity = param.set_param_float("MPC_XY_VEL_MAX", 3.0);
     if (set_velocity != mavsdk::Param::Result::Success) {
         std::cerr << "Velocity not set: " << set_velocity << '\n';
         myfile << "Velocity not set: " << set_velocity << '\n';
@@ -126,12 +126,25 @@ int main()
         return 1;
     }
 
+    const auto set_mpc_mode = param.set_param_int("MPC_POS_MODE", 3);
+    if (set_mpc_mode != mavsdk::Param::Result::Success) {
+        std::cerr << "MPC Mode not set: " << set_mpc_mode << '\n';
+        myfile << "MPC Mode not set: " << set_mpc_mode << '\n';
+        return 1;
+    }
+
     const auto set_z_velocity_up = param.set_param_float("MPC_Z_VEL_MAX_UP", 3.0);
     if (set_z_velocity_up != mavsdk::Param::Result::Success) {
         std::cerr << "Z Velocity Up not set: " << set_z_velocity_up << '\n';
         myfile << "Z Velocity Up not set: " << set_z_velocity_up << '\n';
         return 1;
     }
+
+   /** while(!telemetry.armed()) {
+    	std::cout << "Waiting for arming\n" << endl;	
+    	myfile << "Waiting for arming\n" << endl;
+        sleep_for(400ms);
+    }**/
 
     while(telemetry.flight_mode() != Telemetry::FlightMode::Offboard) {
         std::cout << "Waiting for Offboard\n";
@@ -145,7 +158,7 @@ int main()
         // offboard.set_position_global(currLocation);
 
         offboard.set_velocity_ned({0,0,0,0});
-        offboard.start(); //ONLY SIM
+        //offboard.start(); //ONLY SIM
         sleep_for(400ms);
     }
 
@@ -160,20 +173,20 @@ int main()
         myfile);
 
 
-    // agent.getScanContext().positions = {
-    //     {40.0936649, -83.1961460, 24.384},
-    //     {40.0935812, -83.1974774, 24.384},
-    // }; 
+     /**agent.getScanContext().positions = {
+         {40.0984561, -83.1968410, 24.384},
+         {40.0989164, -83.1968685, 24.384},
+         {40.0989164, -83.1968685, 24.384}
+     };**/ 
 
 
     agent.getScanContext().positions = {
-        {telemetry.position().latitude_deg, telemetry.position().longitude_deg, 24.384},
-        {telemetry.position().latitude_deg + TEN_METERS_APPROX, telemetry.position().longitude_deg, 24.384},
-        {telemetry.position().latitude_deg + TEN_METERS_APPROX, telemetry.position().longitude_deg + TEN_METERS_APPROX, 24.384},
-        {telemetry.position().latitude_deg, telemetry.position().longitude_deg + TEN_METERS_APPROX, 24.384},
-        {telemetry.position().latitude_deg, telemetry.position().longitude_deg, 24.384}
+        {telemetry.position().latitude_deg, telemetry.position().longitude_deg, 10.384},
+        {telemetry.position().latitude_deg + TEN_METERS_APPROX, telemetry.position().longitude_deg, 20.384},
+        {telemetry.position().latitude_deg + TEN_METERS_APPROX, telemetry.position().longitude_deg + TEN_METERS_APPROX, 20.384},
+        {telemetry.position().latitude_deg, telemetry.position().longitude_deg + TEN_METERS_APPROX, 20.384},
+        {telemetry.position().latitude_deg, telemetry.position().longitude_deg, 20.384}
     };
-
 
     cout << "in main for agent" << endl;
     myfile << "in main for agent" << endl;

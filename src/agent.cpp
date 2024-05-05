@@ -152,7 +152,7 @@ void Agent::updateState()
 
 	
         double distance = Agent::distance(telemetry.position().latitude_deg, telemetry.position().longitude_deg, target.latitude, target.longitude);
-        float yaw = Agent::yaw(telemetry.position().latitude_deg, telemetry.position().longitude_deg, target.latitude, target.longitude);
+        float yaw = 0.0;//Agent::yaw(telemetry.position().latitude_deg, telemetry.position().longitude_deg, target.latitude, target.longitude);
 
         myfile << "YAW: " << yaw << endl;
         myfile << "Distance: " << distance << endl;

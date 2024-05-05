@@ -184,7 +184,6 @@ int Detect::getDetectedClassIdx() {
     inference_lock.unlock();
 
     return idx;
-
 }
 
 
