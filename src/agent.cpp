@@ -57,6 +57,7 @@ void Agent::updateState()
     
         while (result != Mission::Result::Success) {
             std::cout << "INITIAL_LOOP Mission start failed (" << result << "), exiting." << '\n';
+            myfile << "INITIAL_LOOP Mission start failed (" << result << "), exiting." << '\n';
             result = mission.start_mission();
             sleep_for(400ms);
         }
@@ -91,6 +92,7 @@ void Agent::updateState()
 
 
         cout << "INITIAL_LOOP Mission WAS COMPLETE: " << std::endl;
+        myfile << "INITIAL_LOOP Mission WAS COMPLETE: " << std::endl;
         // TODO: set mission for SCAN
 
         Mission::MissionPlan mission_plan{};
@@ -104,6 +106,7 @@ void Agent::updateState()
 
         while (result != Mission::Result::Success) {
             std::cout << "SCAN Mission start failed (" << result << "), exiting." << '\n';
+            myfile << "SCAN Mission start failed (" << result << "), exiting." << '\n';
             result = mission.start_mission();
             sleep_for(400ms);
         }
@@ -164,6 +167,7 @@ void Agent::updateState()
 
             if (result != Mission::Result::Success) {
                 std::cout << "Mission upload failed (" << result << "), exiting." << std::endl;
+                myfile << "Mission upload failed (" << result << "), exiting." << std::endl;
                 return;
             }
 
@@ -252,6 +256,7 @@ void Agent::updateState()
         }
 
         cout << "Completed INITIAL_DELIVERY Mission" << std::endl;
+        myfile << "Completed INITIAL_DELIVERY Mission" << std::endl;
             
         // TODO: set mission for DROP
         sleep_for(2000ms);
@@ -349,6 +354,7 @@ void Agent::updateState()
     {
         // TODO: add loitering code
         cout << "Now loitering" << endl;
+        myfile << "Now loitering" << endl;
         sleep_for(1000ms);
 
     }
@@ -454,8 +460,9 @@ void Agent::start()
     if (shouldRun) 
         return;
 
-    // detect.model_on();
-    detect.model_on("4xZoomCrop.mp4");
+    detect.model_on();
+    
+    // detect.model_on("4xZoomCrop.mp4");
 
     shouldRun = true;
 

@@ -49,7 +49,7 @@ int main()
 
 
     Mavsdk mavsdk{Mavsdk::Configuration{Mavsdk::ComponentType::CompanionComputer}};
-    ConnectionResult connection_result = mavsdk.add_any_connection(SIM_PORT_PATH);
+    ConnectionResult connection_result = mavsdk.add_any_connection(PHYSICAL_PORT_PATH);
 
     if (connection_result != ConnectionResult::Success) {
         std::cerr << "Connection failed: " << connection_result << '\n';
@@ -68,8 +68,7 @@ int main()
     auto action = Action{system.value()};
     auto telemetry = Telemetry{system.value()};
     auto mission = mavsdk::Mission{system.value()};
-
-    // std::cout << "Here " << telemetry.position() << std::endl << std::endl;
+    auto param = mavsdk::Param(system.value());
 
     while (!telemetry.health_all_ok()) {
         std::cout << "Waiting for system to be ready\n";
@@ -79,7 +78,7 @@ int main()
     std::cout << "System is ready\n";
     myfile << "System is ready\n";
 
-    const auto arm_result = action.arm();
+    /**const auto arm_result = action.arm();
     if (arm_result != Action::Result::Success) {
         std::cerr << "Arming failed: " << arm_result << '\n';
         return 1;
@@ -107,7 +106,7 @@ int main()
     if (in_air_future.wait_for(seconds(3)) == std::future_status::timeout) {
         std::cerr << "Takeoff timed out.\n";
         return 1;
-    }
+    }**/
 
     const auto set_velocity = param.set_param_float("MPC_XY_VEL_MAX", 20.0);
     if (set_velocity != mavsdk::Param::Result::Success) {
@@ -130,11 +129,11 @@ int main()
         return 1;
     }
 
-    /**while(telemetry.flight_mode() != Telemetry::FlightMode::Mission) {
+    while(telemetry.flight_mode() != Telemetry::FlightMode::Mission) {
         std::cout << "Waiting for Mission\n";
         myfile << "Waiting for Mission" << endl;
         sleep_for(400ms);
-    }**/
+    }
 
 
     Agent agent(
@@ -143,12 +142,6 @@ int main()
         telemetry,
         myfile
     );
-
-
-    // agent.getScanContext().positions = {
-    //     {40.0936649, -83.1961460, 24.384},
-    //     {40.0935812, -83.1974774, 24.384},
-    // }; 
 
 
     agent.setLoopPoints({
@@ -169,19 +162,13 @@ int main()
 
     for (auto item : agent.lap_traj) {
         cout << "(" << item->latitude_deg << ", " << item->longitude_deg << ")" << std::endl;
+        myfile << "(" << item->latitude_deg << ", " << item->longitude_deg << ")" << std::endl;
     }
 
     cout << "in main for agent" << endl;
     myfile << "in main for agent" << endl;
 
-    // for (int i = 0; i < agent.getScanContext().positions.size(); i++) {
-    //     Coordinate c = agent.getScanContext().positions.at(i);
-    //     cout << c.latitude  << ", " << c.longitude  << endl;
-    //     myfile << c.latitude  << ", " << c.longitude  << endl;
-    // }
-    // cout << agent.getScanContext().positions << endl; 
-
-    agent.initTargets("config.txt");
+    agent.initTargets("servoConfig.txt");
 
 
     cout << "actually starting the agent" << endl;
@@ -201,57 +188,4 @@ int main()
     mavlog.close();
 
     return 0;
-
-
-    // const auto land_result = action.land();
-    // if (land_result != Action::Result::Success) {
-    //     std::cerr << "Landing failed: " << land_result << '\n';
-    //     return 1;
-    // }
-
-    // while (telemetry.in_air()) {
-    //     std::cout << "Vehicle is landing...\n";
-    //     sleep_for(seconds(1));
-    // }
-    // std::cout << "Landed!\n";
-
-    // sleep_for(seconds(3));
-    // std::cout << "Finished...\n";
-
-    // return 0;
-
-
-
-
-
-
-
-
-
-
-    // auto in_air_promise = std::promise<void>{};
-    // auto in_air_future = in_air_promise.get_future();
-    // Telemetry::LandedStateHandle handle = telemetry.subscribe_landed_state(
-    //     [&telemetry, &in_air_promise, &handle](Telemetry::LandedState state) {
-    //         if (state == Telemetry::LandedState::InAir) {
-    //             telemetry.unsubscribe_landed_state(handle);
-    //             in_air_promise.set_value();
-    //         }
-    //     });
-    
-
-
-
-    // agent.start();
-
-    // telemetry.subscribe_position([&](Telemetry::Position position) {
-
-    //     if (telemetry.flight_mode()  == Telemetry::FlightMode::Offboard) {
-    //         agent.start();
-    //     } 
-    // });
-
-
-
-
 }
