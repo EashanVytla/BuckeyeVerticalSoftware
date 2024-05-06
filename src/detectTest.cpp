@@ -42,26 +42,36 @@ int main(){
     targetSet.insert(getIdx(detector, "Red_Circle"));
 
     cout << "Starting model" << endl;
-    //detector.model_on("/media/buckeyevertical/A870C69770C66B9E/Test-Data/Videos-20240227T195339Z-001/Videos/4xZoomCrop.mp4");
-    detector.model_on();
+    detector.model_on("/home/buckeyevertical/Downloads/4xZoomCrop.mp4");
+    //detector.model_on();
 
     int counter = 0;
 
     int currentDropTarget = 0;
+    cv::Rect currentDropTargetPos = cv::Rect{0, 0, 0, 0};
 
     while(true){
+
+        detector.lockInference();
+
+        currentDropTarget = detector.getDetectedClassIdxUnsafe();
+        currentDropTargetPos = detector.getDetectedBBoxUnsafe();
+
+        detector.unlockInference();
+
         switch(drone_state){
             case State::SCAN:
             {
-                if (detector.getDetectedClassIdx() == -1)
+                if (currentDropTarget == -1)
                     continue;
 
-                if (targetSet.count(detector.getDetectedClassIdx()) > detectedSet.count(detector.getDetectedClassIdx()))
+                if (targetSet.count(currentDropTarget) > detectedSet.count(currentDropTarget))
                 {
                     // only for testing
                     drone_state = State::DROP;
 
-                    currentDropTarget = detector.getDetectedClassIdx();
+                    // currentDropTarget = detector.getDetectedClassIdx();
+                    // currentDropTargetPos = detector.getDetectedBBox();
 
                     cout << "Changed state to DROP" << endl;
                     // break;
@@ -82,7 +92,9 @@ int main(){
                 // counter = 0;
                 
                 cout << endl << endl;
+                cout << "DROPPING FOR..." << currentDropTarget << endl;
                 cout << "DROPPING FOR..." << detector.getClassNames().at(currentDropTarget) << endl;
+                cout << "DROPPING Position:" << currentDropTargetPos << endl;
                 cout << endl << endl;
 
                 detectedSet.insert(currentDropTarget);

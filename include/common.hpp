@@ -2,6 +2,7 @@
 // Created by ubuntu on 3/16/23.
 //
 
+#pragma once
 #ifndef JETSON_DETECT_COMMON_HPP
 #define JETSON_DETECT_COMMON_HPP
 #include "NvInfer.h"

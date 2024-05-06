@@ -38,6 +38,7 @@ public:
     // std::atomic<int> detectedClassIdx = 0;
 
     int detectedClassIdx = -1;
+    cv::Rect detectedBBox = cv::Rect{-1, -1, -1, -1};
 
     std::vector<std::thread> threads;
 
@@ -140,9 +141,17 @@ public:
     std::vector<std::string> getClassNames();
 
     void setDetectedState(bool val);
-    bool getDetectedState();
     void setDetectedClassIdx(int val);
-    int getDetectedClassIdx();
+
+    int getDetectedClassIdx();    
+    cv::Rect getDetectedBBox();
+
+    int getDetectedClassIdxUnsafe();    
+    cv::Rect getDetectedBBoxUnsafe();
+
+    void lockInference();
+    void unlockInference();
+
 };
 
 #endif

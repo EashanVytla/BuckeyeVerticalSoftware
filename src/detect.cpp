@@ -4,8 +4,8 @@
 // Created by ubuntu on 3/16/23.
 //
 
-#include "yolov8.hpp"
 #include "detect.h"
+#include "yolov8.hpp"
 
 // #include "chrono"
 // #include "opencv2/opencv.hpp"
@@ -164,10 +164,7 @@ void Detect::setDetectedState(bool val) {
     return;
 }
 
-bool Detect::getDetectedState() {
-    // return detectedObject;
-    return true;
-}
+
 
 void Detect::setDetectedClassIdx(int val) {
     detectedClassIdx = val;
@@ -184,8 +181,48 @@ int Detect::getDetectedClassIdx() {
     inference_lock.unlock();
 
     return idx;
+}
+
+cv::Rect Detect::getDetectedBBox() {
+    cv::Rect rect = cv::Rect{-1,-1, -1, -1};
+
+    inference_lock.lock();
+
+    if(detectedClassIdx != -1){
+        rect = detectedBBox;
+    }
+
+    inference_lock.unlock();
+
+    return rect;
+}
+
+int Detect::getDetectedClassIdxUnsafe() {
+    return detectedClassIdx;
+}
+
+cv::Rect Detect::getDetectedBBoxUnsafe() {
+
+    cv::Rect rect = cv::Rect{-1,-1, -1, -1};
+
+    if(detectedClassIdx != -1){
+        rect = detectedBBox;
+    }
+
+    return rect;
 
 }
+
+
+
+void Detect::lockInference() {
+    inference_lock.lock();
+}
+
+void Detect::unlockInference() {
+    inference_lock.unlock();
+}
+
 
 
 // void checkObjectDetected() {
@@ -286,6 +323,7 @@ void Detect::inference(){
     
             if (objs.size() > 0){
                 detectedClassIdx = objs.at(0).label;
+                detectedBBox = objs.at(0).rect;
                 cout << "Detected " << detectedClassIdx << " Object at " << elapsed_seconds.count() << endl;
                 infLog << "Detected " << detectedClassIdx << " Object at " << elapsed_seconds.count() << endl;
             }

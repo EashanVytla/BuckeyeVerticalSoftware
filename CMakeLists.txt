@@ -67,6 +67,11 @@ add_executable(detectTest
                src/detect.cpp
 )
 
+add_executable(latLonTest
+               src/latLonTest.cpp
+               src/localization.cpp
+)
+
 # Specify your app's executable name and a list of linked libraries
 target_link_libraries(main
                       MAVSDK::mavsdk
@@ -87,6 +92,13 @@ target_link_libraries(detectTest
                       MAVSDK::mavsdk
                       nvinfer
                       nvinfer_plugin
+                      ${CUDA_LIBRARIES}
+                      ${OpenCV_LIBS}
+                      ${ALL_LIBS}
+)
+
+# Specify your app's executable name and a list of linked libraries
+target_link_libraries(latLonTest
                       ${CUDA_LIBRARIES}
                       ${OpenCV_LIBS}
                       ${ALL_LIBS}
