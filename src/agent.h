@@ -101,8 +101,9 @@ public:
     const double GEO_THRESHOLD = 0.00002;
     const int MAX_LAPS = 5;
 
-    const float AGENT_ALTITUDE = 24.5;
-    const float AGENT_SPEED = 5.0;
+    // const static float AGENT_ALTITUDE = 12.25;
+    const float LAP_SPEED = 5.0;
+    const float SCAN_SPEED = 5.0;
 
     int candidateIdx = 0;
 

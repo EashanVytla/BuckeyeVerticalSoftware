@@ -41,10 +41,10 @@ void Agent::updateState()
 
         currentPosition->latitude_deg = telemetry.position().latitude_deg;
         currentPosition->longitude_deg = telemetry.position().longitude_deg;
-        // currentPosition->loiter_time_s = 0.0f; // loiter for 15 seconds
+        currentPosition->loiter_time_s = 1.0f; // loiter for 15 seconds
         currentPosition->is_fly_through = false;
-        currentPosition->relative_altitude_m = AGENT_ALTITUDE;
-        currentPosition->speed_m_s = 10.0f; // 10 meters per second for the speed
+        currentPosition->relative_altitude_m = lap_traj.at(0)->relative_altitude_m;
+        currentPosition->speed_m_s = LAP_SPEED; // 10 meters per second for the speed
 
         mission_plan.mission_items.push_back(*currentPosition);
 
@@ -141,10 +141,10 @@ void Agent::updateState()
 
             currentPosition->latitude_deg = telemetry.position().latitude_deg;
             currentPosition->longitude_deg = telemetry.position().longitude_deg;
-            // currentPosition->loiter_time_s = 0.0f; // loiter for 15 seconds
+            currentPosition->loiter_time_s = 1.0f; // loiter for 15 seconds
             currentPosition->is_fly_through = false;
-            currentPosition->relative_altitude_m = AGENT_ALTITUDE;
-            currentPosition->speed_m_s = 10.0f; // 10 meters per second for the speed
+            currentPosition->relative_altitude_m = scan_traj.at(0)->relative_altitude_m;
+            currentPosition->speed_m_s = SCAN_SPEED; // 10 meters per second for the speed
 
 
 
@@ -501,7 +501,8 @@ void Agent::setLoopPoints(std::vector<Coordinate> coords) {
         item->latitude_deg = coords.at(i).latitude;
         item->longitude_deg = coords.at(i).longitude;
         item->relative_altitude_m = coords.at(i).altitude;
-        item->speed_m_s = 10.0f; // 10 meters per second for the speed
+        item->speed_m_s = LAP_SPEED; // 10 meters per second for the speed
+        item->loiter_time_s = 1.0f;
         item->is_fly_through = false;
 
         lap_traj.push_back(item);
@@ -519,7 +520,8 @@ void Agent::setScanPoints(std::vector<Coordinate> coords) {
         item->longitude_deg = coords.at(i).longitude;
         item->relative_altitude_m = coords.at(i).altitude;
         item->is_fly_through = false;
-        item->speed_m_s = 5.0f;
+        item->loiter_time_s = 1.0f;
+        item->speed_m_s = SCAN_SPEED;
 
         scan_traj.push_back(item);
 

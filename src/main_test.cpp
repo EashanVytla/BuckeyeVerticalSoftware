@@ -143,21 +143,23 @@ int main()
         myfile
     );
 
+    const int LOOP_ALTITUDE = 12.25;
+    const int SCAN_ALTITUDE = 12.25;
 
     agent.setLoopPoints({
-        {telemetry.position().latitude_deg, telemetry.position().longitude_deg, 24.5},
-        {telemetry.position().latitude_deg + TEN_METERS_APPROX, telemetry.position().longitude_deg, 24.5},
-        {telemetry.position().latitude_deg + TEN_METERS_APPROX, telemetry.position().longitude_deg + TEN_METERS_APPROX, 24.5},
-        {telemetry.position().latitude_deg, telemetry.position().longitude_deg + TEN_METERS_APPROX, 24.5},
-        {telemetry.position().latitude_deg, telemetry.position().longitude_deg, 24.5}
+        {telemetry.position().latitude_deg, telemetry.position().longitude_deg, LOOP_ALTITUDE},
+        {telemetry.position().latitude_deg + TEN_METERS_APPROX, telemetry.position().longitude_deg, LOOP_ALTITUDE},
+        {telemetry.position().latitude_deg + TEN_METERS_APPROX, telemetry.position().longitude_deg + TEN_METERS_APPROX, LOOP_ALTITUDE},
+        {telemetry.position().latitude_deg, telemetry.position().longitude_deg + TEN_METERS_APPROX, LOOP_ALTITUDE},
+        {telemetry.position().latitude_deg, telemetry.position().longitude_deg, LOOP_ALTITUDE}
     });
     
     agent.setScanPoints({
-        {telemetry.position().latitude_deg, telemetry.position().longitude_deg, 24.5},
-        {telemetry.position().latitude_deg + TEN_METERS_APPROX, telemetry.position().longitude_deg, 24.5},
-        {telemetry.position().latitude_deg + TEN_METERS_APPROX, telemetry.position().longitude_deg + TEN_METERS_APPROX, 24.5},
-        {telemetry.position().latitude_deg, telemetry.position().longitude_deg + TEN_METERS_APPROX, 24.5},
-        {telemetry.position().latitude_deg, telemetry.position().longitude_deg, 24.5}
+        {telemetry.position().latitude_deg, telemetry.position().longitude_deg, SCAN_ALTITUDE},
+        {telemetry.position().latitude_deg + TEN_METERS_APPROX, telemetry.position().longitude_deg, SCAN_ALTITUDE},
+        {telemetry.position().latitude_deg + TEN_METERS_APPROX, telemetry.position().longitude_deg + TEN_METERS_APPROX, SCAN_ALTITUDE},
+        {telemetry.position().latitude_deg, telemetry.position().longitude_deg + TEN_METERS_APPROX, SCAN_ALTITUDE},
+        {telemetry.position().latitude_deg, telemetry.position().longitude_deg, SCAN_ALTITUDE}
     });
 
     for (auto item : agent.lap_traj) {

@@ -4,7 +4,7 @@
 // Created by ubuntu on 3/16/23.
 //
 
-// #include "yolov8.hpp"
+#include "yolov8.hpp"
 #include "detect.h"
 
 // #include "chrono"
@@ -49,7 +49,7 @@ void Detect::capture_frames(){
     }
     
     while (cap.read(image) && is_running) {
-	capLog << frame_buffer.size() << endl;
+	    capLog << frame_buffer.size() << endl;
 
         // std::cout << "HELLO FROM CAPTUER FRAMES" << std::endl;
 
@@ -203,14 +203,17 @@ void Detect::inference(){
     std::vector<Object> objs;
     cv::Size            size = cv::Size{1280, 1280}; //Change Here
 
-    // Define the codec and create VideoWriter object
-    //cv::VideoWriter video("output.avi", cv::VideoWriter::fourcc('M','J','P','G'), 15, size);
 
-    // Check if VideoWriter opened successfully
-    /*if (!video.isOpened()) {
+    const int VIDEO_FRAME_RATE = 10;
+
+    // Define the codec and create VideoWriter object
+    cv::VideoWriter video("output.mp4", cv::VideoWriter::fourcc('M','J','P','G'), VIDEO_FRAME_RATE, cv::Size{1280, 720}, true);
+
+    // Check if VideoWriter opened successfully=
+    if (!video.isOpened()) {
         std::cerr << "Error: Unable to open VideoWriter" << std::endl;
         return;
-    }*/
+    }
 
     std::ofstream infLog;
     infLog.open("infLog.txt");
@@ -292,7 +295,9 @@ void Detect::inference(){
 
 
             //cv::imshow("result", image);
-            //video.write(image);
+
+            //cout << image.size() << endl;
+            video.write(image);
         
 
             if (cv::waitKey(1) == 'q') {
@@ -308,7 +313,7 @@ void Detect::inference(){
     }
 
     infLog.close();
-    //video.release();
+    video.release();
     cv::destroyAllWindows();
     delete yolov8;
 }
