@@ -27,13 +27,14 @@ def test():
     while cam.getZoomLevel() < 3.0:
         val = cam.requestZoomIn()
         
-    print(f"Zoom level: {val}")
+    print(f"Zoom level: {cam.getZoomLevel()}")
 
     val = cam.requestZoomHold()
 
     while True:
+        print(f"Sending autofocus request...")
         val = cam.requestAutoFocus()
-        sleep(5)
+        sleep(2)
 
     cam.disconnect()
 
