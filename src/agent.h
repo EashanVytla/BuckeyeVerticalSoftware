@@ -13,6 +13,7 @@
 #include <set>
 #include <opencv2/opencv.hpp>
 #include <stack>
+#include <iomanip>
 
 #include <mavsdk/mavsdk.h>
 #include <mavsdk/plugins/action/action.h>

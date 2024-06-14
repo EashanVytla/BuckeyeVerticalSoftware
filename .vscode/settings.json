@@ -87,7 +87,9 @@
         "__bit_reference": "cpp",
         "queue": "cpp",
         "stack": "cpp",
-        "__split_buffer": "cpp"
+        "__split_buffer": "cpp",
+        "__hash_table": "cpp",
+        "__tree": "cpp"
     },
     "ros.distro": "humble"
 }

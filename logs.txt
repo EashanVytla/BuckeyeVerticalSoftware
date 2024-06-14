@@ -1,0 +1,727 @@
+Waiting for system to be ready
+System is ready
+Loaded intrinsics
+Load extrinsics
+(47.3977, 8.54559)
+(47.3977, 8.54579)
+in main for agent
+OPENED servoConfig FILE
+Config entries extracted from the file:
+servoIndex: 0, Class name: Black_Rectangle, Open Position: 0.3, Close Position 0.3
+servoIndex: 1, Class name: Blue_Circle, Open Position: 0.4, Close Position 0.4
+servoIndex: 2, Class name: Red_Triangle, Open Position: 0.25, Close Position 0.25
+actually starting the agent
+ADDED LOOP THREAD INSIDE AGENT::start
+[Time elapsed: 2.94e-07 seconds]
+Changed state to INITIAL_LOOP
+
+
+[Time elapsed: 0.75932 seconds]
+Mission is not complete yet: 
+
+
+[Time elapsed: 1.15986 seconds]
+Mission is not complete yet: 
+
+
+[Time elapsed: 1.56031 seconds]
+Mission is not complete yet: 
+
+
+[Time elapsed: 1.96074 seconds]
+Mission is not complete yet: 
+
+
+[Time elapsed: 2.36104 seconds]
+Mission is not complete yet: 
+
+
+[Time elapsed: 2.76144 seconds]
+Mission is not complete yet: 
+
+
+[Time elapsed: 3.16194 seconds]
+Mission is not complete yet: 
+
+
+[Time elapsed: 3.56244 seconds]
+Mission is not complete yet: 
+
+
+[Time elapsed: 3.96307 seconds]
+Mission is not complete yet: 
+
+
+[Time elapsed: 4.36329 seconds]
+Mission is not complete yet: 
+
+
+[Time elapsed: 4.76348 seconds]
+Mission is not complete yet: 
+
+
+[Time elapsed: 5.16415 seconds]
+Mission is not complete yet: 
+
+
+[Time elapsed: 5.5741 seconds]
+Mission is not complete yet: 
+
+
+[Time elapsed: 5.97483 seconds]
+Mission is not complete yet: 
+
+
+[Time elapsed: 6.37552 seconds]
+Mission is not complete yet: 
+
+
+[Time elapsed: 6.77614 seconds]
+Mission is not complete yet: 
+
+
+[Time elapsed: 7.17701 seconds]
+Mission is not complete yet: 
+
+
+[Time elapsed: 7.57755 seconds]
+Mission is not complete yet: 
+
+
+[Time elapsed: 7.97798 seconds]
+Mission is not complete yet: 
+
+
+[Time elapsed: 8.37825 seconds]
+Mission is not complete yet: 
+
+
+[Time elapsed: 8.77858 seconds]
+Mission is not complete yet: 
+
+
+[Time elapsed: 9.17895 seconds]
+Mission is not complete yet: 
+
+
+[Time elapsed: 9.57922 seconds]
+Mission is not complete yet: 
+
+
+[Time elapsed: 9.97959 seconds]
+Mission is not complete yet: 
+
+
+[Time elapsed: 10.3799 seconds]
+Mission is not complete yet: 
+
+
+[Time elapsed: 10.7803 seconds]
+INITIAL_LOOP Mission WAS COMPLETE: 
+
+
+[Time elapsed: 11.3638 seconds]
+TRAVELING_TO_SCAN Mission is not complete yet: 
+
+
+[Time elapsed: 11.7642 seconds]
+TRAVELING_TO_SCAN Mission is not complete yet: 
+
+
+[Time elapsed: 12.1646 seconds]
+TRAVELING_TO_SCAN Mission is not complete yet: 
+
+
+[Time elapsed: 12.5649 seconds]
+TRAVELING_TO_SCAN Mission is not complete yet: 
+
+
+[Time elapsed: 12.9652 seconds]
+TRAVELING_TO_SCAN Mission is not complete yet: 
+
+
+[Time elapsed: 13.3655 seconds]
+TRAVELING_TO_SCAN Mission is not complete yet: 
+
+
+[Time elapsed: 13.7658 seconds]
+TRAVELING_TO_SCAN Mission is not complete yet: 
+
+
+[Time elapsed: 14.1662 seconds]
+TRAVELING_TO_SCAN Mission is not complete yet: 
+
+
+[Time elapsed: 14.5666 seconds]
+TRAVELING_TO_SCAN Mission is not complete yet: 
+
+
+[Time elapsed: 14.967 seconds]
+TRAVELING_TO_SCAN Mission is not complete yet: 
+
+
+[Time elapsed: 15.3672 seconds]
+TRAVELING_TO_SCAN Mission is not complete yet: 
+
+
+[Time elapsed: 15.7676 seconds]
+TRAVELING_TO_SCAN Mission is not complete yet: 
+
+
+[Time elapsed: 16.1775 seconds]
+TRAVELING_TO_SCAN Mission is not complete yet: 
+
+
+[Time elapsed: 16.5778 seconds]
+TRAVELING_TO_SCAN Mission is not complete yet: 
+
+
+[Time elapsed: 16.9781 seconds]
+TRAVELING_TO_SCAN Mission is not complete yet: 
+
+
+[Time elapsed: 17.3785 seconds]
+TRAVELING_TO_SCAN Mission is not complete yet: 
+
+
+[Time elapsed: 17.7789 seconds]
+TRAVELING_TO_SCAN Mission is not complete yet: 
+
+
+[Time elapsed: 18.18 seconds]
+TRAVELING_TO_SCAN Mission is not complete yet: 
+
+
+[Time elapsed: 18.5807 seconds]
+TRAVELING_TO_SCAN Mission is not complete yet: 
+
+
+[Time elapsed: 18.981 seconds]
+TRAVELING_TO_SCAN Mission is not complete yet: 
+
+
+[Time elapsed: 19.3813 seconds]
+TRAVELING_TO_SCAN Mission is not complete yet: 
+
+
+[Time elapsed: 19.7817 seconds]
+TRAVELING_TO_SCAN Mission is not complete yet: 
+
+
+[Time elapsed: 20.1828 seconds]
+TRAVELING_TO_SCAN Mission is not complete yet: 
+
+
+[Time elapsed: 20.5835 seconds]
+
+
+[Time elapsed: 21.0475 seconds]
+Mission is not complete yet: 
+
+
+[Time elapsed: 21.4479 seconds]
+Mission is not complete yet: 
+
+
+[Time elapsed: 21.8481 seconds]
+Mission is not complete yet: 
+
+
+[Time elapsed: 22.2486 seconds]
+Mission is not complete yet: 
+
+
+[Time elapsed: 22.649 seconds]
+Mission is not complete yet: 
+
+
+[Time elapsed: 23.0492 seconds]
+Mission is not complete yet: 
+Candidate IDX: 10
+
+
+
+[Time elapsed: 30.0634 seconds]
+Mission is not complete yet: 
+Candidate IDX: 10
+
+
+
+[Time elapsed: 30.464 seconds]
+Mission is not complete yet: 
+Candidate IDX: 10
+
+
+
+[Time elapsed: 30.8652 seconds]
+Mission is not complete yet: 
+Candidate IDX: 10
+
+
+
+[Time elapsed: 31.2658 seconds]
+Mission is not complete yet: 
+Candidate IDX: 0
+
+
+
+[Time elapsed: 38.2959 seconds]
+Mission is not complete yet: 
+Candidate IDX: 0
+
+
+
+[Time elapsed: 38.6964 seconds]
+Mission is not complete yet: 
+Candidate IDX: 0
+
+
+
+[Time elapsed: 39.0967 seconds]
+Mission is not complete yet: 
+Candidate IDX: 0
+
+
+
+[Time elapsed: 39.4972 seconds]
+Mission is not complete yet: 
+Candidate IDX: 0
+
+
+
+[Time elapsed: 39.8976 seconds]
+Mission is not complete yet: 
+Candidate IDX: 0
+
+
+
+[Time elapsed: 40.2979 seconds]
+Mission is not complete yet: 
+Candidate IDX: 0
+
+
+
+[Time elapsed: 40.6984 seconds]
+Mission is not complete yet: 
+Candidate IDX: 0
+
+
+
+[Time elapsed: 41.0988 seconds]
+Mission is not complete yet: 
+Candidate IDX: 0
+
+
+
+[Time elapsed: 41.4991 seconds]
+Mission is not complete yet: 
+Candidate IDX: 0
+
+
+
+[Time elapsed: 41.8996 seconds]
+Mission is not complete yet: 
+Candidate IDX: 0
+
+
+
+[Time elapsed: 42.3002 seconds]
+Mission is not complete yet: 
+Candidate IDX: 0
+
+
+
+[Time elapsed: 42.701 seconds]
+Mission is not complete yet: 
+Candidate IDX: 0
+
+
+
+[Time elapsed: 43.1022 seconds]
+
+
+[Time elapsed: 43.6959 seconds]
+Mission is not complete yet: 
+
+
+[Time elapsed: 44.0964 seconds]
+Mission is not complete yet: 
+
+
+[Time elapsed: 44.497 seconds]
+Mission is not complete yet: 
+
+
+[Time elapsed: 44.8977 seconds]
+Mission is not complete yet: 
+
+
+[Time elapsed: 45.2984 seconds]
+Mission is not complete yet: 
+
+
+[Time elapsed: 45.6993 seconds]
+Mission is not complete yet: 
+
+
+[Time elapsed: 46.0997 seconds]
+Mission is not complete yet: 
+
+
+[Time elapsed: 46.5003 seconds]
+Mission is not complete yet: 
+
+
+[Time elapsed: 46.901 seconds]
+Mission is not complete yet: 
+
+
+[Time elapsed: 47.3015 seconds]
+Mission is not complete yet: 
+
+
+[Time elapsed: 47.702 seconds]
+Mission is not complete yet: 
+
+
+[Time elapsed: 48.1023 seconds]
+Mission is not complete yet: 
+
+
+[Time elapsed: 48.5124 seconds]
+Mission is not complete yet: 
+
+
+[Time elapsed: 48.9128 seconds]
+Mission is not complete yet: 
+
+
+[Time elapsed: 49.3131 seconds]
+Completed INITIAL_DELIVERY Mission
+
+
+[Time elapsed: 51.3135 seconds]
+DROPPING FOR: Black_Rectangle
+Setting actuator Black_Rectangle : 0
+Changed state to ROUTING
+
+
+[Time elapsed: 56.3141 seconds]
+
+
+[Time elapsed: 56.5038 seconds]
+
+
+[Time elapsed: 56.9043 seconds]
+
+
+[Time elapsed: 57.3046 seconds]
+
+
+[Time elapsed: 57.7049 seconds]
+
+
+[Time elapsed: 58.1051 seconds]
+
+
+[Time elapsed: 58.5053 seconds]
+
+
+[Time elapsed: 58.9056 seconds]
+
+
+[Time elapsed: 59.3058 seconds]
+
+
+[Time elapsed: 59.7061 seconds]
+
+
+[Time elapsed: 60.1068 seconds]
+
+
+[Time elapsed: 60.507 seconds]
+
+
+[Time elapsed: 60.9074 seconds]
+
+
+[Time elapsed: 61.3077 seconds]
+
+
+[Time elapsed: 61.708 seconds]
+
+
+[Time elapsed: 62.1084 seconds]
+
+
+[Time elapsed: 62.5086 seconds]
+
+
+[Time elapsed: 62.9089 seconds]
+
+
+[Time elapsed: 63.3091 seconds]
+
+
+[Time elapsed: 63.7094 seconds]
+
+
+[Time elapsed: 64.1101 seconds]
+
+
+[Time elapsed: 64.5106 seconds]
+
+
+[Time elapsed: 64.9109 seconds]
+
+
+[Time elapsed: 65.3113 seconds]
+
+
+[Time elapsed: 65.712 seconds]
+
+
+[Time elapsed: 66.1125 seconds]
+
+
+[Time elapsed: 66.5129 seconds]
+
+
+[Time elapsed: 66.9136 seconds]
+
+
+[Time elapsed: 67.3145 seconds]
+
+
+[Time elapsed: 67.7152 seconds]
+
+
+[Time elapsed: 68.1155 seconds]
+
+
+[Time elapsed: 68.5158 seconds]
+
+
+[Time elapsed: 68.916 seconds]
+
+
+[Time elapsed: 69.3164 seconds]
+
+
+[Time elapsed: 69.7166 seconds]
+
+
+[Time elapsed: 70.1168 seconds]
+
+
+[Time elapsed: 70.5171 seconds]
+
+
+[Time elapsed: 70.9173 seconds]
+
+
+[Time elapsed: 71.3175 seconds]
+
+
+[Time elapsed: 71.7177 seconds]
+
+
+[Time elapsed: 72.1184 seconds]
+
+
+[Time elapsed: 72.5189 seconds]
+
+
+[Time elapsed: 72.9191 seconds]
+
+
+[Time elapsed: 73.3195 seconds]
+
+
+[Time elapsed: 73.7199 seconds]
+
+
+[Time elapsed: 74.1203 seconds]
+
+
+[Time elapsed: 74.5209 seconds]
+
+
+[Time elapsed: 74.9215 seconds]
+
+
+[Time elapsed: 75.3218 seconds]
+
+
+[Time elapsed: 75.722 seconds]
+
+
+[Time elapsed: 76.1223 seconds]
+
+
+[Time elapsed: 76.5226 seconds]
+
+
+[Time elapsed: 76.9229 seconds]
+
+
+[Time elapsed: 77.3239 seconds]
+
+
+[Time elapsed: 77.7243 seconds]
+
+
+[Time elapsed: 78.1245 seconds]
+
+
+[Time elapsed: 78.5247 seconds]
+
+
+[Time elapsed: 78.9255 seconds]
+
+
+[Time elapsed: 79.3258 seconds]
+
+
+[Time elapsed: 79.7263 seconds]
+
+
+[Time elapsed: 80.1267 seconds]
+
+
+[Time elapsed: 80.5273 seconds]
+
+
+[Time elapsed: 80.9276 seconds]
+
+
+[Time elapsed: 81.3279 seconds]
+
+
+[Time elapsed: 81.7286 seconds]
+
+
+[Time elapsed: 82.1289 seconds]
+
+
+[Time elapsed: 82.5292 seconds]
+
+
+[Time elapsed: 82.9294 seconds]
+
+
+[Time elapsed: 83.3296 seconds]
+
+
+[Time elapsed: 83.73 seconds]
+
+
+[Time elapsed: 84.1304 seconds]
+
+
+[Time elapsed: 84.5309 seconds]
+
+
+[Time elapsed: 84.9317 seconds]
+
+
+[Time elapsed: 85.3323 seconds]
+
+
+[Time elapsed: 85.7327 seconds]
+
+
+[Time elapsed: 86.133 seconds]
+
+
+[Time elapsed: 86.5335 seconds]
+
+
+[Time elapsed: 86.934 seconds]
+
+
+[Time elapsed: 87.3343 seconds]
+
+
+[Time elapsed: 87.7347 seconds]
+
+
+[Time elapsed: 88.1354 seconds]
+
+
+[Time elapsed: 88.5357 seconds]
+
+
+[Time elapsed: 88.9361 seconds]
+
+
+[Time elapsed: 89.3365 seconds]
+
+
+[Time elapsed: 89.7368 seconds]
+
+
+[Time elapsed: 90.137 seconds]
+
+
+[Time elapsed: 90.5373 seconds]
+
+
+[Time elapsed: 90.9376 seconds]
+
+
+[Time elapsed: 91.3381 seconds]
+
+
+[Time elapsed: 91.7383 seconds]
+
+
+[Time elapsed: 92.139 seconds]
+
+
+[Time elapsed: 92.5397 seconds]
+
+
+[Time elapsed: 97.54 seconds]
+DROPPING FOR: Blue_Circle
+Setting actuator Blue_Circle : 1
+Changed state to ROUTING
+
+
+[Time elapsed: 104.561 seconds]
+
+
+[Time elapsed: 104.561 seconds]
+Now loitering
+
+
+[Time elapsed: 106.562 seconds]
+Now loitering
+
+
+[Time elapsed: 108.562 seconds]
+Now loitering
+
+
+[Time elapsed: 110.563 seconds]
+Now loitering
+
+
+[Time elapsed: 112.563 seconds]
+Now loitering
+
+
+[Time elapsed: 114.563 seconds]
+Now loitering
+
+
+[Time elapsed: 116.564 seconds]
+Now loitering
+
+
+[Time elapsed: 118.564 seconds]
+Now loitering
+
+
+[Time elapsed: 120.564 seconds]
+Now loitering

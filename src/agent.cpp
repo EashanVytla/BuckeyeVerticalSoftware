@@ -33,6 +33,9 @@ void Agent::updateState()
     case State::TAKEOFF:
     {
         
+
+        cout << "IN TAKEOFF" << std::endl;
+
         // TODO: set mission for INITIAL_LOOP
 
         Mission::MissionPlan mission_plan{};
@@ -42,7 +45,7 @@ void Agent::updateState()
         currentPosition->latitude_deg = telemetry.position().latitude_deg;
         currentPosition->longitude_deg = telemetry.position().longitude_deg;
         currentPosition->loiter_time_s = 1.0f; // loiter for 15 seconds
-        currentPosition->is_fly_through = false;
+        currentPosition->is_fly_through = true;
         currentPosition->relative_altitude_m = lap_traj.at(0)->relative_altitude_m;
         currentPosition->speed_m_s = LAP_SPEED; // 10 meters per second for the speed
 
@@ -75,6 +78,9 @@ void Agent::updateState()
 
     case State::INITIAL_LOOP:
     {
+
+        cout << "IN INITAL_LOOP" << std::endl;
+
         auto completionCheckPair = mission.is_mission_finished();
         if (completionCheckPair.first != Mission::Result::Success) {
             myfile << "Failed to get mission status: " << std::endl;
@@ -102,7 +108,7 @@ void Agent::updateState()
         currentPosition->latitude_deg = telemetry.position().latitude_deg;
         currentPosition->longitude_deg = telemetry.position().longitude_deg;
         currentPosition->loiter_time_s = 1.0f; // loiter for 15 seconds
-        currentPosition->is_fly_through = false;
+        currentPosition->is_fly_through = true;
         currentPosition->relative_altitude_m = scan_traj.at(0)->relative_altitude_m;
         currentPosition->speed_m_s = LAP_SPEED; // 10 meters per second for the speed
 
@@ -120,14 +126,19 @@ void Agent::updateState()
             sleep_for(400ms);
         }
 
+
+
         state = State::TRAVELING_TO_SCAN;
 
+        sleep_for(400ms);
     }
     break;
 
     // TRAVELING_TO_SCAN
     case State::TRAVELING_TO_SCAN:
     {
+
+        cout << "IN TRAVELING_TO_SCAN" << std::endl;
 
         auto completionCheckPair = mission.is_mission_finished();
         if (completionCheckPair.first != Mission::Result::Success) {
@@ -161,7 +172,9 @@ void Agent::updateState()
             sleep_for(400ms);
         }
 
+
         state = State::SCAN;
+        sleep_for(400ms);
 
     }
     break;
@@ -170,7 +183,12 @@ void Agent::updateState()
     // Represents hitting all the waypoints for scanning
     case State::SCAN:
     {
+
+
+        cout << "IN SCAN" << std::endl;
+
         auto completionCheckPair = mission.is_mission_finished();
+
         if (completionCheckPair.first != Mission::Result::Success) {
             myfile << "Failed to get mission status: " << std::endl;
             cout << "SCAN Failed to get mission status: " << std::endl;
@@ -180,8 +198,13 @@ void Agent::updateState()
 
         if (completionCheckPair.second) {
 
+            cout << "FINISHED SCAN MISSION" << std::endl;
+
             if (detectedPositions.size() <= 0) {
+
+                cout << "FROM SCAN, SETTING LOITER" << std::endl;
                 state = State::LOITER;
+                sleep_for(400ms);
                 break; 
             }
 
@@ -189,13 +212,27 @@ void Agent::updateState()
             std::vector<std::shared_ptr<Mission::MissionItem>> connector_traj;
 
             std::shared_ptr<Mission::MissionItem> currentPosition(new Mission::MissionItem());
+            std::shared_ptr<Mission::MissionItem> payloadPosition(new Mission::MissionItem());
 
             currentPosition->latitude_deg = telemetry.position().latitude_deg;
             currentPosition->longitude_deg = telemetry.position().longitude_deg;
             currentPosition->loiter_time_s = 1.0f; // loiter for 15 seconds
-            currentPosition->is_fly_through = false;
+            currentPosition->is_fly_through = true;
             currentPosition->relative_altitude_m = scan_traj.at(0)->relative_altitude_m;
             currentPosition->speed_m_s = SCAN_SPEED; // 10 meters per second for the speed
+
+            payloadPosition->latitude_deg = detectedPositions.top()->latitude_deg;
+            payloadPosition->longitude_deg = detectedPositions.top()->longitude_deg;
+            payloadPosition->loiter_time_s = 1.0f; // loiter for 15 seconds
+            payloadPosition->is_fly_through = true;
+            payloadPosition->relative_altitude_m = scan_traj.at(0)->relative_altitude_m;
+            payloadPosition->speed_m_s = LAP_SPEED; // 10 meters per second for the speed
+
+
+            cout << "scan_traj first point (" << scan_traj.at(0)->latitude_deg << std::setprecision(8) << ", " << scan_traj.at(0)->longitude_deg << std::setprecision(8) << ")" << std::endl; 
+            cout << "scan_traj second point (" << scan_traj.at(1)->latitude_deg << std::setprecision(8) << ", " << scan_traj.at(1)->longitude_deg << std::setprecision(8) << ")" << std::endl; 
+
+
 
 
 
@@ -204,25 +241,39 @@ void Agent::updateState()
             //           0.0f, 0.0f,
             //           MissionItem::CameraAction::NONE))
 
-            connector_traj.push_back(currentPosition);
-            // connector_traj.push_back(currentPosition);
-            connector_traj.push_back(detectedPositions.top());
+            // connector_traj.push_back(*currentPosition);
+            // // connector_traj.push_back(currentPosition);
+            // connector_traj.push_back(*detectedPositions.top());
+
+
+            cout << "INITIAL_DELIVERY end position (" << detectedPositions.top()->latitude_deg << std::setprecision(8) << ", " << detectedPositions.top()->longitude_deg << std::setprecision(8) << ")" << std::endl; 
 
             Mission::MissionPlan mission_plan{};
 
-            for (const auto& item : connector_traj) {
-                mission_plan.mission_items.push_back(*item);
-            }
+            mission_plan.mission_items.push_back(*currentPosition);
+            mission_plan.mission_items.push_back(*payloadPosition);
 
-            Mission::Result result = mission.upload_mission(mission_plan);
+            Mission::Result missionUploadResult = mission.upload_mission(mission_plan);
 
-            if (result != Mission::Result::Success) {
-                std::cout << "Mission upload failed (" << result << "), exiting." << std::endl;
-                myfile << "Mission upload failed (" << result << "), exiting." << std::endl;
+            if (missionUploadResult != Mission::Result::Success) {
+                std::cout << "Mission upload failed (" << missionUploadResult << "), exiting." << std::endl;
+                myfile << "Mission upload failed (" << missionUploadResult << "), exiting." << std::endl;
                 return;
             }
 
+            auto result = mission.start_mission();
+            while (result != Mission::Result::Success) {
+                std::cout << "INITIAL_DELIVERY Mission start failed (" << result << "), exiting." << '\n';
+                myfile << "INITIAL_DELIVERY Mission start failed (" << result << "), exiting." << '\n';
+                result = mission.start_mission();
+                sleep_for(400ms);
+            }
+
+
             state = State::INITIAL_DELIVERY;
+            sleep_for(400ms);
+
+
             break;
         }
 
@@ -258,9 +309,15 @@ void Agent::updateState()
             sleep_for(400ms);
         }
 
+        cout << "PAUSED MISSION" << std::endl;
+
+
+        cout << "SLEEPING FOR 7 SECONDS" << std::endl;
         
         // becoming still before looking at bounding box
-        sleep_for(1000ms);
+        sleep_for(std::chrono::seconds(7));
+
+        cout << "FINISHED SLEEPING" << std::endl;
 
         // double check to make sure we still see the target
 
@@ -270,7 +327,6 @@ void Agent::updateState()
         currentDropTargetPos = detect.getDetectedBBoxUnsafe();
 
         detect.unlockInference();
-
 
         // only add the new target if double check has same candidate idx
         if (doubleCheckCandidateIdx == candidateIdx) {
@@ -316,10 +372,13 @@ void Agent::updateState()
             targetPosition->latitude_deg = targetLatitude;
             targetPosition->longitude_deg = targetLongitude;
             targetPosition->loiter_time_s = 3.0f; // loiter for 3 seconds
-            targetPosition->is_fly_through = false;
+            targetPosition->is_fly_through = true;
             
             detectedPositions.push(targetPosition);
             detectedClassNumbers.push(candidateIdx);
+
+            cout << "detectedPosition (" << targetLatitude << std::setprecision(8) << ", " << targetLongitude << std::setprecision(8) << ")" << std::endl; 
+            cout << "detectedPosition.size() => " << detectedPositions.size() << std::endl; 
 
             // make sure target doesn't get detected again
             detectedSet.insert(candidateIdx);
@@ -337,6 +396,9 @@ void Agent::updateState()
         }
 
 
+        cout << "UNPAUSED MISSION" << std::endl;
+        
+
     }
     break;
 
@@ -344,6 +406,9 @@ void Agent::updateState()
     // Represents hitting all the waypoints for scanning
     case State::INITIAL_DELIVERY:
     {
+
+        cout << "IN INITIAL_DELIVERY" << std::endl;
+
         auto completionCheckPair = mission.is_mission_finished();
         if (completionCheckPair.first != Mission::Result::Success) {
             myfile << "Failed to get mission status: " << std::endl;
@@ -364,8 +429,8 @@ void Agent::updateState()
         myfile << "Completed INITIAL_DELIVERY Mission" << std::endl;
             
         // TODO: set mission for DROP
-        sleep_for(2000ms);
         state = State::DROP;
+        sleep_for(std::chrono::seconds(2));
 
     }
     break;
@@ -374,13 +439,15 @@ void Agent::updateState()
     case State::DROP:
     {
 
-
+        cout << "IN DROP" << std::endl;
 
 
         string detectedClassName = detect.getClassNames().at(detectedClassNumbers.top());
 
 	    // std::cout << "detected: " << detectedClassName << std::endl;
         myfile << "DROPPING FOR: " << detectedClassName << std::endl;
+        cout << "DROPPING FOR: " << detectedClassName << std::endl;
+
 
 
         for (int i = 0; i < servos.size(); i++)
@@ -402,31 +469,56 @@ void Agent::updateState()
         myfile << "Changed state to ROUTING" << endl;
         state = State::ROUTING;
 
-        sleep_for(400ms);
+
+        cout << "SLEEPING FOR 5 SECONDS" << std::endl;
+        // sleep after dropping 
+        sleep_for(std::chrono::seconds(5));
+        cout << "FINISHED SLEEPING" << std::endl;
+
     }
     break;
 
     case State::ROUTING:
     {
-        
+       cout << "IN ROUTING" << std::endl; 
         // IF: max loops is done, then loiter ELSE
 
         // TODO: add the regular loop
         // TODO: add a target if it exists
         if(detectedPositions.size() > 0){
-            std::vector<std::shared_ptr<Mission::MissionItem>> new_lap_traj(lap_traj);
-            new_lap_traj.push_back(detectedPositions.top());
+
+
+            // std::vector<std::shared_ptr<Mission::MissionItem>> new_lap_traj(lap_traj);
+
+            // new_lap_traj.push_back(detectedPositions.top());
 
             Mission::MissionPlan mission_plan{};
 
-            for (const auto& item : new_lap_traj) {
-                mission_plan.mission_items.push_back(*item);
-            }
+            // for (const auto& item : new_lap_traj) {
+            //     mission_plan.mission_items.push_back(*item);
+            // }
+
+            for (int i = 0; i < lap_traj.size(); i++)
+                mission_plan.mission_items.push_back(*lap_traj.at(i));
+                
+            // TODO: NEED TO FIX THIS, MOST LIKELY TARGET MISSIONITEM ISNT BEING CORRECTLY ADDED TO MISSION
+            mission_plan.mission_items.push_back(*detectedPositions.top());
 
             mission.upload_mission(mission_plan);
 
+            auto result = mission.start_mission();
+
+            while (result != Mission::Result::Success) {
+                myfile << "Failed to restart mission" << std::endl;
+                result = mission.start_mission();
+                sleep_for(400ms);
+            }
+
+            cout << "SETTING STATE TO TARGET_LOOP INSIDE ROUTING" << std::endl;
             state = State::TARGET_LOOP;
-        }else{
+        } else{
+
+            cout << "SETTING STATE TO LOITER INSIDE ROUTING" << std::endl;
             state = State::LOITER;
         }
     }
@@ -434,6 +526,8 @@ void Agent::updateState()
 
     case State::TARGET_LOOP:
     {
+
+        cout << "IN TARGET_LOOP" << std::endl;
 
         auto completionCheckPair = mission.is_mission_finished();
         if (completionCheckPair.first != Mission::Result::Success) {
@@ -443,10 +537,12 @@ void Agent::updateState()
         }
 
         if (completionCheckPair.second) {
-            sleep_for(2000ms);
             state = State::DROP;
+            sleep_for(std::chrono::seconds(5));
             break;
         }
+
+        sleep_for(400ms); 
            
     }
     break;
@@ -458,7 +554,7 @@ void Agent::updateState()
         // TODO: add loitering code
         cout << "Now loitering" << endl;
         myfile << "Now loitering" << endl;
-        sleep_for(1000ms);
+        sleep_for(std::chrono::seconds(2));
 
     }
     break;
@@ -522,8 +618,10 @@ void Agent::initTargets(string servoConfig)
     }
 
     // adding to targetSet
-    for (int i = 0; i < servos.size(); i++)
+    for (int i = 0; i < servos.size(); i++) {
         targetSet.insert(detect.getClassIdx(servos.at(i).className));
+        cout << "For " << servos.at(i).className << " the idx was " << detect.getClassIdx(servos.at(i).className) << std::endl;
+    }
 
     
 
@@ -606,7 +704,7 @@ void Agent::setLoopPoints(std::vector<Coordinate> coords) {
         item->relative_altitude_m = coords.at(i).altitude;
         item->speed_m_s = LAP_SPEED; // 10 meters per second for the speed
         item->loiter_time_s = 1.0f;
-        item->is_fly_through = false;
+        item->is_fly_through = true;
 
         lap_traj.push_back(item);
     }
@@ -622,7 +720,7 @@ void Agent::setScanPoints(std::vector<Coordinate> coords) {
         item->latitude_deg = coords.at(i).latitude;
         item->longitude_deg = coords.at(i).longitude;
         item->relative_altitude_m = coords.at(i).altitude;
-        item->is_fly_through = false;
+        item->is_fly_through = true;
         item->loiter_time_s = 1.0f;
         item->speed_m_s = SCAN_SPEED;
 
