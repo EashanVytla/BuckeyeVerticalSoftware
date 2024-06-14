@@ -26,7 +26,8 @@ def test():
 
     while cam.getZoomLevel() < 3.0:
         val = cam.requestZoomIn()
-        print("Zoom level: ", )
+        
+    print(f"Zoom level: {val}")
 
     val = cam.requestZoomHold()
 
