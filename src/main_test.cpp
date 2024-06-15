@@ -12,7 +12,6 @@
 #define PHYSICAL_PORT_PATH "serial:///dev/ttyTHS0"
 #define SIM_PORT_PATH  "udp://:14540"
 
-
 #define TEN_METERS_APPROX 0.0004
 
 using std::this_thread::sleep_for;
