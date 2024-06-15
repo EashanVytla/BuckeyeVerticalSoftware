@@ -498,11 +498,34 @@ void Agent::updateState()
             //     mission_plan.mission_items.push_back(*item);
             // }
 
+            // for (int i = 0; i < lap_traj.size(); i++)
+            //     mission_plan.mission_items.push_back(*lap_traj.at(i));
+                
+            
+            std::shared_ptr<Mission::MissionItem> currentPosition(new Mission::MissionItem());
+            std::shared_ptr<Mission::MissionItem> targetPosition(new Mission::MissionItem());
+
+            currentPosition->latitude_deg = telemetry.position().latitude_deg;
+            currentPosition->longitude_deg = telemetry.position().longitude_deg;
+            currentPosition->loiter_time_s = 1.0f; // loiter for 15 seconds
+            currentPosition->is_fly_through = true;
+            currentPosition->relative_altitude_m = scan_traj.at(0)->relative_altitude_m;
+            currentPosition->speed_m_s = SCAN_SPEED; // 10 meters per second for the speed
+
+            targetPosition->latitude_deg = detectedPositions.top()->latitude_deg;
+            targetPosition->longitude_deg = detectedPositions.top()->longitude_deg;
+            targetPosition->loiter_time_s = 1.0f; // loiter for 15 seconds
+            targetPosition->is_fly_through = true;
+            targetPosition->relative_altitude_m = scan_traj.at(0)->relative_altitude_m;
+            targetPosition->speed_m_s = LAP_SPEED; // 10 meters per second for the speed
+
+            // TODO: NEED TO FIX THIS, MOST LIKELY TARGET MISSIONITEM ISNT BEING CORRECTLY ADDED TO MISSION
+            mission_plan.mission_items.push_back(*currentPosition);
+
             for (int i = 0; i < lap_traj.size(); i++)
                 mission_plan.mission_items.push_back(*lap_traj.at(i));
-                
-            // TODO: NEED TO FIX THIS, MOST LIKELY TARGET MISSIONITEM ISNT BEING CORRECTLY ADDED TO MISSION
-            mission_plan.mission_items.push_back(*detectedPositions.top());
+
+            mission_plan.mission_items.push_back(*targetPosition);
 
             mission.upload_mission(mission_plan);
 

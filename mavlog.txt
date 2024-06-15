@@ -46,22 +46,49 @@ mission_impl.cpp520
 Conflicting options set: fly_through=true and loiter_time>0.
 mission_impl.cpp520
 
-Conflicting options set: fly_through=true and loiter_time>0.
-mission_impl.cpp520
-
-Conflicting options set: fly_through=true and loiter_time>0.
-mission_impl.cpp520
-
-Conflicting options set: fly_through=true and loiter_time>0.
-mission_impl.cpp520
-
-sending again after 0.503735 s, retries to do: 3  (187).
+sending again after 0.50912 s, retries to do: 3  (187).
 mavlink_command_sender.cpp312
 
-sending again after 1.00454 s, retries to do: 2  (187).
+sending again after 1.01812 s, retries to do: 2  (187).
 mavlink_command_sender.cpp312
 
-sending again after 1.51332 s, retries to do: 1  (187).
+sending again after 1.52646 s, retries to do: 1  (187).
+mavlink_command_sender.cpp312
+
+Retrying failed (187)
+mavlink_command_sender.cpp339
+
+Conflicting options set: fly_through=true and loiter_time>0.
+mission_impl.cpp520
+
+Conflicting options set: fly_through=true and loiter_time>0.
+mission_impl.cpp520
+
+Conflicting options set: fly_through=true and loiter_time>0.
+mission_impl.cpp520
+
+Conflicting options set: fly_through=true and loiter_time>0.
+mission_impl.cpp520
+
+Conflicting options set: fly_through=true and loiter_time>0.
+mission_impl.cpp520
+
+Conflicting options set: fly_through=true and loiter_time>0.
+mission_impl.cpp520
+
+Conflicting options set: fly_through=true and loiter_time>0.
+mission_impl.cpp520
+
+Conflicting options set: fly_through=true and loiter_time>0.
+mission_impl.cpp520
+
+sending again after 0.50802 s, retries to do: 3  (187).
+mavlink_command_sender.cpp312
+
+sending again after 1.01589 s, retries to do: 2  (187).
+mavlink_command_sender.cpp312
+
+sending again after 1.52441 s, retries to do: 1  (187).
 mavlink_command_sender.cpp312
 
 Retrying failed (187)

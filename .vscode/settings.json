@@ -89,7 +89,8 @@
         "stack": "cpp",
         "__split_buffer": "cpp",
         "__hash_table": "cpp",
-        "__tree": "cpp"
+        "__tree": "cpp",
+        "__mutex_base": "cpp"
     },
     "ros.distro": "humble"
 }

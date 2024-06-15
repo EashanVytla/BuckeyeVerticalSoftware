@@ -230,8 +230,9 @@ void Detect::unlockInference() {
 
 void Detect::capture_frames() {
 
-    int sleeps = 23;
-    int sleeps2 = 8;
+    int sleeps = 27;
+    int sleeps2 = 11;
+    int sleeps3 = 10;
 
     for (int i = sleeps; i > 0; i--) {
         cout << "Updating inference in " << i << " seconds..." << std::endl;
@@ -252,12 +253,25 @@ void Detect::capture_frames() {
         sleep_for(std::chrono::seconds(1)); 
     }
 
-
     inference_lock.lock();
 
     cout << "Now updating inference AGAIN..." << std::endl;
 
     detectedClassIdx = Detect::getClassIdx("Black_Rectangle");
+    detectedBBox = cv::Rect{1000,0, 2, 2};
+
+    inference_lock.unlock();
+
+    for (int i = sleeps3; i > 0; i--) {
+        cout << "Updating inference AGAIN AGAIN in :" << i << " seconds..." << std::endl;
+        sleep_for(std::chrono::seconds(1)); 
+    }
+
+    inference_lock.lock();
+
+    cout << "Now updating inference AGAIN..." << std::endl;
+
+    detectedClassIdx = Detect::getClassIdx("Red_Triangle");
     detectedBBox = cv::Rect{1000,0, 2, 2};
 
     inference_lock.unlock();
@@ -283,6 +297,12 @@ void Detect::inference() {
     // detectedBBox = cv::Rect{1000,0, 2, 2};
 
     // inference_lock.unlock(); 
+
+    for (int i = 0; i < 10000; i++) {
+        cout << "On second " << i << std::endl;
+        sleep_for(std::chrono::seconds(1)); 
+    }
+    
 }
 
 

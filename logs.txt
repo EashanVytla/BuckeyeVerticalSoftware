@@ -1,9 +1,10 @@
+Failed to start script
 Waiting for system to be ready
 System is ready
 Loaded intrinsics
 Load extrinsics
 (47.3977, 8.54559)
-(47.3977, 8.54579)
+(47.3977, 8.54599)
 in main for agent
 OPENED servoConfig FILE
 Config entries extracted from the file:
@@ -12,716 +13,1049 @@ servoIndex: 1, Class name: Blue_Circle, Open Position: 0.4, Close Position 0.4
 servoIndex: 2, Class name: Red_Triangle, Open Position: 0.25, Close Position 0.25
 actually starting the agent
 ADDED LOOP THREAD INSIDE AGENT::start
-[Time elapsed: 2.94e-07 seconds]
+[Time elapsed: 9.8e-08 seconds]
 Changed state to INITIAL_LOOP
 
 
-[Time elapsed: 0.75932 seconds]
+[Time elapsed: 0.605149 seconds]
 Mission is not complete yet: 
 
 
-[Time elapsed: 1.15986 seconds]
+[Time elapsed: 1.00553 seconds]
 Mission is not complete yet: 
 
 
-[Time elapsed: 1.56031 seconds]
+[Time elapsed: 1.40584 seconds]
 Mission is not complete yet: 
 
 
-[Time elapsed: 1.96074 seconds]
+[Time elapsed: 1.80606 seconds]
 Mission is not complete yet: 
 
 
-[Time elapsed: 2.36104 seconds]
+[Time elapsed: 2.20631 seconds]
 Mission is not complete yet: 
 
 
-[Time elapsed: 2.76144 seconds]
+[Time elapsed: 2.60654 seconds]
 Mission is not complete yet: 
 
 
-[Time elapsed: 3.16194 seconds]
+[Time elapsed: 3.00678 seconds]
 Mission is not complete yet: 
 
 
-[Time elapsed: 3.56244 seconds]
+[Time elapsed: 3.407 seconds]
 Mission is not complete yet: 
 
 
-[Time elapsed: 3.96307 seconds]
+[Time elapsed: 3.80728 seconds]
 Mission is not complete yet: 
 
 
-[Time elapsed: 4.36329 seconds]
+[Time elapsed: 4.20759 seconds]
 Mission is not complete yet: 
 
 
-[Time elapsed: 4.76348 seconds]
+[Time elapsed: 4.6079 seconds]
 Mission is not complete yet: 
 
 
-[Time elapsed: 5.16415 seconds]
+[Time elapsed: 5.00818 seconds]
 Mission is not complete yet: 
 
 
-[Time elapsed: 5.5741 seconds]
+[Time elapsed: 5.40885 seconds]
 Mission is not complete yet: 
 
 
-[Time elapsed: 5.97483 seconds]
+[Time elapsed: 5.80925 seconds]
 Mission is not complete yet: 
 
 
-[Time elapsed: 6.37552 seconds]
+[Time elapsed: 6.20964 seconds]
 Mission is not complete yet: 
 
 
-[Time elapsed: 6.77614 seconds]
+[Time elapsed: 6.60989 seconds]
 Mission is not complete yet: 
 
 
-[Time elapsed: 7.17701 seconds]
+[Time elapsed: 7.01019 seconds]
 Mission is not complete yet: 
 
 
-[Time elapsed: 7.57755 seconds]
+[Time elapsed: 7.41048 seconds]
 Mission is not complete yet: 
 
 
-[Time elapsed: 7.97798 seconds]
+[Time elapsed: 7.81077 seconds]
 Mission is not complete yet: 
 
 
-[Time elapsed: 8.37825 seconds]
+[Time elapsed: 8.21114 seconds]
 Mission is not complete yet: 
 
 
-[Time elapsed: 8.77858 seconds]
+[Time elapsed: 8.61144 seconds]
 Mission is not complete yet: 
 
 
-[Time elapsed: 9.17895 seconds]
+[Time elapsed: 9.01174 seconds]
 Mission is not complete yet: 
 
 
-[Time elapsed: 9.57922 seconds]
+[Time elapsed: 9.41196 seconds]
 Mission is not complete yet: 
 
 
-[Time elapsed: 9.97959 seconds]
+[Time elapsed: 9.81238 seconds]
 Mission is not complete yet: 
 
 
-[Time elapsed: 10.3799 seconds]
+[Time elapsed: 10.2126 seconds]
 Mission is not complete yet: 
 
 
-[Time elapsed: 10.7803 seconds]
+[Time elapsed: 10.6234 seconds]
+Mission is not complete yet: 
+
+
+[Time elapsed: 11.0238 seconds]
+Mission is not complete yet: 
+
+
+[Time elapsed: 11.4242 seconds]
+Mission is not complete yet: 
+
+
+[Time elapsed: 11.8246 seconds]
+Mission is not complete yet: 
+
+
+[Time elapsed: 12.2248 seconds]
+Mission is not complete yet: 
+
+
+[Time elapsed: 12.6251 seconds]
+Mission is not complete yet: 
+
+
+[Time elapsed: 13.0255 seconds]
+Mission is not complete yet: 
+
+
+[Time elapsed: 13.4259 seconds]
+Mission is not complete yet: 
+
+
+[Time elapsed: 13.8262 seconds]
 INITIAL_LOOP Mission WAS COMPLETE: 
 
 
-[Time elapsed: 11.3638 seconds]
+[Time elapsed: 14.4011 seconds]
 TRAVELING_TO_SCAN Mission is not complete yet: 
 
 
-[Time elapsed: 11.7642 seconds]
+[Time elapsed: 14.8014 seconds]
 TRAVELING_TO_SCAN Mission is not complete yet: 
 
 
-[Time elapsed: 12.1646 seconds]
+[Time elapsed: 15.2018 seconds]
 TRAVELING_TO_SCAN Mission is not complete yet: 
 
 
-[Time elapsed: 12.5649 seconds]
+[Time elapsed: 15.6022 seconds]
 TRAVELING_TO_SCAN Mission is not complete yet: 
 
 
-[Time elapsed: 12.9652 seconds]
+[Time elapsed: 16.0024 seconds]
 TRAVELING_TO_SCAN Mission is not complete yet: 
 
 
-[Time elapsed: 13.3655 seconds]
+[Time elapsed: 16.4029 seconds]
 TRAVELING_TO_SCAN Mission is not complete yet: 
 
 
-[Time elapsed: 13.7658 seconds]
+[Time elapsed: 16.8032 seconds]
 TRAVELING_TO_SCAN Mission is not complete yet: 
 
 
-[Time elapsed: 14.1662 seconds]
+[Time elapsed: 17.2035 seconds]
 TRAVELING_TO_SCAN Mission is not complete yet: 
 
 
-[Time elapsed: 14.5666 seconds]
+[Time elapsed: 17.6038 seconds]
 TRAVELING_TO_SCAN Mission is not complete yet: 
 
 
-[Time elapsed: 14.967 seconds]
+[Time elapsed: 18.0041 seconds]
 TRAVELING_TO_SCAN Mission is not complete yet: 
 
 
-[Time elapsed: 15.3672 seconds]
+[Time elapsed: 18.4046 seconds]
 TRAVELING_TO_SCAN Mission is not complete yet: 
 
 
-[Time elapsed: 15.7676 seconds]
+[Time elapsed: 18.8052 seconds]
 TRAVELING_TO_SCAN Mission is not complete yet: 
 
 
-[Time elapsed: 16.1775 seconds]
+[Time elapsed: 19.2055 seconds]
 TRAVELING_TO_SCAN Mission is not complete yet: 
 
 
-[Time elapsed: 16.5778 seconds]
+[Time elapsed: 19.6057 seconds]
 TRAVELING_TO_SCAN Mission is not complete yet: 
 
 
-[Time elapsed: 16.9781 seconds]
+[Time elapsed: 20.0061 seconds]
 TRAVELING_TO_SCAN Mission is not complete yet: 
 
 
-[Time elapsed: 17.3785 seconds]
+[Time elapsed: 20.4064 seconds]
 TRAVELING_TO_SCAN Mission is not complete yet: 
 
 
-[Time elapsed: 17.7789 seconds]
+[Time elapsed: 20.807 seconds]
 TRAVELING_TO_SCAN Mission is not complete yet: 
 
 
-[Time elapsed: 18.18 seconds]
+[Time elapsed: 21.2075 seconds]
 TRAVELING_TO_SCAN Mission is not complete yet: 
 
 
-[Time elapsed: 18.5807 seconds]
+[Time elapsed: 21.6079 seconds]
 TRAVELING_TO_SCAN Mission is not complete yet: 
 
 
-[Time elapsed: 18.981 seconds]
+[Time elapsed: 22.0084 seconds]
 TRAVELING_TO_SCAN Mission is not complete yet: 
 
 
-[Time elapsed: 19.3813 seconds]
+[Time elapsed: 22.4093 seconds]
 TRAVELING_TO_SCAN Mission is not complete yet: 
 
 
-[Time elapsed: 19.7817 seconds]
+[Time elapsed: 22.8096 seconds]
 TRAVELING_TO_SCAN Mission is not complete yet: 
 
 
-[Time elapsed: 20.1828 seconds]
+[Time elapsed: 23.2099 seconds]
 TRAVELING_TO_SCAN Mission is not complete yet: 
 
 
-[Time elapsed: 20.5835 seconds]
+[Time elapsed: 23.6103 seconds]
+TRAVELING_TO_SCAN Mission is not complete yet: 
 
 
-[Time elapsed: 21.0475 seconds]
-Mission is not complete yet: 
+[Time elapsed: 24.0112 seconds]
+TRAVELING_TO_SCAN Mission is not complete yet: 
 
 
-[Time elapsed: 21.4479 seconds]
-Mission is not complete yet: 
+[Time elapsed: 24.4115 seconds]
+TRAVELING_TO_SCAN Mission is not complete yet: 
 
 
-[Time elapsed: 21.8481 seconds]
-Mission is not complete yet: 
+[Time elapsed: 24.8118 seconds]
+TRAVELING_TO_SCAN Mission is not complete yet: 
 
 
-[Time elapsed: 22.2486 seconds]
-Mission is not complete yet: 
+[Time elapsed: 25.2121 seconds]
+TRAVELING_TO_SCAN Mission is not complete yet: 
 
 
-[Time elapsed: 22.649 seconds]
-Mission is not complete yet: 
+[Time elapsed: 25.6124 seconds]
+TRAVELING_TO_SCAN Mission is not complete yet: 
 
 
-[Time elapsed: 23.0492 seconds]
+[Time elapsed: 26.0128 seconds]
+TRAVELING_TO_SCAN Mission is not complete yet: 
+
+
+[Time elapsed: 26.413 seconds]
+TRAVELING_TO_SCAN Mission is not complete yet: 
+
+
+[Time elapsed: 26.8134 seconds]
+TRAVELING_TO_SCAN Mission is not complete yet: 
+
+
+[Time elapsed: 27.2137 seconds]
+
+
+[Time elapsed: 27.6612 seconds]
 Mission is not complete yet: 
 Candidate IDX: 10
 
 
 
-[Time elapsed: 30.0634 seconds]
+[Time elapsed: 34.6973 seconds]
 Mission is not complete yet: 
 Candidate IDX: 10
 
 
 
-[Time elapsed: 30.464 seconds]
+[Time elapsed: 35.0977 seconds]
 Mission is not complete yet: 
 Candidate IDX: 10
 
 
 
-[Time elapsed: 30.8652 seconds]
+[Time elapsed: 35.498 seconds]
 Mission is not complete yet: 
 Candidate IDX: 10
 
 
 
-[Time elapsed: 31.2658 seconds]
+[Time elapsed: 35.8982 seconds]
+Mission is not complete yet: 
+Candidate IDX: 10
+
+
+
+[Time elapsed: 36.2984 seconds]
+Mission is not complete yet: 
+Candidate IDX: 10
+
+
+
+[Time elapsed: 36.6988 seconds]
+Mission is not complete yet: 
+Candidate IDX: 10
+
+
+
+[Time elapsed: 37.0991 seconds]
+Mission is not complete yet: 
+Candidate IDX: 10
+
+
+
+[Time elapsed: 37.4993 seconds]
+Mission is not complete yet: 
+Candidate IDX: 10
+
+
+
+[Time elapsed: 37.8996 seconds]
+Mission is not complete yet: 
+Candidate IDX: 10
+
+
+
+[Time elapsed: 38.2998 seconds]
 Mission is not complete yet: 
 Candidate IDX: 0
 
 
 
-[Time elapsed: 38.2959 seconds]
+[Time elapsed: 45.3416 seconds]
 Mission is not complete yet: 
 Candidate IDX: 0
 
 
 
-[Time elapsed: 38.6964 seconds]
+[Time elapsed: 45.7419 seconds]
 Mission is not complete yet: 
 Candidate IDX: 0
 
 
 
-[Time elapsed: 39.0967 seconds]
+[Time elapsed: 46.1422 seconds]
 Mission is not complete yet: 
 Candidate IDX: 0
 
 
 
-[Time elapsed: 39.4972 seconds]
+[Time elapsed: 46.5425 seconds]
 Mission is not complete yet: 
 Candidate IDX: 0
 
 
 
-[Time elapsed: 39.8976 seconds]
+[Time elapsed: 46.9429 seconds]
 Mission is not complete yet: 
 Candidate IDX: 0
 
 
 
-[Time elapsed: 40.2979 seconds]
+[Time elapsed: 47.3432 seconds]
 Mission is not complete yet: 
 Candidate IDX: 0
 
 
 
-[Time elapsed: 40.6984 seconds]
+[Time elapsed: 47.7434 seconds]
 Mission is not complete yet: 
 Candidate IDX: 0
 
 
 
-[Time elapsed: 41.0988 seconds]
+[Time elapsed: 48.1436 seconds]
 Mission is not complete yet: 
-Candidate IDX: 0
+Candidate IDX: 17
 
 
 
-[Time elapsed: 41.4991 seconds]
+[Time elapsed: 55.1771 seconds]
 Mission is not complete yet: 
-Candidate IDX: 0
+Candidate IDX: 17
 
 
 
-[Time elapsed: 41.8996 seconds]
+[Time elapsed: 55.5776 seconds]
 Mission is not complete yet: 
-Candidate IDX: 0
+Candidate IDX: 17
 
 
 
-[Time elapsed: 42.3002 seconds]
+[Time elapsed: 55.9778 seconds]
 Mission is not complete yet: 
-Candidate IDX: 0
+Candidate IDX: 17
 
 
 
-[Time elapsed: 42.701 seconds]
+[Time elapsed: 56.378 seconds]
 Mission is not complete yet: 
-Candidate IDX: 0
+Candidate IDX: 17
 
 
 
-[Time elapsed: 43.1022 seconds]
-
-
-[Time elapsed: 43.6959 seconds]
+[Time elapsed: 56.7783 seconds]
 Mission is not complete yet: 
+Candidate IDX: 17
 
 
-[Time elapsed: 44.0964 seconds]
+
+[Time elapsed: 57.1786 seconds]
 Mission is not complete yet: 
+Candidate IDX: 17
 
 
-[Time elapsed: 44.497 seconds]
+
+[Time elapsed: 57.5789 seconds]
 Mission is not complete yet: 
+Candidate IDX: 17
 
 
-[Time elapsed: 44.8977 seconds]
+
+[Time elapsed: 57.9794 seconds]
 Mission is not complete yet: 
+Candidate IDX: 17
 
 
-[Time elapsed: 45.2984 seconds]
-Mission is not complete yet: 
+
+[Time elapsed: 58.3799 seconds]
 
 
-[Time elapsed: 45.6993 seconds]
-Mission is not complete yet: 
-
-
-[Time elapsed: 46.0997 seconds]
-Mission is not complete yet: 
-
-
-[Time elapsed: 46.5003 seconds]
+[Time elapsed: 58.8331 seconds]
 Mission is not complete yet: 
 
 
-[Time elapsed: 46.901 seconds]
+[Time elapsed: 59.2335 seconds]
 Mission is not complete yet: 
 
 
-[Time elapsed: 47.3015 seconds]
+[Time elapsed: 59.6338 seconds]
 Mission is not complete yet: 
 
 
-[Time elapsed: 47.702 seconds]
+[Time elapsed: 60.0342 seconds]
 Mission is not complete yet: 
 
 
-[Time elapsed: 48.1023 seconds]
+[Time elapsed: 60.4344 seconds]
 Mission is not complete yet: 
 
 
-[Time elapsed: 48.5124 seconds]
+[Time elapsed: 60.8347 seconds]
 Mission is not complete yet: 
 
 
-[Time elapsed: 48.9128 seconds]
+[Time elapsed: 61.235 seconds]
 Mission is not complete yet: 
 
 
-[Time elapsed: 49.3131 seconds]
+[Time elapsed: 61.6357 seconds]
+Mission is not complete yet: 
+
+
+[Time elapsed: 62.0361 seconds]
+Mission is not complete yet: 
+
+
+[Time elapsed: 62.4365 seconds]
 Completed INITIAL_DELIVERY Mission
 
 
-[Time elapsed: 51.3135 seconds]
+[Time elapsed: 64.4369 seconds]
+DROPPING FOR: Red_Triangle
+Setting actuator Red_Triangle : 2
+Changed state to ROUTING
+
+
+[Time elapsed: 71.473 seconds]
+
+
+[Time elapsed: 71.6367 seconds]
+
+
+[Time elapsed: 72.0369 seconds]
+
+
+[Time elapsed: 72.4373 seconds]
+
+
+[Time elapsed: 72.8376 seconds]
+
+
+[Time elapsed: 73.2379 seconds]
+
+
+[Time elapsed: 73.6382 seconds]
+
+
+[Time elapsed: 74.0384 seconds]
+
+
+[Time elapsed: 74.4386 seconds]
+
+
+[Time elapsed: 74.8388 seconds]
+
+
+[Time elapsed: 75.239 seconds]
+
+
+[Time elapsed: 75.6392 seconds]
+
+
+[Time elapsed: 76.0395 seconds]
+
+
+[Time elapsed: 76.4398 seconds]
+
+
+[Time elapsed: 76.849 seconds]
+
+
+[Time elapsed: 77.2495 seconds]
+
+
+[Time elapsed: 77.6499 seconds]
+
+
+[Time elapsed: 78.0501 seconds]
+
+
+[Time elapsed: 78.4505 seconds]
+
+
+[Time elapsed: 78.8508 seconds]
+
+
+[Time elapsed: 79.2512 seconds]
+
+
+[Time elapsed: 79.6514 seconds]
+
+
+[Time elapsed: 80.0517 seconds]
+
+
+[Time elapsed: 80.4521 seconds]
+
+
+[Time elapsed: 80.8525 seconds]
+
+
+[Time elapsed: 81.2529 seconds]
+
+
+[Time elapsed: 81.6532 seconds]
+
+
+[Time elapsed: 82.0536 seconds]
+
+
+[Time elapsed: 82.4538 seconds]
+
+
+[Time elapsed: 82.8543 seconds]
+
+
+[Time elapsed: 83.2546 seconds]
+
+
+[Time elapsed: 83.6548 seconds]
+
+
+[Time elapsed: 84.0551 seconds]
+
+
+[Time elapsed: 84.4554 seconds]
+
+
+[Time elapsed: 84.8557 seconds]
+
+
+[Time elapsed: 85.2561 seconds]
+
+
+[Time elapsed: 85.6565 seconds]
+
+
+[Time elapsed: 86.0567 seconds]
+
+
+[Time elapsed: 86.457 seconds]
+
+
+[Time elapsed: 86.8574 seconds]
+
+
+[Time elapsed: 87.2577 seconds]
+
+
+[Time elapsed: 87.6579 seconds]
+
+
+[Time elapsed: 88.0581 seconds]
+
+
+[Time elapsed: 88.4584 seconds]
+
+
+[Time elapsed: 88.8589 seconds]
+
+
+[Time elapsed: 89.2593 seconds]
+
+
+[Time elapsed: 89.6595 seconds]
+
+
+[Time elapsed: 90.0601 seconds]
+
+
+[Time elapsed: 90.4605 seconds]
+
+
+[Time elapsed: 90.861 seconds]
+
+
+[Time elapsed: 91.2613 seconds]
+
+
+[Time elapsed: 91.6616 seconds]
+
+
+[Time elapsed: 92.0618 seconds]
+
+
+[Time elapsed: 92.4621 seconds]
+
+
+[Time elapsed: 92.8624 seconds]
+
+
+[Time elapsed: 93.2628 seconds]
+
+
+[Time elapsed: 93.6631 seconds]
+
+
+[Time elapsed: 94.0634 seconds]
+
+
+[Time elapsed: 94.4639 seconds]
+
+
+[Time elapsed: 94.8642 seconds]
+
+
+[Time elapsed: 95.2645 seconds]
+
+
+[Time elapsed: 95.6648 seconds]
+
+
+[Time elapsed: 96.065 seconds]
+
+
+[Time elapsed: 96.4653 seconds]
+
+
+[Time elapsed: 96.8657 seconds]
+
+
+[Time elapsed: 97.266 seconds]
+
+
+[Time elapsed: 97.6664 seconds]
+
+
+[Time elapsed: 98.0667 seconds]
+
+
+[Time elapsed: 98.467 seconds]
+
+
+[Time elapsed: 98.8673 seconds]
+
+
+[Time elapsed: 99.2675 seconds]
+
+
+[Time elapsed: 99.6678 seconds]
+
+
+[Time elapsed: 100.068 seconds]
+
+
+[Time elapsed: 100.468 seconds]
+
+
+[Time elapsed: 100.869 seconds]
+
+
+[Time elapsed: 101.269 seconds]
+
+
+[Time elapsed: 101.669 seconds]
+
+
+[Time elapsed: 102.07 seconds]
+
+
+[Time elapsed: 102.47 seconds]
+
+
+[Time elapsed: 102.87 seconds]
+
+
+[Time elapsed: 103.27 seconds]
+
+
+[Time elapsed: 103.671 seconds]
+
+
+[Time elapsed: 104.071 seconds]
+
+
+[Time elapsed: 104.471 seconds]
+
+
+[Time elapsed: 104.872 seconds]
+
+
+[Time elapsed: 105.272 seconds]
+
+
+[Time elapsed: 105.672 seconds]
+
+
+[Time elapsed: 106.073 seconds]
+
+
+[Time elapsed: 111.073 seconds]
 DROPPING FOR: Black_Rectangle
 Setting actuator Black_Rectangle : 0
 Changed state to ROUTING
 
 
-[Time elapsed: 56.3141 seconds]
+[Time elapsed: 116.073 seconds]
 
 
-[Time elapsed: 56.5038 seconds]
+[Time elapsed: 116.246 seconds]
 
 
-[Time elapsed: 56.9043 seconds]
+[Time elapsed: 116.646 seconds]
 
 
-[Time elapsed: 57.3046 seconds]
+[Time elapsed: 117.046 seconds]
 
 
-[Time elapsed: 57.7049 seconds]
+[Time elapsed: 117.447 seconds]
 
 
-[Time elapsed: 58.1051 seconds]
+[Time elapsed: 117.847 seconds]
 
 
-[Time elapsed: 58.5053 seconds]
+[Time elapsed: 118.247 seconds]
 
 
-[Time elapsed: 58.9056 seconds]
+[Time elapsed: 118.647 seconds]
 
 
-[Time elapsed: 59.3058 seconds]
+[Time elapsed: 119.048 seconds]
 
 
-[Time elapsed: 59.7061 seconds]
+[Time elapsed: 119.448 seconds]
 
 
-[Time elapsed: 60.1068 seconds]
+[Time elapsed: 119.848 seconds]
 
 
-[Time elapsed: 60.507 seconds]
+[Time elapsed: 120.249 seconds]
 
 
-[Time elapsed: 60.9074 seconds]
+[Time elapsed: 120.649 seconds]
 
 
-[Time elapsed: 61.3077 seconds]
+[Time elapsed: 121.049 seconds]
 
 
-[Time elapsed: 61.708 seconds]
+[Time elapsed: 121.45 seconds]
 
 
-[Time elapsed: 62.1084 seconds]
+[Time elapsed: 121.85 seconds]
 
 
-[Time elapsed: 62.5086 seconds]
+[Time elapsed: 122.25 seconds]
 
 
-[Time elapsed: 62.9089 seconds]
+[Time elapsed: 122.651 seconds]
 
 
-[Time elapsed: 63.3091 seconds]
+[Time elapsed: 123.051 seconds]
 
 
-[Time elapsed: 63.7094 seconds]
+[Time elapsed: 123.451 seconds]
 
 
-[Time elapsed: 64.1101 seconds]
+[Time elapsed: 123.851 seconds]
 
 
-[Time elapsed: 64.5106 seconds]
+[Time elapsed: 124.252 seconds]
 
 
-[Time elapsed: 64.9109 seconds]
+[Time elapsed: 124.652 seconds]
 
 
-[Time elapsed: 65.3113 seconds]
+[Time elapsed: 125.053 seconds]
 
 
-[Time elapsed: 65.712 seconds]
+[Time elapsed: 125.453 seconds]
 
 
-[Time elapsed: 66.1125 seconds]
+[Time elapsed: 125.853 seconds]
 
 
-[Time elapsed: 66.5129 seconds]
+[Time elapsed: 126.255 seconds]
 
 
-[Time elapsed: 66.9136 seconds]
+[Time elapsed: 126.655 seconds]
 
 
-[Time elapsed: 67.3145 seconds]
+[Time elapsed: 127.055 seconds]
 
 
-[Time elapsed: 67.7152 seconds]
+[Time elapsed: 127.456 seconds]
 
 
-[Time elapsed: 68.1155 seconds]
+[Time elapsed: 127.856 seconds]
 
 
-[Time elapsed: 68.5158 seconds]
+[Time elapsed: 128.257 seconds]
 
 
-[Time elapsed: 68.916 seconds]
+[Time elapsed: 128.658 seconds]
 
 
-[Time elapsed: 69.3164 seconds]
+[Time elapsed: 129.058 seconds]
 
 
-[Time elapsed: 69.7166 seconds]
+[Time elapsed: 129.459 seconds]
 
 
-[Time elapsed: 70.1168 seconds]
+[Time elapsed: 129.859 seconds]
 
 
-[Time elapsed: 70.5171 seconds]
+[Time elapsed: 130.259 seconds]
 
 
-[Time elapsed: 70.9173 seconds]
+[Time elapsed: 130.66 seconds]
 
 
-[Time elapsed: 71.3175 seconds]
+[Time elapsed: 131.06 seconds]
 
 
-[Time elapsed: 71.7177 seconds]
+[Time elapsed: 131.46 seconds]
 
 
-[Time elapsed: 72.1184 seconds]
+[Time elapsed: 131.861 seconds]
 
 
-[Time elapsed: 72.5189 seconds]
+[Time elapsed: 132.261 seconds]
 
 
-[Time elapsed: 72.9191 seconds]
+[Time elapsed: 132.661 seconds]
 
 
-[Time elapsed: 73.3195 seconds]
+[Time elapsed: 133.061 seconds]
 
 
-[Time elapsed: 73.7199 seconds]
+[Time elapsed: 133.462 seconds]
 
 
-[Time elapsed: 74.1203 seconds]
+[Time elapsed: 133.862 seconds]
 
 
-[Time elapsed: 74.5209 seconds]
+[Time elapsed: 134.263 seconds]
 
 
-[Time elapsed: 74.9215 seconds]
+[Time elapsed: 134.663 seconds]
 
 
-[Time elapsed: 75.3218 seconds]
+[Time elapsed: 135.063 seconds]
 
 
-[Time elapsed: 75.722 seconds]
+[Time elapsed: 135.463 seconds]
 
 
-[Time elapsed: 76.1223 seconds]
+[Time elapsed: 135.864 seconds]
 
 
-[Time elapsed: 76.5226 seconds]
+[Time elapsed: 136.264 seconds]
 
 
-[Time elapsed: 76.9229 seconds]
+[Time elapsed: 136.664 seconds]
 
 
-[Time elapsed: 77.3239 seconds]
+[Time elapsed: 137.064 seconds]
 
 
-[Time elapsed: 77.7243 seconds]
+[Time elapsed: 137.465 seconds]
 
 
-[Time elapsed: 78.1245 seconds]
+[Time elapsed: 137.865 seconds]
 
 
-[Time elapsed: 78.5247 seconds]
+[Time elapsed: 138.265 seconds]
 
 
-[Time elapsed: 78.9255 seconds]
+[Time elapsed: 138.666 seconds]
 
 
-[Time elapsed: 79.3258 seconds]
+[Time elapsed: 139.066 seconds]
 
 
-[Time elapsed: 79.7263 seconds]
+[Time elapsed: 139.466 seconds]
 
 
-[Time elapsed: 80.1267 seconds]
+[Time elapsed: 139.866 seconds]
 
 
-[Time elapsed: 80.5273 seconds]
+[Time elapsed: 140.267 seconds]
 
 
-[Time elapsed: 80.9276 seconds]
+[Time elapsed: 140.667 seconds]
 
 
-[Time elapsed: 81.3279 seconds]
+[Time elapsed: 141.067 seconds]
 
 
-[Time elapsed: 81.7286 seconds]
+[Time elapsed: 141.468 seconds]
 
 
-[Time elapsed: 82.1289 seconds]
+[Time elapsed: 141.868 seconds]
 
 
-[Time elapsed: 82.5292 seconds]
+[Time elapsed: 142.268 seconds]
 
 
-[Time elapsed: 82.9294 seconds]
+[Time elapsed: 142.669 seconds]
 
 
-[Time elapsed: 83.3296 seconds]
+[Time elapsed: 143.069 seconds]
 
 
-[Time elapsed: 83.73 seconds]
+[Time elapsed: 143.469 seconds]
 
 
-[Time elapsed: 84.1304 seconds]
+[Time elapsed: 143.87 seconds]
 
 
-[Time elapsed: 84.5309 seconds]
+[Time elapsed: 144.27 seconds]
 
 
-[Time elapsed: 84.9317 seconds]
+[Time elapsed: 144.67 seconds]
 
 
-[Time elapsed: 85.3323 seconds]
+[Time elapsed: 145.071 seconds]
 
 
-[Time elapsed: 85.7327 seconds]
+[Time elapsed: 145.471 seconds]
 
 
-[Time elapsed: 86.133 seconds]
+[Time elapsed: 145.871 seconds]
 
 
-[Time elapsed: 86.5335 seconds]
+[Time elapsed: 146.272 seconds]
 
 
-[Time elapsed: 86.934 seconds]
+[Time elapsed: 146.672 seconds]
 
 
-[Time elapsed: 87.3343 seconds]
+[Time elapsed: 147.072 seconds]
 
 
-[Time elapsed: 87.7347 seconds]
+[Time elapsed: 147.472 seconds]
 
 
-[Time elapsed: 88.1354 seconds]
+[Time elapsed: 147.873 seconds]
 
 
-[Time elapsed: 88.5357 seconds]
+[Time elapsed: 148.273 seconds]
 
 
-[Time elapsed: 88.9361 seconds]
+[Time elapsed: 148.673 seconds]
 
 
-[Time elapsed: 89.3365 seconds]
+[Time elapsed: 149.074 seconds]
 
 
-[Time elapsed: 89.7368 seconds]
+[Time elapsed: 149.474 seconds]
 
 
-[Time elapsed: 90.137 seconds]
+[Time elapsed: 149.875 seconds]
 
 
-[Time elapsed: 90.5373 seconds]
+[Time elapsed: 150.275 seconds]
 
 
-[Time elapsed: 90.9376 seconds]
+[Time elapsed: 150.675 seconds]
 
 
-[Time elapsed: 91.3381 seconds]
+[Time elapsed: 151.076 seconds]
 
 
-[Time elapsed: 91.7383 seconds]
-
-
-[Time elapsed: 92.139 seconds]
-
-
-[Time elapsed: 92.5397 seconds]
-
-
-[Time elapsed: 97.54 seconds]
+[Time elapsed: 156.076 seconds]
 DROPPING FOR: Blue_Circle
 Setting actuator Blue_Circle : 1
 Changed state to ROUTING
 
 
-[Time elapsed: 104.561 seconds]
+[Time elapsed: 163.115 seconds]
 
 
-[Time elapsed: 104.561 seconds]
+[Time elapsed: 163.115 seconds]
 Now loitering
 
 
-[Time elapsed: 106.562 seconds]
+[Time elapsed: 165.116 seconds]
 Now loitering
 
 
-[Time elapsed: 108.562 seconds]
+[Time elapsed: 167.116 seconds]
 Now loitering
 
 
-[Time elapsed: 110.563 seconds]
+[Time elapsed: 169.116 seconds]
 Now loitering
 
 
-[Time elapsed: 112.563 seconds]
-Now loitering
-
-
-[Time elapsed: 114.563 seconds]
-Now loitering
-
-
-[Time elapsed: 116.564 seconds]
-Now loitering
-
-
-[Time elapsed: 118.564 seconds]
-Now loitering
-
-
-[Time elapsed: 120.564 seconds]
+[Time elapsed: 171.117 seconds]
 Now loitering

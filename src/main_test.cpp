@@ -13,14 +13,13 @@
 #define SIM_PORT_PATH  "udp://:14540"
 
 
-#define TEN_METERS_APPROX 0.0002
+#define TEN_METERS_APPROX 0.0004
 
 using std::this_thread::sleep_for;
 using std::chrono::seconds;
 
 int main()
 {
-
     std::ofstream myfile;
     std::ofstream mavlog;
     myfile.open("../logs.txt");
@@ -34,6 +33,21 @@ int main()
     if(!mavlog.is_open()){
         std::cout << "MavLog open failed! Ending program." << std::endl;
         return 0;
+    }
+
+    // Command to run the Python script
+    const char* command = "python3 ../siyi_sdk-main/tests/test_zoom_2.py";
+
+    // Execute the command
+    int result = std::system(command);
+
+    // Check if the command was executed successfully
+    if (result == 0) {
+        std::cout << "Successfuly started the script" << std::endl;
+        myfile << "Successfuly started the script" << std::endl;
+    } else {
+        std::cout << "Failed to start script" << std::endl;
+        myfile << "Failed to start script" << std::endl;
     }
 
     mavsdk::log::subscribe([&mavlog](mavsdk::log::Level level,   // message severity level
