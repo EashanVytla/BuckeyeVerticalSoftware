@@ -35,7 +35,7 @@ int main()
     }
 
     // Command to run the Python script
-    const char* command = "python3 ../siyi_sdk-main/tests/test_zoom_2.py";
+    /**const char* command = "python3 ../siyi_sdk-main/tests/test_zoom_2.py";
 
     // Execute the command
     int result = std::system(command);
@@ -47,7 +47,7 @@ int main()
     } else {
         std::cout << "Failed to start script" << std::endl;
         myfile << "Failed to start script" << std::endl;
-    }
+    }**/
 
     mavsdk::log::subscribe([&mavlog](mavsdk::log::Level level,   // message severity level
                           const std::string& message, // message text
