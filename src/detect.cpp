@@ -22,56 +22,56 @@ Detect::Detect() {
 
 }
 
-// void Detect::capture_frames(){
-//     const std::string path = "rtsp://192.168.144.25:8554/main.264"; //PUT PATH HERE
+void Detect::capture_frames(){
+    const std::string path = "rtsp://192.168.144.25:8554/main.264"; //PUT PATH HERE
 
     
-//     std::ofstream capLog;
-//     capLog.open("capLog.txt");
+    std::ofstream capLog;
+    capLog.open("capLog.txt");
 
-//     if(!capLog.is_open()){
-//         std::cout << "File open failed! Ending program." << std::endl;
-//         return;
-//     }
+    if(!capLog.is_open()){
+        std::cout << "File open failed! Ending program." << std::endl;
+        return;
+    }
 
-//     cout << "Starting RTSP Stream" << endl;
-//     capLog << "Starting RTSP Stream" << endl;
+    cout << "Starting RTSP Stream" << endl;
+    capLog << "Starting RTSP Stream" << endl;
 
-//     cv::Mat             res, image;
+    cv::Mat             res, image;
 
-//     cv::VideoCapture cap(path);
+    cv::VideoCapture cap(path);
 
-//     if (!cap.isOpened()) {
+    if (!cap.isOpened()) {
 	    
-//         printf("can not open %s\n", path.c_str());
-//         capLog << "can not open " << path.c_str();
-//         return;
-//     }
+        printf("can not open %s\n", path.c_str());
+        capLog << "can not open " << path.c_str();
+        return;
+    }
     
-//     while (cap.read(image) && is_running) {
-// 	    capLog << frame_buffer.size() << endl;
+    while (cap.read(image) && is_running) {
+	    capLog << frame_buffer.size() << endl;
 
-//         // std::cout << "HELLO FROM CAPTUER FRAMES" << std::endl;
+        // std::cout << "HELLO FROM CAPTUER FRAMES" << std::endl;
 
-//         // Lock the buffer before accessing it
-//         buffer_lock.lock();
+        // Lock the buffer before accessing it
+        buffer_lock.lock();
 
-//         frame_buffer.push_back(image);
+        frame_buffer.push_back(image);
 
-//         // Remove elements from the front until buffer size is within limit
-//         while (frame_buffer.size() > max_buffer_size) {
-//             frame_buffer.pop_front();
-//         }
+        // Remove elements from the front until buffer size is within limit
+        while (frame_buffer.size() > max_buffer_size) {
+            frame_buffer.pop_front();
+        }
 
-//         // Unlock the buffer after accessing it
-//         buffer_lock.unlock();
+        // Unlock the buffer after accessing it
+        buffer_lock.unlock();
 
-//         // std::cout << "FINISHED ITER IN CAPTURE FRAMES" << std::endl;
+        // std::cout << "FINISHED ITER IN CAPTURE FRAMES" << std::endl;
 
-//     }
+    }
 
-//     cap.release();
-// }
+    cap.release();
+}
 
 void Detect::capture_frames_path(string path){
     cout << "Opening capture stream from " << path << endl;
@@ -228,202 +228,202 @@ void Detect::unlockInference() {
 // }
 
 
-void Detect::capture_frames() {
+// void Detect::capture_frames() {
 
-    int sleeps = 27;
-    int sleeps2 = 11;
-    int sleeps3 = 10;
+//     int sleeps = 27;
+//     int sleeps2 = 11;
+//     int sleeps3 = 10;
 
-    for (int i = sleeps; i > 0; i--) {
-        cout << "Updating inference in " << i << " seconds..." << std::endl;
-        sleep_for(std::chrono::seconds(1)); 
-    }
-
-    inference_lock.lock();
-
-    cout << "Now updating inference..." << std::endl;
-
-    detectedClassIdx = Detect::getClassIdx("Blue_Circle");
-    detectedBBox = cv::Rect{1000,0, 2, 2};
-
-    inference_lock.unlock();
-
-    for (int i = sleeps2; i > 0; i--) {
-        cout << "Updating inference AGAIN in :" << i << " seconds..." << std::endl;
-        sleep_for(std::chrono::seconds(1)); 
-    }
-
-    inference_lock.lock();
-
-    cout << "Now updating inference AGAIN..." << std::endl;
-
-    detectedClassIdx = Detect::getClassIdx("Black_Rectangle");
-    detectedBBox = cv::Rect{1000,0, 2, 2};
-
-    inference_lock.unlock();
-
-    for (int i = sleeps3; i > 0; i--) {
-        cout << "Updating inference AGAIN AGAIN in :" << i << " seconds..." << std::endl;
-        sleep_for(std::chrono::seconds(1)); 
-    }
-
-    inference_lock.lock();
-
-    cout << "Now updating inference AGAIN..." << std::endl;
-
-    detectedClassIdx = Detect::getClassIdx("Red_Triangle");
-    detectedBBox = cv::Rect{1000,0, 2, 2};
-
-    inference_lock.unlock();
-
-
-
-    // int counter = 0;
-    // while (true) {
-    //     cout << "Current capture frames time: " << counter << " seconds..." << std::endl;
-    //     sleep_for(std::chrono::seconds(1)); 
-    //     counter++;
-    // }
-
-}
-
-void Detect::inference() {
-
-    // inference_lock.lock();
-
-    // detectedClassIdx = -1;
-
-    // detectedClassIdx = Detect::getClassIdx("Blue_Circle");
-    // detectedBBox = cv::Rect{1000,0, 2, 2};
-
-    // inference_lock.unlock(); 
-
-    for (int i = 0; i < 10000; i++) {
-        cout << "On second " << i << std::endl;
-        sleep_for(std::chrono::seconds(1)); 
-    }
-    
-}
-
-
-// void Detect::inference(){
-//     const std::string engine_file_path = "/home/buckeyevertical/Documents/YOLOv8-TensorRT/best.engine"; //PUT PATH HERE
-
-//     std::vector<std::string> imagePathList;
-
-//     cv::Size            size = cv::Size{1280, 1280}; //Change Here
-
-
-//     const int VIDEO_FRAME_RATE = 10;
-
-//     std::ofstream infLog;
-//     infLog.open("infLog.txt");
-
-//     if(!infLog.is_open()){
-//         std::cout << "infLog.txt File open failed! Ending program." << std::endl;
-//         return;
+//     for (int i = sleeps; i > 0; i--) {
+//         cout << "Updating inference in " << i << " seconds..." << std::endl;
+//         sleep_for(std::chrono::seconds(1)); 
 //     }
 
-//     infLog << "Opened log file" << endl;
+//     inference_lock.lock();
 
-//     auto startTime = std::chrono::system_clock::now();
+//     cout << "Now updating inference..." << std::endl;
 
-//     while(is_running){
-// 	    infLog << "Running Inference..." << endl;
+//     detectedClassIdx = Detect::getClassIdx("Blue_Circle");
+//     detectedBBox = cv::Rect{1000,0, 2, 2};
 
-//         // std::cout << ":::::FROM INFERENCE" << std::endl;
+//     inference_lock.unlock();
 
-//         // Lock the buffer before accessing it
-//         buffer_lock.lock();
+//     for (int i = sleeps2; i > 0; i--) {
+//         cout << "Updating inference AGAIN in :" << i << " seconds..." << std::endl;
+//         sleep_for(std::chrono::seconds(1)); 
+//     }
 
-//         // Get the last frame
-//         if (frame_buffer.size() > 0) {
+//     inference_lock.lock();
 
-//             // gets last element of the buffer
-//             cv::Mat image = frame_buffer.at(frame_buffer.size() - 1);
+//     cout << "Now updating inference AGAIN..." << std::endl;
 
-//             // frame_buffer.push_back(image);
+//     detectedClassIdx = Detect::getClassIdx("Black_Rectangle");
+//     detectedBBox = cv::Rect{1000,0, 2, 2};
 
-//             // Unlock the buffer after accessing it
-//             buffer_lock.unlock();
+//     inference_lock.unlock();
 
-//             // yolov8->copy_from_Mat(image, size);
-//             // auto start = std::chrono::system_clock::now();
-//             // yolov8->infer();
-//             // auto end = std::chrono::system_clock::now();
-//             // yolov8->postprocess(objs);
-//             // yolov8->draw_objects(image, image, objs, CLASS_NAMES, COLORS);
-//             // auto tc = (double)std::chrono::duration_cast<std::chrono::microseconds>(end - start).count() / 1000.;
+//     for (int i = sleeps3; i > 0; i--) {
+//         cout << "Updating inference AGAIN AGAIN in :" << i << " seconds..." << std::endl;
+//         sleep_for(std::chrono::seconds(1)); 
+//     }
 
-//             // TO MAKE SURE DETECTEDCLASSIDX DOESN'T CHANGE
-//             // std::cout << "objs size " << objs.size() << std::endl;
+//     inference_lock.lock();
 
-//             // if (!detectedObject) {
+//     cout << "Now updating inference AGAIN..." << std::endl;
 
-//             //     if (objs.size() > 0) {
+//     detectedClassIdx = Detect::getClassIdx("Red_Triangle");
+//     detectedBBox = cv::Rect{1000,0, 2, 2};
 
-//             //         inference_lock.lock();
-
-//             //         detectedClassIdx = objs.at(0).label;
-//             //         // detectedObject = true;
-
-//             //         inference_lock.unlock();
-
-//             //     }
-
-//             // }
+//     inference_lock.unlock();
 
 
-//             inference_lock.lock();
 
-//             detectedClassIdx = -1;
+//     // int counter = 0;
+//     // while (true) {
+//     //     cout << "Current capture frames time: " << counter << " seconds..." << std::endl;
+//     //     sleep_for(std::chrono::seconds(1)); 
+//     //     counter++;
+//     // }
 
-//             // Get the end time
-//             auto current = std::chrono::system_clock::now();
+// }
 
-//             // Calculate the duration
-//             std::chrono::duration<double> elapsed_seconds = current - startTime;
+// void Detect::inference() {
+
+//     // inference_lock.lock();
+
+//     // detectedClassIdx = -1;
+
+//     // detectedClassIdx = Detect::getClassIdx("Blue_Circle");
+//     // detectedBBox = cv::Rect{1000,0, 2, 2};
+
+//     // inference_lock.unlock(); 
+
+//     for (int i = 0; i < 10000; i++) {
+//         cout << "On second " << i << std::endl;
+//         sleep_for(std::chrono::seconds(1)); 
+//     }
+    
+// }
+
+
+void Detect::inference(){
+    const std::string engine_file_path = "/home/buckeyevertical/Documents/YOLOv8-TensorRT/best.engine"; //PUT PATH HERE
+
+    std::vector<std::string> imagePathList;
+
+    cv::Size            size = cv::Size{1280, 1280}; //Change Here
+
+
+    const int VIDEO_FRAME_RATE = 10;
+
+    std::ofstream infLog;
+    infLog.open("infLog.txt");
+
+    if(!infLog.is_open()){
+        std::cout << "infLog.txt File open failed! Ending program." << std::endl;
+        return;
+    }
+
+    infLog << "Opened log file" << endl;
+
+    auto startTime = std::chrono::system_clock::now();
+
+    while(is_running){
+	    infLog << "Running Inference..." << endl;
+
+        // std::cout << ":::::FROM INFERENCE" << std::endl;
+
+        // Lock the buffer before accessing it
+        buffer_lock.lock();
+
+        // Get the last frame
+        if (frame_buffer.size() > 0) {
+
+            // gets last element of the buffer
+            cv::Mat image = frame_buffer.at(frame_buffer.size() - 1);
+
+            // frame_buffer.push_back(image);
+
+            // Unlock the buffer after accessing it
+            buffer_lock.unlock();
+
+            // yolov8->copy_from_Mat(image, size);
+            // auto start = std::chrono::system_clock::now();
+            // yolov8->infer();
+            // auto end = std::chrono::system_clock::now();
+            // yolov8->postprocess(objs);
+            // yolov8->draw_objects(image, image, objs, CLASS_NAMES, COLORS);
+            // auto tc = (double)std::chrono::duration_cast<std::chrono::microseconds>(end - start).count() / 1000.;
+
+            // TO MAKE SURE DETECTEDCLASSIDX DOESN'T CHANGE
+            // std::cout << "objs size " << objs.size() << std::endl;
+
+            // if (!detectedObject) {
+
+            //     if (objs.size() > 0) {
+
+            //         inference_lock.lock();
+
+            //         detectedClassIdx = objs.at(0).label;
+            //         // detectedObject = true;
+
+            //         inference_lock.unlock();
+
+            //     }
+
+            // }
+
+
+            inference_lock.lock();
+
+            detectedClassIdx = -1;
+
+            // Get the end time
+            auto current = std::chrono::system_clock::now();
+
+            // Calculate the duration
+            std::chrono::duration<double> elapsed_seconds = current - startTime;
 
     
-//             // if (objs.size() > 0){
-//             //     detectedClassIdx = objs.at(0).label - 1;
-//             //     detectedBBox = objs.at(0).rect;
-//             //     cout << "Detected " << detectedClassIdx << " Object at " << elapsed_seconds.count() << endl;
-//             //     infLog << "Detected " << detectedClassIdx << " Object at " << elapsed_seconds.count() << endl;
-//             // }
+            // if (objs.size() > 0){
+            //     detectedClassIdx = objs.at(0).label - 1;
+            //     detectedBBox = objs.at(0).rect;
+            //     cout << "Detected " << detectedClassIdx << " Object at " << elapsed_seconds.count() << endl;
+            //     infLog << "Detected " << detectedClassIdx << " Object at " << elapsed_seconds.count() << endl;
+            // }
 
-//             detectedClassIdx = Detect::getClassIdx("Blue_Circle");
-//             detectedBBox = cv::Rect{800,0, 2, 2};
+            detectedClassIdx = Detect::getClassIdx("Blue_Circle");
+            detectedBBox = cv::Rect{800,0, 2, 2};
 
-//             inference_lock.unlock();
+            inference_lock.unlock();
 
 
 
-//             //cv::imshow("result", image);
+            //cv::imshow("result", image);
 
-//             //cout << image.size() << endl;
-//             // video.write(image);
+            //cout << image.size() << endl;
+            // video.write(image);
         
 
-//            // cout << image.size() << std::endl;
+           // cout << image.size() << std::endl;
 
-//             /**if (cv::waitKey(1) == 'q') {
-//                 break;
-//             }**/
-//         } else {
-//             buffer_lock.unlock();
-//             std::cout << "Frame buffer is empty!" << std::endl;
-//             sleep_for(1000ms);
-//         }
+            /**if (cv::waitKey(1) == 'q') {
+                break;
+            }**/
+        } else {
+            buffer_lock.unlock();
+            std::cout << "Frame buffer is empty!" << std::endl;
+            sleep_for(1000ms);
+        }
 
-//         // std::cout << ":::::FINISHED INFERENCE" << std::endl;
-//     }
+        // std::cout << ":::::FINISHED INFERENCE" << std::endl;
+    }
 
-//     infLog.close();
-//     //video.release();
-//     //cv::destroyAllWindows();
-//     //delete yolov8;
-// }
+    infLog.close();
+    //video.release();
+    //cv::destroyAllWindows();
+    //delete yolov8;
+}
 
 int Detect::getClassIdx(string name) {
     for (int i = 0; i < CLASS_NAMES.size(); i++ ) {

@@ -62,7 +62,7 @@ int main()
 
 
     Mavsdk mavsdk{Mavsdk::Configuration{Mavsdk::ComponentType::CompanionComputer}};
-    ConnectionResult connection_result = mavsdk.add_any_connection(SIM_PORT_PATH);
+    ConnectionResult connection_result = mavsdk.add_any_connection(PHYSICAL_PORT_PATH);
 
     if (connection_result != ConnectionResult::Success) {
         std::cerr << "Connection failed: " << connection_result << '\n';
@@ -91,7 +91,7 @@ int main()
     std::cout << "System is ready\n";
     myfile << "System is ready\n";
 
-    const auto arm_result = action.arm();
+    /**const auto arm_result = action.arm();
     if (arm_result != Action::Result::Success) {
         std::cerr << "Arming failed: " << arm_result << '\n';
         return 1;
@@ -119,7 +119,7 @@ int main()
     if (in_air_future.wait_for(seconds(3)) == std::future_status::timeout) {
         std::cerr << "Takeoff timed out.\n";
         return 1;
-    }
+    }**/
 
     const auto set_velocity = param.set_param_float("MPC_XY_VEL_MAX", 20.0);
     if (set_velocity != mavsdk::Param::Result::Success) {
@@ -142,11 +142,11 @@ int main()
         return 1;
     }
 
-    /**while(telemetry.flight_mode() != Telemetry::FlightMode::Mission) {
+    while(telemetry.flight_mode() != Telemetry::FlightMode::Mission) {
         std::cout << "Waiting for Mission\n";
         myfile << "Waiting for Mission" << endl;
         sleep_for(400ms);
-    }**/
+    }
 
 
     Agent agent(
