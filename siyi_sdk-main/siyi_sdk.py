@@ -732,6 +732,69 @@ class SIYISDK:
     #################################################
     #                 Set functions                 #
     #################################################
+    def setGimbalRotation2(self, yaw, pitch, err_thresh=1.0, kp=4, kd=0.1):
+        """
+        Sets gimbal attitude angles yaw and pitch in degrees
+    
+        Params
+        --
+        yaw: [float] desired yaw in degrees
+        pitch: [float] desired pitch in degrees
+        err_thresh: [float] acceptable error threshold, in degrees, to stop correction
+        kp [float] proportional gain
+        kd [float] derivative gain
+        """
+        if (pitch > 25 or pitch < -90):
+            self._logger.error("desired pitch is outside controllable range -90~25")
+            return
+    
+        if (yaw > 45 or yaw < -45):
+            self._logger.error("Desired yaw is outside controllable range -45~45")
+            return
+    
+        prev_yaw_err = 0
+        prev_pitch_err = 0
+        th = err_thresh
+        gain = kp
+        derivative = kd
+    
+        while True:
+            self.requestGimbalAttitude()
+            if self._att_msg.seq == self._last_att_seq:
+                self._logger.info("Did not get new attitude msg")
+                self.requestGimbalSpeed(0, 0)
+                continue
+    
+            self._last_att_seq = self._att_msg.seq
+    
+            yaw_err = -yaw + self._att_msg.yaw  # NOTE for some reason it's reversed!!
+            pitch_err = pitch - self._att_msg.pitch
+    
+            self._logger.debug("yaw_err= %s", yaw_err)
+            self._logger.debug("pitch_err= %s", pitch_err)
+    
+            if abs(yaw_err) <= th and abs(pitch_err) <= th:
+                self.requestGimbalSpeed(0, 0)
+                self._logger.info("Goal rotation is reached")
+                break
+    
+            yaw_derivative = yaw_err - prev_yaw_err
+            pitch_derivative = pitch_err - prev_pitch_err
+    
+            y_speed_sp = max(min(100, int(gain * yaw_err + derivative * yaw_derivative)), -100)
+            p_speed_sp = max(min(100, int(gain * pitch_err + derivative * pitch_derivative)), -100)
+    
+            self._logger.debug("yaw speed setpoint= %s", y_speed_sp)
+            self._logger.debug("pitch speed setpoint= %s", p_speed_sp)
+            
+            self.requestGimbalSpeed(y_speed_sp, p_speed_sp)
+    
+            prev_yaw_err = yaw_err
+            prev_pitch_err = pitch_err
+    
+            sleep(0.1)  # command frequency
+
+    
     def setGimbalRotation(self, yaw, pitch, err_thresh=1.0, kp=4):
         """
         Sets gimbal attitude angles yaw and pitch in degrees
