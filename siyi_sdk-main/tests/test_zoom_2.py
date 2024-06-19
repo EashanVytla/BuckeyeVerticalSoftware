@@ -38,7 +38,7 @@ def test():
 
     while True:
         print(f"Sending autofocus request...")
-        val = cam.requestCloseFocus()
+        val = cam.requestLongFocus()
         sleep(2)
 
     cam.disconnect()
