@@ -31,8 +31,9 @@ def test():
 
     val = cam.requestZoomHold()
 
-    cam.setGimbalRotation(10,20, err_thresh=30, kp=1)
+    # cam.setGimbalRotation(10,20, err_thresh=30, kp=1)
     # cam.setGimbalRotation(-10,-90, err_thresh=1, kp=4)
+    cam.setGimbalRotation(yaw=0, pitch=-90, err_thresh=1, kp=4, kd=0.1)
     
 
     while True:
