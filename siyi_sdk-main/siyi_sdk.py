@@ -760,7 +760,7 @@ class SIYISDK:
 
         counter = 0
         
-        while counter < 50:
+        while counter < 100:
             self.requestGimbalAttitude()
             if self._att_msg.seq == self._last_att_seq:
                 self._logger.info("Did not get new attitude msg")
