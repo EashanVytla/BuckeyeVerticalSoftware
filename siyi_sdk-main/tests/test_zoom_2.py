@@ -31,7 +31,9 @@ def test():
 
     val = cam.requestZoomHold()
 
-    cam.setGimbalRotation(yaw=0, pitch=-90, err_thresh=1, kp=4)
+    cam.setGimbalRotation(10,20, err_thresh=1, kp=4)
+    # cam.setGimbalRotation(-10,-90, err_thresh=1, kp=4)
+    
 
     while True:
         print(f"Sending autofocus request...")
