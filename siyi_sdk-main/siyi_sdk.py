@@ -757,14 +757,16 @@ class SIYISDK:
         th = err_thresh
         gain = kp
         derivative = kd
-    
-        while True:
+
+        counter = 0
+        
+        while counter < 50:
             self.requestGimbalAttitude()
             if self._att_msg.seq == self._last_att_seq:
                 self._logger.info("Did not get new attitude msg")
                 self.requestGimbalSpeed(0, 0)
                 continue
-    
+            
             self._last_att_seq = self._att_msg.seq
     
             yaw_err = -yaw + self._att_msg.yaw  # NOTE for some reason it's reversed!!
@@ -793,6 +795,9 @@ class SIYISDK:
             prev_pitch_err = pitch_err
     
             sleep(0.1)  # command frequency
+            counter += 1
+
+        self.requestGimbalSpeed(0, 0)
 
     
     def setGimbalRotation(self, yaw, pitch, err_thresh=1.0, kp=4):
