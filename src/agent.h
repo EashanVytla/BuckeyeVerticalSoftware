@@ -106,7 +106,7 @@ public:
 
     // const static float AGENT_ALTITUDE = 12.25;
     const float LAP_SPEED = 5.0;
-    const float SCAN_SPEED = 5.0;
+    const float SCAN_SPEED = 3.0;
 
     int candidateIdx = 0;
     cv::Rect currentDropTargetPos = cv::Rect{0, 0, 0, 0};

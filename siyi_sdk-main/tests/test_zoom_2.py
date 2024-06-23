@@ -36,10 +36,11 @@ def test():
     cam.setGimbalRotation2(yaw=0, pitch=-90, err_thresh=1, kp=4, kd=0.1)
     
 
-    while True:
-        print(f"Sending autofocus request...")
-        val = cam.requestLongFocus()
-        sleep(2)
+#    while True:
+#        print(f"Sending autofocus request...")
+#        val = cam.requestAutoFocus()
+#        print(val)
+#        sleep(2)
 
     cam.disconnect()
 

@@ -156,32 +156,32 @@ int main()
         myfile
     );
 
-    const int LOOP_ALTITUDE = 12.5;
-    const int SCAN_ALTITUDE = 12.5;
+    const int LOOP_ALTITUDE = 24.5;
+    const int SCAN_ALTITUDE = 24.5;
 
-    agent.setLoopPoints({
+    /*agent.setLoopPoints({
         {telemetry.position().latitude_deg, telemetry.position().longitude_deg, LOOP_ALTITUDE},
         {telemetry.position().latitude_deg, telemetry.position().longitude_deg + TEN_METERS_APPROX, LOOP_ALTITUDE},
-    });
+    });*/
 
     
-    /**agent.setLoopPoints({
-        {40.0930821, -83.1963847, LOOP_ALTITUDE},
-        {40.0927715, -83.1963421, LOOP_ALTITUDE},
-    });**/
+    agent.setLoopPoints({
+        {40.0986084, -83.1930849, LOOP_ALTITUDE},
+        {40.0986341, -83.1927205, LOOP_ALTITUDE},
+    });
     
-    agent.setScanPoints({
+    /*agent.setScanPoints({
         {telemetry.position().latitude_deg + TEN_METERS_APPROX, telemetry.position().longitude_deg + TEN_METERS_APPROX, SCAN_ALTITUDE},
         {telemetry.position().latitude_deg + TEN_METERS_APPROX, telemetry.position().longitude_deg, SCAN_ALTITUDE},
-    });
+    });*/
 
    cout << "First scan point (" << telemetry.position().latitude_deg + TEN_METERS_APPROX << std::setprecision(8) << ", " << telemetry.position().longitude_deg + TEN_METERS_APPROX << std::setprecision(8) << ")" << std::endl; 
 
 
-    /**agent.setScanPoints({
-        {40.0926800, -83.1966677, SCAN_ALTITUDE},
-        {40.0931109, -83.1967287, SCAN_ALTITUDE},
-    });**/
+    agent.setScanPoints({
+        {40.0989613, -83.1927289, SCAN_ALTITUDE},
+        {40.0989516, -83.1930766, SCAN_ALTITUDE},
+    });
 
     // load camera parameters
     agent.loadIntrinsics("../t_intrinsics.xml");

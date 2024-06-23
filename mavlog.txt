@@ -1,26 +1,35 @@
-MAVSDK version: v2.9.1
+MAVSDK version: v2.12.2
 mavsdk_impl.cpp26
 
-New system on: 127.0.0.1:14580 (with system ID: 1)
-udp_connection.cpp199
-
 New system ID: 1 Comp ID: 1
-mavsdk_impl.cpp737
+mavsdk_impl.cpp720
 
 Component Autopilot (1) added.
-system_impl.cpp389
+system_impl.cpp366
 
 Vehicle type changed (new type: 2, old type: 0)
-system_impl.cpp231
+system_impl.cpp217
 
 Discovered 1 component(s)
-system_impl.cpp537
+system_impl.cpp509
+
+New system ID: 255 Comp ID: 190
+mavsdk_impl.cpp720
+
+Component Ground station (190) added.
+system_impl.cpp366
+
+Discovered 1 component(s)
+system_impl.cpp509
 
 Falling back to gimbal protocol v1
 mission_impl.cpp128
 
-Conflicting options set: fly_through=true and loiter_time>0.
-mission_impl.cpp520
+New system ID: 243 Comp ID: 1
+mavsdk_impl.cpp720
+
+Component Autopilot (1) added.
+system_impl.cpp366
 
 Conflicting options set: fly_through=true and loiter_time>0.
 mission_impl.cpp520
@@ -46,51 +55,66 @@ mission_impl.cpp520
 Conflicting options set: fly_through=true and loiter_time>0.
 mission_impl.cpp520
 
-sending again after 0.50912 s, retries to do: 3  (187).
-mavlink_command_sender.cpp312
+Conflicting options set: fly_through=true and loiter_time>0.
+mission_impl.cpp520
 
-sending again after 1.01812 s, retries to do: 2  (187).
-mavlink_command_sender.cpp312
+Conflicting options set: fly_through=true and loiter_time>0.
+mission_impl.cpp520
 
-sending again after 1.52646 s, retries to do: 1  (187).
-mavlink_command_sender.cpp312
+Conflicting options set: fly_through=true and loiter_time>0.
+mission_impl.cpp520
+
+Conflicting options set: fly_through=true and loiter_time>0.
+mission_impl.cpp520
+
+Conflicting options set: fly_through=true and loiter_time>0.
+mission_impl.cpp520
+
+heartbeats timed out
+system_impl.cpp265
+
+sending again after 0.503861 s, retries to do: 3  (187).
+mavlink_command_sender.cpp320
+
+sending again after 1.00762 s, retries to do: 2  (187).
+mavlink_command_sender.cpp320
+
+Discovered 1 component(s)
+system_impl.cpp509
+
+sending again after 1.51252 s, retries to do: 1  (187).
+mavlink_command_sender.cpp320
 
 Retrying failed (187)
-mavlink_command_sender.cpp339
+mavlink_command_sender.cpp346
 
-Conflicting options set: fly_through=true and loiter_time>0.
-mission_impl.cpp520
+heartbeats timed out
+system_impl.cpp265
 
-Conflicting options set: fly_through=true and loiter_time>0.
-mission_impl.cpp520
+Discovered 1 component(s)
+system_impl.cpp509
 
-Conflicting options set: fly_through=true and loiter_time>0.
-mission_impl.cpp520
+heartbeats timed out
+system_impl.cpp265
 
-Conflicting options set: fly_through=true and loiter_time>0.
-mission_impl.cpp520
+Discovered 1 component(s)
+system_impl.cpp509
 
-Conflicting options set: fly_through=true and loiter_time>0.
-mission_impl.cpp520
+heartbeats timed out
+system_impl.cpp265
 
-Conflicting options set: fly_through=true and loiter_time>0.
-mission_impl.cpp520
+Discovered 1 component(s)
+system_impl.cpp509
 
-Conflicting options set: fly_through=true and loiter_time>0.
-mission_impl.cpp520
+heartbeats timed out
+system_impl.cpp265
 
-Conflicting options set: fly_through=true and loiter_time>0.
-mission_impl.cpp520
+Discovered 1 component(s)
+system_impl.cpp509
 
-sending again after 0.50802 s, retries to do: 3  (187).
-mavlink_command_sender.cpp312
+heartbeats timed out
+system_impl.cpp265
 
-sending again after 1.01589 s, retries to do: 2  (187).
-mavlink_command_sender.cpp312
-
-sending again after 1.52441 s, retries to do: 1  (187).
-mavlink_command_sender.cpp312
-
-Retrying failed (187)
-mavlink_command_sender.cpp339
+Discovered 1 component(s)
+system_impl.cpp509
 

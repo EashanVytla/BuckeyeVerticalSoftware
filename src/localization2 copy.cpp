@@ -96,7 +96,6 @@ std::pair<double, double> offset_to_latlon(double lat, double lon, double headin
     return std::make_pair(new_lat, new_lon);
 }
 
-
 Mat alignedProject(double zConst, double u, double v, double originX, double originY,
                    cv::Mat &inverseCameraMatrix,
                    cv::Mat &inverseRotationMatrix,

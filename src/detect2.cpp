@@ -230,7 +230,7 @@ void Detect::unlockInference() {
 // }
 
 void Detect::inference(){
-    const std::string engine_file_path = "/home/buckeyevertical/Documents/YOLOv8-TensorRT/best.engine"; //PUT PATH HERE
+    const std::string engine_file_path = "/home/bv/Documents/YOLOv8-TensorRT/best.engine"; //PUT PATH HERE
 
     std::vector<std::string> imagePathList;
 
@@ -253,7 +253,7 @@ void Detect::inference(){
     }
 
     std::ofstream infLog;
-    infLog.open("infLog.txt");
+    infLog.open("../infLog.txt");
 
     if(!infLog.is_open()){
         std::cout << "infLog.txt File open failed! Ending program." << std::endl;
@@ -322,10 +322,10 @@ void Detect::inference(){
 
     
             if (objs.size() > 0){
-                detectedClassIdx = objs.at(0).label - 1;
+                detectedClassIdx = objs.at(0).label;
                 detectedBBox = objs.at(0).rect;
                 cout << "Detected " << detectedClassIdx << " Object at " << elapsed_seconds.count() << endl;
-                infLog << "Detected " << detectedClassIdx << " Object at " << elapsed_seconds.count() << endl;
+                infLog << "Detected " << detectedClassIdx << ", " << CLASS_NAMES.at(detectedClassIdx) << " Object at " << elapsed_seconds.count() << endl;
             }
 
             inference_lock.unlock();

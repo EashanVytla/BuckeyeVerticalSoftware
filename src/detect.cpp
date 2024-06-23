@@ -307,7 +307,7 @@ void Detect::unlockInference() {
 
 
 void Detect::inference(){
-    const std::string engine_file_path = "/home/buckeyevertical/Documents/YOLOv8-TensorRT/best.engine"; //PUT PATH HERE
+    const std::string engine_file_path = "/home/bv/Documents/YOLOv8-TensorRT/best.engine"; //PUT PATH HERE
 
     std::vector<std::string> imagePathList;
 
@@ -381,9 +381,7 @@ void Detect::inference(){
             // Get the end time
             auto current = std::chrono::system_clock::now();
 
-            // Calculate the duration
-            std::chrono::duration<double> elapsed_seconds = current - startTime;
-
+            // Calculate the durationcout
     
             // if (objs.size() > 0){
             //     detectedClassIdx = objs.at(0).label - 1;
@@ -420,7 +418,7 @@ void Detect::inference(){
     }
 
     infLog.close();
-    //video.release();
+    //video.release();cout
     //cv::destroyAllWindows();
     //delete yolov8;
 }

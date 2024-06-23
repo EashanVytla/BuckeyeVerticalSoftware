@@ -92,7 +92,7 @@ void Agent::updateState()
         }
 
         if (!completionCheckPair.second) {
-            myfile << "INITAL_LOOP Mission is not complete yet: " << std::endl;
+            myfile << "Mission is not complete yet: " << std::endl;
             cout << "INITIAL_LOOP Mission is not complete yet: " << std::endl;
             sleep_for(400ms);
             break;
@@ -152,7 +152,7 @@ void Agent::updateState()
         }
 
         if (!completionCheckPair.second) {
-            // myfile << "TRAVELING_TO_SCAN Mission is not complete yet: " << std::endl;
+            myfile << "TRAVELING_TO_SCAN Mission is not complete yet: " << std::endl;
             cout << "TRAVELING_TO_SCAN Mission is not complete yet: " << std::endl;
             sleep_for(400ms);
             break;
@@ -189,7 +189,7 @@ void Agent::updateState()
 
 
         cout << "IN SCAN" << std::endl;
-        // myfile << "IN SCAN" << std::endl;
+        myfile << "IN SCAN" << std::endl;
 
         auto completionCheckPair = mission.is_mission_finished();
 
@@ -248,7 +248,7 @@ void Agent::updateState()
 
             // connector_traj.push(make_mission_item(telemetry.position().latitude_deg,
             //           telemetry.position().longitude_deg, altitude, speed, false,
-            //           0.0f, 0.0f,s
+            //           0.0f, 0.0f,
             //           MissionItem::CameraAction::NONE))
 
             // connector_traj.push_back(*currentPosition);
@@ -288,83 +288,64 @@ void Agent::updateState()
             break;
         }
 
-        // myfile << "Mission is not complete yet: " << std::endl;
-        // cout << "SCAN Mission is not complete yet: " << std::endl;
+        myfile << "Mission is not complete yet: " << std::endl;
+        cout << "SCAN Mission is not complete yet: " << std::endl;
         
         // get only candidate idx to perform initial checks
 
-        // candidateIdx = detect.getDetectedClassIdx();
+        candidateIdx = detect.getDetectedClassIdx();
 
 
-        // if (candidateIdx <= -1) {
-        //     sleep_for(400ms);
-        //     break;
-        // }
+        if (candidateIdx <= -1) {
+            sleep_for(400ms);
+            break;
+        }
 
-        // myfile << "Candidate IDX: " << candidateIdx << endl << endl;
-        // cout << "Candidate IDX: " << candidateIdx << endl << endl;
+        myfile << "Candidate IDX: " << candidateIdx << endl << endl;
+        cout << "Candidate IDX: " << candidateIdx << endl << endl;
 
-        // if (targetSet.count(candidateIdx) <= detectedSet.count(candidateIdx)) {
-        //     sleep_for(400ms);
-        //     break;
-        // }
+        if (targetSet.count(candidateIdx) <= detectedSet.count(candidateIdx)) {
+            sleep_for(400ms);
+            break;
+        }
 
         // pause the mission
 
-        // Mission::Result result = mission.pause_mission();
+        Mission::Result result = mission.pause_mission();
 
-        // while (result != Mission::Result::Success) {
-        //     myfile << "Failed to pause mission" << std::endl;
-        //     cout << "Failed to pause mission" << std::endl;
-        //     result = mission.pause_mission();
-        //     sleep_for(400ms);
-        // }
+        while (result != Mission::Result::Success) {
+            myfile << "Failed to pause mission" << std::endl;
+            cout << "Failed to pause mission" << std::endl;
+            result = mission.pause_mission();
+            sleep_for(400ms);
+        }
 
-        // cout << "PAUSED MISSION" << std::endl;
-        // myfile << "PAUSED MISSION" << std::endl;
+        cout << "PAUSED MISSION" << std::endl;
+        myfile << "PAUSED MISSION" << std::endl;
 
 
-        // cout << "SLEEPING FOR 7 SECONDS" << std::endl;
-        // myfile << "SLEEPING FOR 7 SECONDS" << std::endl;
+        cout << "SLEEPING FOR 7 SECONDS" << std::endl;
+        myfile << "SLEEPING FOR 7 SECONDS" << std::endl;
         
-        // // becoming still before looking at bounding box
-        // sleep_for(std::chrono::seconds(7));
+        // becoming still before looking at bounding box
+        sleep_for(std::chrono::seconds(7));
 
-        // cout << "FINISHED SLEEPING" << std::endl;
-        // myfile << "FINISHED SLEEPING" << std::endl;
+        cout << "FINISHED SLEEPING" << std::endl;
+        myfile << "FINISHED SLEEPING" << std::endl;
 
         // double check to make sure we still see the target
-
-        // candidateIdx = detect.getDetectedClassIdx();
-
-
-        // if (candidateIdx <= -1) {
-        //     sleep_for(400ms);
-        //     break;
-        // }
-
-        // myfile << "Candidate IDX: " << candidateIdx << endl << endl;
-        // cout << "Candidate IDX: " << candidateIdx << endl << endl;
-
 
         detect.lockInference();
 
         int doubleCheckCandidateIdx = detect.getDetectedClassIdxUnsafe();
         currentDropTargetPos = detect.getDetectedBBoxUnsafe();
-        candidateIdx = doubleCheckCandidateIdx;
 
         detect.unlockInference();
 
-
-        if ((targetSet.count(candidateIdx) <= detectedSet.count(candidateIdx)) || candidateIdx <= -1) {
-            // sleep_for(400ms);
-            break;
-        }
-
         // only add the new target if double check has same candidate idx
-        // if (doubleCheckCandidateIdx == candidateIdx) {
+        if (doubleCheckCandidateIdx == candidateIdx) {
 
-            myfile << "FOUND PRELIMINARY DETECTIon: " << candidateIdx << ", " << detect.CLASS_NAMES.at(candidateIdx) << std::endl;
+            myfile << "FOUND PRELIMINARY DETECTIon: " << candidateIdx << std::endl;
 
             // perform localization
             double u = currentDropTargetPos.x + currentDropTargetPos.width / 2;
@@ -411,35 +392,30 @@ void Agent::updateState()
             detectedPositions.push(targetPosition);
             detectedClassNumbers.push(candidateIdx);
 
-            cout << "detectedPosition (" << targetLatitude << std::setprecision(16) << ", " << targetLongitude << std::setprecision(16) << ")" << std::endl; 
+            cout << "detectedPosition (" << targetLatitude << std::setprecision(8) << ", " << targetLongitude << std::setprecision(8) << ")" << std::endl; 
             cout << "detectedPosition.size() => " << detectedPositions.size() << std::endl;
 
-            myfile << "detectedPosition (" << targetLatitude << std::setprecision(16) << ", " << targetLongitude << std::setprecision(16) << ")" << std::endl; 
-            myfile << "curr lat (" << lat << std::setprecision(16) << ", curr long " << lon << std::setprecision(8) << ")" << std::endl; 
-            myfile << "curr heading " << heading << std::endl;
+            myfile << "detectedPosition (" << targetLatitude << std::setprecision(8) << ", " << targetLongitude << std::setprecision(8) << ")" << std::endl; 
             myfile << "detectedPosition.size() => " << detectedPositions.size() << std::endl; 
-            myfile << "offset_x: " << offset_x << " meters" << std::endl;
-            myfile << "offset_y: " << offset_y << " meters" << std::endl;
-            myfile << std::endl;
-
 
             // make sure target doesn't get detected again
             detectedSet.insert(candidateIdx);
 
-        // }
+        }
 
         // restart the mission
 
+        result = mission.start_mission();
 
-        // while (result != Mission::Result::Success) {
-        //     myfile << "Failed to restart mission" << std::endl;
-        //     result = mission.start_mission();
-        //     sleep_for(400ms);
-        // }
+        while (result != Mission::Result::Success) {
+            myfile << "Failed to restart mission" << std::endl;
+            result = mission.start_mission();
+            sleep_for(400ms);
+        }
 
 
-        // cout << "UNPAUSED MISSION" << std::endl;
-        // myfile << "UNPAUSED MISSION" << std::endl;
+        cout << "UNPAUSED MISSION" << std::endl;
+        myfile << "UNPAUSED MISSION" << std::endl;
         
 
     }
@@ -462,7 +438,7 @@ void Agent::updateState()
         }
 
         if (!completionCheckPair.second) {
-            // myfile << "Mission is not complete yet: " << std::endl;
+            myfile << "Mission is not complete yet: " << std::endl;
             cout << "INITIAL_DELIVERY Mission is not complete yet: " << std::endl;
             
             sleep_for(400ms);
@@ -717,9 +693,9 @@ void Agent::loop() {
             std::chrono::duration<double> elapsed_seconds = current - startTime;
 
             // Output the duration
-            // myfile << "[Time elapsed: " << elapsed_seconds.count() << " seconds]" << std::endl;
+            myfile << "[Time elapsed: " << elapsed_seconds.count() << " seconds]" << std::endl;
             Agent::updateState();
-            // myfile << std::endl << std::endl;
+            myfile << std::endl << std::endl;
 
         } catch(const std::exception& e){
             myfile << "ERROR: " << e.what() << endl;
