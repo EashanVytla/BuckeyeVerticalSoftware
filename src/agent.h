@@ -45,11 +45,15 @@ enum class State
     SCAN, // the actual one-time scanning phase
     // DELIVERY, // traveling to the payload drop zone
     INITIAL_DELIVERY,
+    CONVERGING,
+    REPOSITION,
     ROUTING,
     DROP, // actually dropping the payload
     OBJAVOID,
     LOITER,
     HOME,
+    START_HOMING,
+    HOMING,
     STOP,
     LAND,
     DONE
@@ -121,6 +125,8 @@ public:
     std::stack<std::shared_ptr<Mission::MissionItem>> detectedPositions;
     std::stack<int> detectedClassNumbers;
 
+    std::pair<double, double> homeCoords;
+
 
     // camera parameters
     cv::Mat cameraMatrix;
@@ -133,6 +139,7 @@ public:
     void loadIntrinsics(string file);
     void loadExtrinsics(string file);
 
+    std::pair<double, double> localize(double u, double v);
 };
 
 #endif

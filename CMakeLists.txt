@@ -55,8 +55,8 @@ list(APPEND ALL_LIBS
 add_executable(main
                src/main_test.cpp
                src/agent.cpp
-               src/detect2.cpp
-	       src/localization2.cpp
+               src/detect.cpp
+	       src/localization.cpp
 )
 
 add_executable(servoTest

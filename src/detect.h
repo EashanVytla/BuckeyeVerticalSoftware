@@ -42,8 +42,8 @@ public:
 
     std::vector<std::thread> threads;
 
-    // Set maximum buffer size to 15
-    const int max_buffer_size = 15;
+    // Set maximum buffer size to 2
+    const int max_buffer_size = 2;
 
     const std::vector<std::string> CLASS_NAMES = {
     "Black_Rectangle",

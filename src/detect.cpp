@@ -5,7 +5,7 @@
 //
 
 #include "detect.h"
-//#include "yolov8.hpp"
+#include "yolov8.hpp"
 
 // #include "chrono"
 // #include "opencv2/opencv.hpp"
@@ -202,6 +202,7 @@ int Detect::getDetectedClassIdxUnsafe() {
 }
 
 cv::Rect Detect::getDetectedBBoxUnsafe() {
+
     cv::Rect rect = cv::Rect{-1,-1, -1, -1};
 
     if(detectedClassIdx != -1){
@@ -209,6 +210,7 @@ cv::Rect Detect::getDetectedBBoxUnsafe() {
     }
 
     return rect;
+
 }
 
 
@@ -227,97 +229,31 @@ void Detect::unlockInference() {
 //     return 
 // }
 
-
-// void Detect::capture_frames() {
-
-//     int sleeps = 27;
-//     int sleeps2 = 11;
-//     int sleeps3 = 10;
-
-//     for (int i = sleeps; i > 0; i--) {
-//         cout << "Updating inference in " << i << " seconds..." << std::endl;
-//         sleep_for(std::chrono::seconds(1)); 
-//     }
-
-//     inference_lock.lock();
-
-//     cout << "Now updating inference..." << std::endl;
-
-//     detectedClassIdx = Detect::getClassIdx("Blue_Circle");
-//     detectedBBox = cv::Rect{1000,0, 2, 2};
-
-//     inference_lock.unlock();
-
-//     for (int i = sleeps2; i > 0; i--) {
-//         cout << "Updating inference AGAIN in :" << i << " seconds..." << std::endl;
-//         sleep_for(std::chrono::seconds(1)); 
-//     }
-
-//     inference_lock.lock();
-
-//     cout << "Now updating inference AGAIN..." << std::endl;
-
-//     detectedClassIdx = Detect::getClassIdx("Black_Rectangle");
-//     detectedBBox = cv::Rect{1000,0, 2, 2};
-
-//     inference_lock.unlock();
-
-//     for (int i = sleeps3; i > 0; i--) {
-//         cout << "Updating inference AGAIN AGAIN in :" << i << " seconds..." << std::endl;
-//         sleep_for(std::chrono::seconds(1)); 
-//     }
-
-//     inference_lock.lock();
-
-//     cout << "Now updating inference AGAIN..." << std::endl;
-
-//     detectedClassIdx = Detect::getClassIdx("Red_Triangle");
-//     detectedBBox = cv::Rect{1000,0, 2, 2};
-
-//     inference_lock.unlock();
-
-
-
-//     // int counter = 0;
-//     // while (true) {
-//     //     cout << "Current capture frames time: " << counter << " seconds..." << std::endl;
-//     //     sleep_for(std::chrono::seconds(1)); 
-//     //     counter++;
-//     // }
-
-// }
-
-// void Detect::inference() {
-
-//     // inference_lock.lock();
-
-//     // detectedClassIdx = -1;
-
-//     // detectedClassIdx = Detect::getClassIdx("Blue_Circle");
-//     // detectedBBox = cv::Rect{1000,0, 2, 2};
-
-//     // inference_lock.unlock(); 
-
-//     for (int i = 0; i < 10000; i++) {
-//         cout << "On second " << i << std::endl;
-//         sleep_for(std::chrono::seconds(1)); 
-//     }
-    
-// }
-
-
 void Detect::inference(){
     const std::string engine_file_path = "/home/bv/Documents/YOLOv8-TensorRT/best.engine"; //PUT PATH HERE
 
     std::vector<std::string> imagePathList;
 
+    auto yolov8 = new YOLOv8(engine_file_path);
+    yolov8->make_pipe(true);
+
+    std::vector<Object> objs;
     cv::Size            size = cv::Size{1280, 1280}; //Change Here
 
 
     const int VIDEO_FRAME_RATE = 10;
 
+    // Define the codec and create VideoWriter object
+    cv::VideoWriter video("output.avi", cv::VideoWriter::fourcc('X','V','I','D'), VIDEO_FRAME_RATE, cv::Size{1280, 720}, true);
+
+    // Check if VideoWriter opened successfully=
+    if (!video.isOpened()) {
+        std::cerr << "Error: Unable to open VideoWriter" << std::endl;
+        return;
+    }
+
     std::ofstream infLog;
-    infLog.open("infLog.txt");
+    infLog.open("../infLog.txt");
 
     if(!infLog.is_open()){
         std::cout << "infLog.txt File open failed! Ending program." << std::endl;
@@ -347,13 +283,13 @@ void Detect::inference(){
             // Unlock the buffer after accessing it
             buffer_lock.unlock();
 
-            // yolov8->copy_from_Mat(image, size);
-            // auto start = std::chrono::system_clock::now();
-            // yolov8->infer();
-            // auto end = std::chrono::system_clock::now();
-            // yolov8->postprocess(objs);
-            // yolov8->draw_objects(image, image, objs, CLASS_NAMES, COLORS);
-            // auto tc = (double)std::chrono::duration_cast<std::chrono::microseconds>(end - start).count() / 1000.;
+            yolov8->copy_from_Mat(image, size);
+            auto start = std::chrono::system_clock::now();
+            yolov8->infer();
+            auto end = std::chrono::system_clock::now();
+            yolov8->postprocess(objs);
+            yolov8->draw_objects(image, image, objs, CLASS_NAMES, COLORS);
+            auto tc = (double)std::chrono::duration_cast<std::chrono::microseconds>(end - start).count() / 1000.;
 
             // TO MAKE SURE DETECTEDCLASSIDX DOESN'T CHANGE
             // std::cout << "objs size " << objs.size() << std::endl;
@@ -381,17 +317,16 @@ void Detect::inference(){
             // Get the end time
             auto current = std::chrono::system_clock::now();
 
-            // Calculate the durationcout
-    
-            // if (objs.size() > 0){
-            //     detectedClassIdx = objs.at(0).label - 1;
-            //     detectedBBox = objs.at(0).rect;
-            //     cout << "Detected " << detectedClassIdx << " Object at " << elapsed_seconds.count() << endl;
-            //     infLog << "Detected " << detectedClassIdx << " Object at " << elapsed_seconds.count() << endl;
-            // }
+            // Calculate the duration
+            std::chrono::duration<double> elapsed_seconds = current - startTime;
 
-            detectedClassIdx = Detect::getClassIdx("Blue_Circle");
-            detectedBBox = cv::Rect{800,0, 2, 2};
+    
+            if (objs.size() > 0){
+                detectedClassIdx = objs.at(0).label;
+                detectedBBox = objs.at(0).rect;
+                cout << "Detected " << detectedClassIdx << " Object at " << elapsed_seconds.count() << endl;
+                infLog << "Detected " << detectedClassIdx << ", " << CLASS_NAMES.at(detectedClassIdx) << " Object at " << elapsed_seconds.count() << endl;
+            }
 
             inference_lock.unlock();
 
@@ -400,7 +335,7 @@ void Detect::inference(){
             //cv::imshow("result", image);
 
             //cout << image.size() << endl;
-            // video.write(image);
+            video.write(image);
         
 
            // cout << image.size() << std::endl;
@@ -418,9 +353,9 @@ void Detect::inference(){
     }
 
     infLog.close();
-    //video.release();cout
+    video.release();
     //cv::destroyAllWindows();
-    //delete yolov8;
+    delete yolov8;
 }
 
 int Detect::getClassIdx(string name) {

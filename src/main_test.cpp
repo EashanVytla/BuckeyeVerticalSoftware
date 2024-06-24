@@ -62,7 +62,7 @@ int main()
 
 
     Mavsdk mavsdk{Mavsdk::Configuration{Mavsdk::ComponentType::CompanionComputer}};
-    ConnectionResult connection_result = mavsdk.add_any_connection(PHYSICAL_PORT_PATH);
+    ConnectionResult connection_result = mavsdk.add_any_connection(PHYSICAL_PORT_PATH); //TODO1: CHANGE
 
     if (connection_result != ConnectionResult::Success) {
         std::cerr << "Connection failed: " << connection_result << '\n';
@@ -91,7 +91,9 @@ int main()
     std::cout << "System is ready\n";
     myfile << "System is ready\n";
 
-    /**const auto arm_result = action.arm();
+    //TODO1: COMMENT
+    /**
+    const auto arm_result = action.arm();
     if (arm_result != Action::Result::Success) {
         std::cerr << "Arming failed: " << arm_result << '\n';
         return 1;
@@ -121,6 +123,8 @@ int main()
         return 1;
     }**/
 
+    //END TODO1: COMMENT
+
     const auto set_velocity = param.set_param_float("MPC_XY_VEL_MAX", 20.0);
     if (set_velocity != mavsdk::Param::Result::Success) {
         std::cerr << "Velocity not set: " << set_velocity << '\n';
@@ -142,11 +146,13 @@ int main()
         return 1;
     }
 
+    //TODO1: UNCOMMENT
     while(telemetry.flight_mode() != Telemetry::FlightMode::Mission) {
         std::cout << "Waiting for Mission\n";
         myfile << "Waiting for Mission" << endl;
         sleep_for(400ms);
     }
+    //TODO1: END UNCOMMENT
 
 
     Agent agent(
@@ -159,36 +165,35 @@ int main()
     const int LOOP_ALTITUDE = 24.5;
     const int SCAN_ALTITUDE = 24.5;
 
-    /*agent.setLoopPoints({
+    agent.setLoopPoints({
         {telemetry.position().latitude_deg, telemetry.position().longitude_deg, LOOP_ALTITUDE},
         {telemetry.position().latitude_deg, telemetry.position().longitude_deg + TEN_METERS_APPROX, LOOP_ALTITUDE},
-    });*/
+    });
 
     
-    agent.setLoopPoints({
+    /**agent.setLoopPoints({
         {40.0986084, -83.1930849, LOOP_ALTITUDE},
         {40.0986341, -83.1927205, LOOP_ALTITUDE},
-    });
+    });**/
     
-    /*agent.setScanPoints({
+    agent.setScanPoints({
         {telemetry.position().latitude_deg + TEN_METERS_APPROX, telemetry.position().longitude_deg + TEN_METERS_APPROX, SCAN_ALTITUDE},
         {telemetry.position().latitude_deg + TEN_METERS_APPROX, telemetry.position().longitude_deg, SCAN_ALTITUDE},
-    });*/
+    });
 
    cout << "First scan point (" << telemetry.position().latitude_deg + TEN_METERS_APPROX << std::setprecision(8) << ", " << telemetry.position().longitude_deg + TEN_METERS_APPROX << std::setprecision(8) << ")" << std::endl; 
 
 
-    agent.setScanPoints({
+    /**agent.setScanPoints({
         {40.0989613, -83.1927289, SCAN_ALTITUDE},
         {40.0989516, -83.1930766, SCAN_ALTITUDE},
-    });
+    });**/
 
     // load camera parameters
     agent.loadIntrinsics("../t_intrinsics.xml");
     myfile << "Loaded intrinsics" << endl; 
     agent.loadExtrinsics("../t_extrinsics.xml");
-    myfile << "Load extrinsics" << endl;
-    
+    myfile << "Load extrinsics" << endl; 
 
     for (auto item : agent.lap_traj) {
         cout << "(" << item->latitude_deg << ", " << item->longitude_deg << ")" << std::endl;
