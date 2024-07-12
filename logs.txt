@@ -1,0 +1,218 @@
+Waiting for system to be ready
+System is ready
+Loaded intrinsics
+Load extrinsics
+(47.3977, 8.54559)
+(47.3977, 8.54599)
+in main for agent
+OPENED servoConfig FILE
+Config entries extracted from the file:
+servoIndex: 0, Class name: Blue_Circle, Open Position: 1, Close Position 0
+servoIndex: 1, Class name: Black_Rectangle, Open Position: 1, Close Position 0
+servoIndex: 2, Class name: Red_Triangle, Open Position: 1, Close Position 0
+actually starting the agent
+ADDED LOOP THREAD INSIDE AGENT::start
+IN TAKEOFF
+Changed state to INITIAL_LOOP
+IN INITAL_LOOP
+INITAL_LOOP Mission is not complete yet: 
+IN INITAL_LOOP
+INITAL_LOOP Mission is not complete yet: 
+IN INITAL_LOOP
+INITAL_LOOP Mission is not complete yet: 
+IN INITAL_LOOP
+INITAL_LOOP Mission is not complete yet: 
+IN INITAL_LOOP
+INITAL_LOOP Mission is not complete yet: 
+IN INITAL_LOOP
+INITAL_LOOP Mission is not complete yet: 
+IN INITAL_LOOP
+INITAL_LOOP Mission is not complete yet: 
+IN INITAL_LOOP
+INITAL_LOOP Mission is not complete yet: 
+IN INITAL_LOOP
+INITAL_LOOP Mission is not complete yet: 
+IN INITAL_LOOP
+INITAL_LOOP Mission is not complete yet: 
+IN INITAL_LOOP
+INITAL_LOOP Mission is not complete yet: 
+IN INITAL_LOOP
+INITAL_LOOP Mission is not complete yet: 
+IN INITAL_LOOP
+INITAL_LOOP Mission is not complete yet: 
+IN INITAL_LOOP
+INITAL_LOOP Mission is not complete yet: 
+IN INITAL_LOOP
+INITAL_LOOP Mission is not complete yet: 
+IN INITAL_LOOP
+INITAL_LOOP Mission is not complete yet: 
+IN INITAL_LOOP
+INITAL_LOOP Mission is not complete yet: 
+IN INITAL_LOOP
+INITAL_LOOP Mission is not complete yet: 
+IN INITAL_LOOP
+INITAL_LOOP Mission is not complete yet: 
+IN INITAL_LOOP
+INITAL_LOOP Mission is not complete yet: 
+IN INITAL_LOOP
+INITAL_LOOP Mission is not complete yet: 
+IN INITAL_LOOP
+INITAL_LOOP Mission is not complete yet: 
+IN INITAL_LOOP
+INITAL_LOOP Mission is not complete yet: 
+IN INITAL_LOOP
+INITAL_LOOP Mission is not complete yet: 
+IN INITAL_LOOP
+INITAL_LOOP Mission is not complete yet: 
+IN INITAL_LOOP
+INITAL_LOOP Mission is not complete yet: 
+IN INITAL_LOOP
+INITAL_LOOP Mission is not complete yet: 
+IN INITAL_LOOP
+INITAL_LOOP Mission is not complete yet: 
+IN INITAL_LOOP
+INITAL_LOOP Mission is not complete yet: 
+IN INITAL_LOOP
+INITAL_LOOP Mission is not complete yet: 
+IN INITAL_LOOP
+INITAL_LOOP Mission is not complete yet: 
+IN INITAL_LOOP
+INITAL_LOOP Mission is not complete yet: 
+IN INITAL_LOOP
+INITAL_LOOP Mission is not complete yet: 
+IN INITAL_LOOP
+INITAL_LOOP Mission is not complete yet: 
+IN INITAL_LOOP
+INITAL_LOOP Mission is not complete yet: 
+IN INITAL_LOOP
+INITAL_LOOP Mission is not complete yet: 
+IN INITAL_LOOP
+INITAL_LOOP Mission is not complete yet: 
+IN INITAL_LOOP
+INITAL_LOOP Mission is not complete yet: 
+IN INITAL_LOOP
+INITAL_LOOP Mission is not complete yet: 
+IN INITAL_LOOP
+INITAL_LOOP Mission is not complete yet: 
+IN INITAL_LOOP
+INITAL_LOOP Mission is not complete yet: 
+IN INITAL_LOOP
+INITAL_LOOP Mission is not complete yet: 
+IN INITAL_LOOP
+INITAL_LOOP Mission is not complete yet: 
+IN INITAL_LOOP
+INITAL_LOOP Mission is not complete yet: 
+IN INITAL_LOOP
+INITAL_LOOP Mission is not complete yet: 
+IN INITAL_LOOP
+INITAL_LOOP Mission is not complete yet: 
+IN INITAL_LOOP
+INITAL_LOOP Mission is not complete yet: 
+IN INITAL_LOOP
+INITAL_LOOP Mission is not complete yet: 
+IN INITAL_LOOP
+INITIAL_LOOP Mission WAS COMPLETE: 
+IN TRAVELING_TO_SCAN
+IN TRAVELING_TO_SCAN
+IN TRAVELING_TO_SCAN
+IN TRAVELING_TO_SCAN
+IN TRAVELING_TO_SCAN
+IN TRAVELING_TO_SCAN
+IN TRAVELING_TO_SCAN
+IN TRAVELING_TO_SCAN
+IN TRAVELING_TO_SCAN
+IN TRAVELING_TO_SCAN
+IN TRAVELING_TO_SCAN
+IN TRAVELING_TO_SCAN
+IN TRAVELING_TO_SCAN
+IN TRAVELING_TO_SCAN
+IN TRAVELING_TO_SCAN
+IN TRAVELING_TO_SCAN
+IN TRAVELING_TO_SCAN
+IN TRAVELING_TO_SCAN
+IN TRAVELING_TO_SCAN
+IN TRAVELING_TO_SCAN
+IN TRAVELING_TO_SCAN
+IN TRAVELING_TO_SCAN
+IN TRAVELING_TO_SCAN
+IN TRAVELING_TO_SCAN
+IN TRAVELING_TO_SCAN
+IN TRAVELING_TO_SCAN
+IN TRAVELING_TO_SCAN
+IN TRAVELING_TO_SCAN
+IN TRAVELING_TO_SCAN
+IN TRAVELING_TO_SCAN
+IN TRAVELING_TO_SCAN
+IN TRAVELING_TO_SCAN
+IN TRAVELING_TO_SCAN
+FOR DETECTED: 10, Blue_Circle
+u: 1201
+v: 1
+detectedPosition (47.3982, 8.545894749215764)
+curr lat (47.3981432, curr long 8.5459242)
+curr heading 271.74
+detectedPosition.size() => 0
+offset_x: 3.771247442319906 meters
+offset_y: 2.33228084930933 meters
+
+FOR DETECTED: 0, Black_Rectangle
+u: 1201
+v: 1
+detectedPosition (47.39817253558898, 8.545736127323291)
+curr lat (47.3981377, curr long 8.545764799999999)
+curr heading 272.61
+detectedPosition.size() => 1
+offset_x: 3.771247442319906 meters
+offset_y: 2.33228084930933 meters
+
+FOR DETECTED: 17, Red_Triangle
+u: 1201
+v: 1
+detectedPosition (47.39817727142667, 8.545613633758771)
+curr lat (47.3981445, curr long 8.545647199999999)
+curr heading 267
+detectedPosition.size() => 2
+offset_x: 3.771247442319906 meters
+offset_y: 2.33228084930933 meters
+
+FINISHED SCAN MISSION
+scan_traj first point (47.3981425, 8.5459934)
+scan_traj second point (47.398142, 8.5455934)
+INITIAL_DELIVERY end position (47.398177, 8.5456136)
+IN INITIAL_DELIVERY
+IN INITIAL_DELIVERY
+IN INITIAL_DELIVERY
+IN INITIAL_DELIVERY
+IN INITIAL_DELIVERY
+IN INITIAL_DELIVERY
+IN INITIAL_DELIVERY
+IN INITIAL_DELIVERY
+Completed INITIAL_DELIVERY Mission
+IN DROP
+DROPPING FOR: Red_Triangle
+Setting actuator Red_Triangle : 2
+Changed state to ROUTING
+SLEEPING FOR 5 SECONDS
+FINISHED SLEEPING
+IN ROUTING
+SETTING STATE TO TARGET_LOOP INSIDE ROUTING
+IN TARGET_LOOP
+IN TARGET_LOOP
+IN TARGET_LOOP
+IN TARGET_LOOP
+IN TARGET_LOOP
+IN TARGET_LOOP
+IN TARGET_LOOP
+IN TARGET_LOOP
+IN TARGET_LOOP
+IN TARGET_LOOP
+IN TARGET_LOOP
+IN TARGET_LOOP
+IN TARGET_LOOP
+IN TARGET_LOOP
+IN TARGET_LOOP
+IN TARGET_LOOP
+IN TARGET_LOOP
+IN TARGET_LOOP
+IN TARGET_LOOP
+IN TARGET_LOOP

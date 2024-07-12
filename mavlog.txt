@@ -1,0 +1,72 @@
+MAVSDK version: v2.9.1
+mavsdk_impl.cpp26
+
+New system on: 127.0.0.1:14580 (with system ID: 1)
+udp_connection.cpp199
+
+New system ID: 1 Comp ID: 1
+mavsdk_impl.cpp737
+
+Component Autopilot (1) added.
+system_impl.cpp389
+
+Vehicle type changed (new type: 2, old type: 0)
+system_impl.cpp231
+
+Discovered 1 component(s)
+system_impl.cpp537
+
+Falling back to gimbal protocol v1
+mission_impl.cpp128
+
+Conflicting options set: fly_through=true and loiter_time>0.
+mission_impl.cpp520
+
+Conflicting options set: fly_through=true and loiter_time>0.
+mission_impl.cpp520
+
+Conflicting options set: fly_through=true and loiter_time>0.
+mission_impl.cpp520
+
+Conflicting options set: fly_through=true and loiter_time>0.
+mission_impl.cpp520
+
+Conflicting options set: fly_through=true and loiter_time>0.
+mission_impl.cpp520
+
+Conflicting options set: fly_through=true and loiter_time>0.
+mission_impl.cpp520
+
+Conflicting options set: fly_through=true and loiter_time>0.
+mission_impl.cpp520
+
+Conflicting options set: fly_through=true and loiter_time>0.
+mission_impl.cpp520
+
+Conflicting options set: fly_through=true and loiter_time>0.
+mission_impl.cpp520
+
+sending again after 0.503138 s, retries to do: 3  (187).
+mavlink_command_sender.cpp312
+
+sending again after 1.01303 s, retries to do: 2  (187).
+mavlink_command_sender.cpp312
+
+sending again after 1.52266 s, retries to do: 1  (187).
+mavlink_command_sender.cpp312
+
+Retrying failed (187)
+mavlink_command_sender.cpp339
+
+Conflicting options set: fly_through=true and loiter_time>0.
+mission_impl.cpp520
+
+Conflicting options set: fly_through=true and loiter_time>0.
+mission_impl.cpp520
+
+Conflicting options set: fly_through=true and loiter_time>0.
+mission_impl.cpp520
+
+Conflicting options set: fly_through=true and loiter_time>0.
+mission_impl.cpp520
+
